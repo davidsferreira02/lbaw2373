@@ -161,8 +161,9 @@ Note that during the build process we adopt the production configurations config
 The configuration will be provided as an environment variable to your container on execution time**. 
 This prevents anyone else but us from running your container with your database. 
 
-Finally, note that here should be only one image per group. 
-One team member should create the image initially and add his team to the **public** repository at docker hub. 
+Finally, note that there should be only one image per group. 
+One team member should create the image initially and add his team to the **public** repository at Docker Hub. 
+You should provide your teacher the details for accessing your Docker image, namely, the Docker username and repository (*DOCKER_USERNAME/lbaw18GG*), in case it was changed.
 
 
 ## Laravel code structure
