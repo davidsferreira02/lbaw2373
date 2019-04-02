@@ -5,6 +5,8 @@ services:
     container_name: lbaw_postgres
     image: postgres:9.4
     restart: always
+    logging:
+      driver: "none"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: pg!lol!2019
@@ -14,6 +16,8 @@ services:
   pgadmin:
     container_name: lbaw_pgadmin
     image: thajeztah/pgadmin4
+    logging:
+      driver: "none"
     environment:
       PGADMIN_DEFAULT_EMAIL: postgres
       PGADMIN_DEFAULT_PASSWORD: pg!lol!2019
@@ -25,8 +29,9 @@ services:
 
 # optional, in case you need to send email messages
   mailhog:
-      image: mailhog/mailhog
-      logging:
-        driver: "none"
-      ports:
-        - 8025:8025
+    container_name: lbaw_mailhog
+    image: mailhog/mailhog
+    logging:
+      driver: "none"
+    ports:
+      - 8025:8025
