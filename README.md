@@ -3,7 +3,7 @@
 ## Introduction
 
 This README describes how to setup the development environment for LBAW 2018/19.
-There's an alternative development environment available in [the alternative branch](https://git.fe.up.pt/lbaw/template-lbaw/blob/alternative/README.md).
+There's an alternative development environment available in [the Alternative branch](https://git.fe.up.pt/lbaw/template-lbaw/blob/alternative/README.md).
 
 The template was prepared to run on Linux 18.04LTS, but it should be fairly easy to follow and adapt for other operating systems.
 
