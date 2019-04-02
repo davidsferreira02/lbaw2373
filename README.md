@@ -89,21 +89,23 @@ Afterwards, the command bellow will install all local dependencies, required for
 
 ## Working with PostgreSQL
 
-You will be using __PostgreSQL9.4__ to implement the project. 
-We've created a _docker-compose_ file that sets up PostgreSQL9.4 and __pgAdmin4__ locally.
+We've created a _docker-compose_ file that sets up __PostgreSQL9.4__ and __pgAdmin4__ to run as local Docker containers.
 
-__To start the servers__ you simply run 
+From the project root issue the following command:
 
     docker-compose up
 
-This will start the database and pgAdmin. 
+This will start the database and the pgAdmin tool. 
 The database's username is _postgres_ and the password is _pg!lol!2019_. 
+
 You can hit http://localhost:5050 to access __pgAdmin4__ and manage your database. 
 On the first usage you will need to add the connection to the database using the following attributes:
 
     hostname: postgres
     username: postgres
     password: pg!lol!2019
+
+Hostname is _postgres_ instead of _localhost_ since _Docker composer_ creates an internal DNS entry to facilitate the connection between linked containers.
 
 
 ## Developing the project
@@ -120,24 +122,24 @@ To start the development server, from the project's root run:
     # Start the development server
     php artisan serve
 
-Access http://localhost:8000 to see the app running. 
+Access http://localhost:8000 to see the App running. 
 
 
 ## Publishing your image
 
 You should keep your git's master branch always functional and frequently build and deploy your code. 
-To do so, you will create a _docker_ image for your project and publish it at [docker hub](https://hub.docker.com/). 
+To do so, you will create a _Docker image_ for your project and publish it at [docker hub](https://hub.docker.com/). 
 LBAW's production machine will frequently pull all these images and make them available at http://lbaw18GG.lbaw-prod.fe.up.pt/. 
 
-This demo repository is available at [http://demo.lbaw-prod.fe.up.pt/](http://demo.lbaw-prod.fe.up.pt/). 
-Make sure you are inside FEUP's network or VPN.
+BTW, this demo repository is available at http://demo.lbaw-prod.fe.up.pt/. 
+Make sure you are inside FEUP's network or are using the VPN.
 
 First thing you need to do is create a [docker hub](https://hub.docker.com/) account and get your username from it. 
-Once you have a username, let your docker know who you are by executing:
+Once you have a username, let your Docker know who you are by executing:
 
     docker login
 
-Once your docker is able to communicate with the docker hub using your credentials, configure the __upload_image.sh__ script with your username and the image name. 
+Once your Docker is able to communicate with the Docker Hub using your credentials, configure the __upload_image.sh__ script with your username and the image name. 
 Example configuration:
 
     DOCKER_USERNAME=johndoe # Replace by your docker hub username
