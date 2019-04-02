@@ -76,7 +76,7 @@ Then, copy the contents of the demo repository to your own.
     git push origin master
 
 At this point you should have the project skeleton in your local machine and be ready to start working on it.
-You may remove the __template-lbaw__ demo directory, as it is noy needed anymore.
+You may remove the __template-lbaw__ demo directory, as it is not needed anymore.
 
 
 ## Installing local PHP dependencies
