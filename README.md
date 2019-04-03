@@ -3,7 +3,7 @@
 ## Introduction
 
 This README describes how to setup the development environment for LBAW 2018/19.
-There's an alternative development environment available in [the Alternative branch](https://git.fe.up.pt/lbaw/template-lbaw/blob/alternative/README.md).
+There's an alternative development environment available in [the Alternative branch](https://git.fe.up.pt/lbaw/template-lbaw/blob/alternative/README.md) of this repository.
 
 The template was prepared to run on Linux 18.04LTS, but it should be fairly easy to follow and adapt for other operating systems.
 
@@ -29,7 +29,8 @@ You may install the required software with:
 ## Installing Docker and Docker Compose
 
 Firstly, you'll need to have __Docker__ and __Docker Compose__ installed on your PC. 
-The official instructions are in [Install Docker](https://docs.docker.com/install/) and in [Install Docker Compose](https://docs.docker.com/compose/install/#install-compose):
+The official instructions are in [Install Docker](https://docs.docker.com/install/) and in [Install Docker Compose](https://docs.docker.com/compose/install/#install-compose).
+It resumes to executing the commands:
 
     # install docker-ce
     sudo apt-get update
