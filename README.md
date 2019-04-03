@@ -271,3 +271,5 @@ In this case, edit the file at __resources/assets/less/app.less__ instead and ke
 
 To add JavaScript into your project, just edit the file found at __public/js/app.js__.
 
+
+-- André Restivo, Tiago Boldt, 03/2018
