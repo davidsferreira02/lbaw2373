@@ -6,8 +6,6 @@ This README describes how to setup the development environment for LBAW 2018/19.
 These instructions address the development with a local environment, i.e. on the machine (that can be a VM) without using a Docker container.
 Containers are used for PostgreSQL and pgAdmin, though.
 
-There's an alternative development environment available in [the Alternative branch](https://git.fe.up.pt/lbaw/template-lbaw/blob/alternative/README.md) of this repository.
-
 The template was prepared to run on Linux 18.04LTS, but it should be fairly easy to follow and adapt for other operating systems.
 
 * [Installing the Software Dependencies](#installing-the-software-dependencies)
