@@ -11,7 +11,7 @@ RUN chown -R www-data:www-data /var/www/
 # Copy project configurations
 COPY ./etc/php/php.ini /usr/local/etc/php/conf.d/php.ini
 COPY ./etc/nginx/default.conf /etc/nginx/sites-enabled/default
-COPY ./etc/docker/daemon.json /etc/docker/daemon.json
+#COPY ./etc/docker/daemon.json /etc/docker/daemon.json
 COPY .env_production /var/www/.env
 COPY docker_run.sh /docker_run.sh
 RUN mkdir /var/run/php
