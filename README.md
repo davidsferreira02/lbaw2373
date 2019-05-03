@@ -41,6 +41,10 @@ It resumes to executing the commands:
     sudo apt-get update
     sudo apt-get install docker-ce
     docker run hello-world # make sure that the installation worked
+    
+    # optionally, add your user to the docker group by using a terminal to run:
+    # sudo usermod -aG docker $USER
+    # Sign out and back in again so this setting takes effect.
 
     # install docker-compose
     sudo curl -L https://github.com/docker/compose/releases/download/1.18.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
