@@ -21,7 +21,7 @@ The template was prepared to run on Linux 18.04LTS, but it should be fairly easy
 
 To prepare you computer for development you need to install some software, namely PHP and the PHP package manager composer.
 
-We recommend using an __Ubuntu__ distribution that ships PHP 7.2 (e.g Ubuntu 18.04LTS). 
+We recommend using an __Ubuntu__ distribution that ships PHP 7.2 (e.g Ubuntu 18.04LTS).
 You may install the required software with:
 
     sudo apt-get install git composer php7.2 php7.2-mbstring php7.2-xml php7.2-pgsql
@@ -29,7 +29,7 @@ You may install the required software with:
 
 ## Installing Docker and Docker Compose
 
-Firstly, you'll need to have __Docker__ and __Docker Compose__ installed on your PC. 
+Firstly, you'll need to have __Docker__ and __Docker Compose__ installed on your PC.
 The official instructions are in [Install Docker](https://docs.docker.com/install/) and in [Install Docker Compose](https://docs.docker.com/compose/install/#install-compose).
 It resumes to executing the commands:
 
@@ -41,13 +41,13 @@ It resumes to executing the commands:
     sudo apt-get update
     sudo apt-get install docker-ce
     docker run hello-world # make sure that the installation worked
-    
+
     # optionally, add your user to the docker group by using a terminal to run:
     # sudo usermod -aG docker $USER
     # Sign out and back in again so this setting takes effect.
 
     # install docker-compose
-    sudo curl -L https://github.com/docker/compose/releases/download/1.18.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+    sudo curl -L "https://github.com/docker/compose/releases/download/1.25.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
     sudo chmod +x /usr/local/bin/docker-compose
     docker-compose --version # verify that you have Docker Compose installed.
 
@@ -57,9 +57,9 @@ It resumes to executing the commands:
 You should have your own repository and a copy of the demo repository in the same folder in your machine.
 Then, copy the contents of the demo repository to your own.
 
-    # Clone the group repository (lbaw18GG), if not yet available locally
+    # Clone the group repository (lbaw19GG), if not yet available locally
     # Notice that you need to substitute GG by your group's number
-    git clone https://git.fe.up.pt/lbaw/lbaw18/lbaw18GG.git
+    git clone https://git.fe.up.pt/lbaw/lbaw19/lbaw19GG.git
 
     # clone the LBAW's project skeleton
     git clone https://git.fe.up.pt/lbaw/template-lbaw.git
@@ -69,8 +69,8 @@ Then, copy the contents of the demo repository to your own.
     # preserve existing README.md
     mv template-lbaw/README.md template-lbaw/README_lbaw.md
 
-    # goto your repository
-    cd lbaw18GG
+    # go to your repository
+    cd lbaw19GG
 
     # make sure you are using the master branch
     git checkout master
@@ -89,7 +89,7 @@ You may remove the __template-lbaw__ demo directory, as it is not needed anymore
 
 ## Installing local PHP dependencies
 
-After the steps above you will have updated your repository with the required Laravel structure from this repository. 
+After the steps above you will have updated your repository with the required Laravel structure from this repository.
 Afterwards, the command bellow will install all local dependencies, required for development.
 
     composer install
@@ -103,10 +103,10 @@ From the project root issue the following command:
 
     docker-compose up
 
-This will start the database and the pgAdmin tool. 
-The database's username is _postgres_ and the password is _pg!lol!2019_. 
+This will start the database and the pgAdmin tool.
+The database's username is _postgres_ and the password is _pg!lol!2019_.
 
-You can hit http://localhost:5050 to access __pgAdmin4__ and manage your database. 
+You can hit http://localhost:5050 to access __pgAdmin4__ and manage your database.
 On the first usage you will need to add the connection to the database using the following attributes:
 
     hostname: postgres
@@ -118,40 +118,40 @@ Hostname is _postgres_ instead of _localhost_ since _Docker composer_ creates an
 
 ## Developing the project
 
-You're all set up to start developing the project. 
+You're all set up to start developing the project.
 In the provided skeleton you will already find a basic todo list App, which you will modify to start implementing your own project.
 
 To start the development server, from the project's root run:
 
-    # Seed database from the seed.sql file. 
+    # Seed database from the seed.sql file.
     # Needed on first run and everytime the database script changes.
     php artisan db:seed
-    
+
     # Start the development server
     php artisan serve
 
-Access http://localhost:8000 to see the App running. 
+Access http://localhost:8000 to see the App running.
 
 
 ## Publishing your image
 
-You should keep your git's master branch always functional and frequently build and deploy your code. 
-To do so, you will create a _Docker image_ for your project and publish it at [docker hub](https://hub.docker.com/). 
-LBAW's production machine will frequently pull all these images and make them available at http://lbaw18GG.lbaw-prod.fe.up.pt/. 
+You should keep your git's master branch always functional and frequently build and deploy your code.
+To do so, you will create a _Docker image_ for your project and publish it at [docker hub](https://hub.docker.com/).
+LBAW's production machine will frequently pull all these images and make them available at http://lbaw19GG.lbaw-prod.fe.up.pt/.
 
-BTW, this demo repository is available at http://demo.lbaw-prod.fe.up.pt/. 
+BTW, this demo repository is available at http://demo.lbaw-prod.fe.up.pt/.
 Make sure you are inside FEUP's network or are using the VPN.
 
-First thing you need to do is create a [docker hub](https://hub.docker.com/) account and get your username from it. 
+First thing you need to do is create a [docker hub](https://hub.docker.com/) account and get your username from it.
 Once you have a username, let your Docker know who you are by executing:
 
     docker login
 
-Once your Docker is able to communicate with the Docker Hub using your credentials, configure the __upload_image.sh__ script with your username and the image name. 
+Once your Docker is able to communicate with the Docker Hub using your credentials, configure the __upload_image.sh__ script with your username and the image name.
 Example configuration:
 
     DOCKER_USERNAME=johndoe # Replace by your docker hub username
-    IMAGE_NAME=lbaw18GG     # Replace by your lbaw group name
+    IMAGE_NAME=lbaw19GG     # Replace by your lbaw group name
 
 Afterwards, you can build and upload the docker image by executing that script from the project root:
 
@@ -159,19 +159,19 @@ Afterwards, you can build and upload the docker image by executing that script f
 
 You can test the image locally by running:
 
-    docker run -it -p 8000:80 -e DB_DATABASE="lbaw18GG" -e DB_USERNAME="lbaw18GG" -e DB_PASSWORD="PASSWORD" <DOCKER_USERNAME>/lbaw18GG
+    docker run -it -p 8000:80 -e DB_DATABASE="lbaw19GG" -e DB_USERNAME="lbaw19GG" -e DB_PASSWORD="PASSWORD" <DOCKER_USERNAME>/lbaw19GG
 
-The above command exposes your application on http://localhost:8000. 
-The `-e` argument creates environment variables inside the container, used to provide Laravel with the required database configurations. 
+The above command exposes your application on http://localhost:8000.
+The `-e` argument creates environment variables inside the container, used to provide Laravel with the required database configurations.
 
-Note that during the build process we adopt the production configurations configured in the __.env_production__ file. 
-**You should not add your database username and password to this file. 
-The configuration will be provided as an environment variable to your container on execution time**. 
-This prevents anyone else but us from running your container with your database. 
+Note that during the build process we adopt the production configurations configured in the __.env_production__ file.
+**You should not add your database username and password to this file.
+The configuration will be provided as an environment variable to your container on execution time**.
+This prevents anyone else but us from running your container with your database.
 
-Finally, note that there should be only one image per group. 
-One team member should create the image initially and add his team to the **public** repository at Docker Hub. 
-You should provide your teacher the details for accessing your Docker image, namely, the Docker username and repository (*DOCKER_USERNAME/lbaw18GG*), in case it was changed.
+Finally, note that there should be only one image per group.
+One team member should create the image initially and add his team to the **public** repository at Docker Hub.
+You should provide your teacher the details for accessing your Docker image, namely, the Docker username and repository (*DOCKER_USERNAME/lbaw19GG*), in case it was changed.
 
 
 ## Laravel code structure
@@ -189,7 +189,7 @@ This route receives a parameter *id* that is passed on to the *show* method of a
 
 ### 2) Controllers
 
-[Controllers](https://laravel.com/docs/5.8/controllers) group related request handling logic into a single class. 
+[Controllers](https://laravel.com/docs/5.8/controllers) group related request handling logic into a single class.
 Controllers are normally defined in the __app/Http/Controllers__ folder.
 
     class CardController extends Controller
@@ -197,14 +197,12 @@ Controllers are normally defined in the __app/Http/Controllers__ folder.
         public function show($id)
         {
           $card = Card::find($id);
-
           $this->authorize('show', $card);
-
           return view('pages.card', ['card' => $card]);
         }
     }
 
-This particular controller contains a *show* method that receives an *id* from a route. 
+This particular controller contains a *show* method that receives an *id* from a route.
 The method searches for a card in the database, checks if the user as permission to view the card, and then returns a view.
 
 ### 3) Database and Models
@@ -213,8 +211,8 @@ To access the database, we will use the query builder capabilities of [Eloquent]
 
     $card = Card::find($id);
 
-This line tells *Eloquent* to fetch a card from the database with a certain *id* (the primary key of the table). 
-The result will be an object of the class *Card* defined in __app/Card.php__. 
+This line tells *Eloquent* to fetch a card from the database with a certain *id* (the primary key of the table).
+The result will be an object of the class *Card* defined in __app/Card.php__.
 This class extends the *Model* class and contains information about the relation between the *card* tables and other tables:
 
     /* A card belongs to one user */
@@ -229,8 +227,8 @@ This class extends the *Model* class and contains information about the relation
 
 ### 4) Policies
 
-[Policies](https://laravel.com/docs/5.8/authorization#writing-policies) define which actions a user can take. 
-You can find policies inside the __app/Policies__ folder. 
+[Policies](https://laravel.com/docs/5.8/authorization#writing-policies) define which actions a user can take.
+You can find policies inside the __app/Policies__ folder.
 For example, in the __CardPolicy.php__ file, we defined a *show* method that only allows a certain user to view a card if that user is the card owner:
 
     public function show(User $user, Card $card)
@@ -252,7 +250,7 @@ A *controller* only needs to return HTML code for it to be sent to the *browser*
 
     return view('pages.card', ['card' => $card]);
 
-In this example, *pages.card* references a blade template that can be found at __resources/views/pages/card.blade.php__. 
+In this example, *pages.card* references a blade template that can be found at __resources/views/pages/card.blade.php__.
 The second parameter contains the data we are injecting into the template.
 
 The first line of the template states that it extends another template:
@@ -269,7 +267,7 @@ Besides the __pages__ and __layouts__ template folders, we also have a __partial
 
 The easiest way to use CSS is just to edit the CSS file found at __public/css/app.css__.
 
-If you prefer to use [less](http://lesscss.org/), a PHP version of the less command-line tool as been added to the project. 
+If you prefer to use [less](http://lesscss.org/), a PHP version of the less command-line tool as been added to the project.
 In this case, edit the file at __resources/assets/less/app.less__ instead and keep the following command running in a shell window so that any changes to this file can be compiled into the public CSS file:
 
     ./compile-assets.sh
@@ -279,4 +277,4 @@ In this case, edit the file at __resources/assets/less/app.less__ instead and ke
 To add JavaScript into your project, just edit the file found at __public/js/app.js__.
 
 
--- André Restivo, Tiago Boldt, 03/2018
+-- André Restivo, Tiago Boldt, 2019
