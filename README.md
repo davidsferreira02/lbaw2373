@@ -57,9 +57,9 @@ It resumes to executing the commands:
 You should have your own repository and a copy of the demo repository in the same folder in your machine.
 Then, copy the contents of the demo repository to your own.
 
-    # Clone the group repository (lbaw19GG), if not yet available locally
+    # Clone the group repository (lbaw20GG), if not yet available locally
     # Notice that you need to substitute GG by your group's number
-    git clone https://git.fe.up.pt/lbaw/lbaw19/lbaw19GG.git
+    git clone https://git.fe.up.pt/lbaw/lbaw20/lbaw20GG.git
 
     # clone the LBAW's project skeleton
     git clone https://git.fe.up.pt/lbaw/template-lbaw.git
@@ -70,7 +70,7 @@ Then, copy the contents of the demo repository to your own.
     mv template-lbaw/README.md template-lbaw/README_lbaw.md
 
     # go to your repository
-    cd lbaw19GG
+    cd lbaw20GG
 
     # make sure you are using the master branch
     git checkout master
@@ -137,7 +137,7 @@ Access http://localhost:8000 to see the App running.
 
 You should keep your git's master branch always functional and frequently build and deploy your code.
 To do so, you will create a _Docker image_ for your project and publish it at [docker hub](https://hub.docker.com/).
-LBAW's production machine will frequently pull all these images and make them available at http://lbaw19GG.lbaw-prod.fe.up.pt/.
+LBAW's production machine will frequently pull all these images and make them available at http://lbaw20GG.lbaw-prod.fe.up.pt/.
 
 BTW, this demo repository is available at http://demo.lbaw-prod.fe.up.pt/.
 Make sure you are inside FEUP's network or are using the VPN.
@@ -151,7 +151,7 @@ Once your Docker is able to communicate with the Docker Hub using your credentia
 Example configuration:
 
     DOCKER_USERNAME=johndoe # Replace by your docker hub username
-    IMAGE_NAME=lbaw19GG     # Replace by your lbaw group name
+    IMAGE_NAME=lbaw20GG     # Replace by your lbaw group name
 
 Afterwards, you can build and upload the docker image by executing that script from the project root:
 
@@ -159,7 +159,7 @@ Afterwards, you can build and upload the docker image by executing that script f
 
 You can test the image locally by running:
 
-    docker run -it -p 8000:80 -e DB_DATABASE="lbaw19GG" -e DB_USERNAME="lbaw19GG" -e DB_PASSWORD="PASSWORD" <DOCKER_USERNAME>/lbaw19GG
+    docker run -it -p 8000:80 -e DB_DATABASE="lbaw20GG" -e DB_USERNAME="lbaw20GG" -e DB_PASSWORD="PASSWORD" <DOCKER_USERNAME>/lbaw20GG
 
 The above command exposes your application on http://localhost:8000.
 The `-e` argument creates environment variables inside the container, used to provide Laravel with the required database configurations.
@@ -171,7 +171,7 @@ This prevents anyone else but us from running your container with your database.
 
 Finally, note that there should be only one image per group.
 One team member should create the image initially and add his team to the **public** repository at Docker Hub.
-You should provide your teacher the details for accessing your Docker image, namely, the Docker username and repository (*DOCKER_USERNAME/lbaw19GG*), in case it was changed.
+You should provide your teacher the details for accessing your Docker image, namely, the Docker username and repository (*DOCKER_USERNAME/lbaw20GG*), in case it was changed.
 
 
 ## Laravel code structure
