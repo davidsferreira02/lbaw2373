@@ -136,8 +136,7 @@ Access http://localhost:8000 to see the App running.
 ## Publishing your image
 
 You should keep your git's master branch always functional and frequently build and deploy your code.
-To do so, you will create a _Docker image_ for your project and publish it at [docker hub](https://hub.docker.com/).
-LBAW's production machine will frequently pull all these images and make them available at http://lbaw20GG.lbaw-prod.fe.up.pt/.
+To do so, you will create a _Docker image_ for your project and publish it at [docker hub](https://hub.docker.com/), like you did for the PIU. LBAW's production machine will frequently pull all these images and make them available at http://lbaw20GG.lbaw-prod.fe.up.pt/.
 
 BTW, this demo repository is available at http://demo.lbaw-prod.fe.up.pt/.
 Make sure you are inside FEUP's network or are using the VPN.
@@ -265,7 +264,7 @@ Besides the __pages__ and __layouts__ template folders, we also have a __partial
 
 ### 6) CSS
 
-The easiest way to use CSS is just to edit the CSS file found at __public/css/app.css__.
+The easiest way to use CSS is just to edit the CSS file found at __public/css/app.css__. You can have multiple CSS files to better organize your style definitions.
 
 If you prefer to use [less](http://lesscss.org/), a PHP version of the less command-line tool as been added to the project.
 In this case, edit the file at __resources/assets/less/app.less__ instead and keep the following command running in a shell window so that any changes to this file can be compiled into the public CSS file:
@@ -275,6 +274,10 @@ In this case, edit the file at __resources/assets/less/app.less__ instead and ke
 ### 7) JavaScript
 
 To add JavaScript into your project, just edit the file found at __public/js/app.js__.
+
+### 8) Configuration
+
+Laravel configurations ar acquired from environment variables. They can be available in the environment where the laravel process is started, or acquired by reading the `.env` file in the root folder of the laravel project. This file can set environment variables, which set or overwride the variables from the current context. You will likely have to update these variables, mainly the ones configuring the access to the database, starting with `DB_`.
 
 
 -- André Restivo, Tiago Boldt, 2019
