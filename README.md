@@ -136,7 +136,7 @@ Access http://localhost:8000 to see the App running.
 ## Publishing your image
 
 You should keep your git's master branch always functional and frequently build and deploy your code.
-To do so, you will create a _Docker image_ for your project and publish it at [docker hub](https://hub.docker.com/), like you did for the PIU. LBAW's production machine will frequently pull all these images and make them available at http://lbaw20GG.lbaw-prod.fe.up.pt/.
+To do so, you will create a _Docker image_ for your project and publish it at [docker hub](https://hub.docker.com/), like you did for the PIU. LBAW's production machine will frequently pull all these images and make them available at http://lbaw20gg.lbaw-prod.fe.up.pt/.
 
 BTW, this demo repository is available at http://demo.lbaw-prod.fe.up.pt/.
 Make sure you are inside FEUP's network or are using the VPN.
