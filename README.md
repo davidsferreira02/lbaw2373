@@ -104,14 +104,14 @@ From the project root issue the following command:
     docker-compose up
 
 This will start the database and the pgAdmin tool.
-The database's username is _postgres_ and the password is _pg!lol!2019_.
+The database's username is _postgres_ and the password is _pg!lol!2020_.
 
 You can hit http://localhost:5050 to access __pgAdmin4__ and manage your database.
 On the first usage you will need to add the connection to the database using the following attributes:
 
     hostname: postgres
     username: postgres
-    password: pg!lol!2019
+    password: pg!lol!2020
 
 Hostname is _postgres_ instead of _localhost_ since _Docker composer_ creates an internal DNS entry to facilitate the connection between linked containers.
 
@@ -280,4 +280,4 @@ To add JavaScript into your project, just edit the file found at __public/js/app
 Laravel configurations ar acquired from environment variables. They can be available in the environment where the laravel process is started, or acquired by reading the `.env` file in the root folder of the laravel project. This file can set environment variables, which set or overwride the variables from the current context. You will likely have to update these variables, mainly the ones configuring the access to the database, starting with `DB_`.
 
 
--- André Restivo, Tiago Boldt, 2019
+-- André Restivo, Tiago Boldt, 2020
