@@ -266,11 +266,6 @@ Besides the __pages__ and __layouts__ template folders, we also have a __partial
 
 The easiest way to use CSS is just to edit the CSS file found at __public/css/app.css__. You can have multiple CSS files to better organize your style definitions.
 
-If you prefer to use [less](http://lesscss.org/), a PHP version of the less command-line tool as been added to the project.
-In this case, edit the file at __resources/assets/less/app.less__ instead and keep the following command running in a shell window so that any changes to this file can be compiled into the public CSS file:
-
-    ./compile-assets.sh
-
 ### 7) JavaScript
 
 To add JavaScript into your project, just edit the file found at __public/js/app.js__.
