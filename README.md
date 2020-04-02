@@ -62,12 +62,12 @@ Then, copy the contents of the demo repository to your own.
     git clone https://git.fe.up.pt/lbaw/lbaw20/lbaw20gg.git
 
     # clone the LBAW's project skeleton
-    git clone https://git.fe.up.pt/lbaw/template-lbaw.git
+    git clone https://git.fe.up.pt/lbaw/template-laravel.git
 
     # remove the Git folder from the demo folder
-    rm -rf template-lbaw/.git
+    rm -rf template-laravel/.git
     # preserve existing README.md
-    mv template-lbaw/README.md template-lbaw/README_lbaw.md
+    mv template-laravel/README.md template-laravel/README_lbaw.md
 
     # go to your repository
     cd lbaw20gg
@@ -76,7 +76,7 @@ Then, copy the contents of the demo repository to your own.
     git checkout master
 
     # copy all the demo files
-    cp -r ../template-lbaw/. .
+    cp -r ../template-laravel/. .
 
     # add the new files to your repository
     git add .
