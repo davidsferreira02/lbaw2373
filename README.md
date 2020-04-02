@@ -3,7 +3,7 @@
 ## Introduction
 
 This README describes how to setup the development environment for LBAW 2019/20.
-These instructions address the development with a local environment, i.e. on the machine (that can be a VM) without using a Docker container.
+These instructions address the development with a local environment, i.e. on the machine (that can be a VM) **without using a Docker container for PHP or Laravel**.
 Containers are used for PostgreSQL and pgAdmin, though.
 
 The template was prepared to run on Linux 18.04LTS, but it should be fairly easy to follow and adapt for other operating systems.
