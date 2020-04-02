@@ -61,7 +61,7 @@ Then, copy the contents of the demo repository to your own.
     # Notice that you need to substitute gg by your group's number
     git clone https://git.fe.up.pt/lbaw/lbaw20/lbaw20gg.git
 
-    # clone the LBAW's project skeleton (if it doesn't work, turn on the VPN)
+    # clone the LBAW's project skeleton
     git clone https://git.fe.up.pt/lbaw/template-laravel.git
 
     # remove the Git folder from the demo folder
