@@ -156,7 +156,7 @@ Afterwards, you can build and upload the docker image by executing that script f
 
     ./upload_image.sh
 
-You can test the image locally by running:
+You can test locally the image, just published in the Docker Hub, by running:
 
     docker run -it -p 8000:80 -e DB_DATABASE="lbaw20gg" -e DB_USERNAME="lbaw20gg" -e DB_PASSWORD="PASSWORD" <DOCKER_USERNAME>/lbaw20gg
 
