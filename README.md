@@ -132,6 +132,20 @@ To start the development server, from the project's root run:
 
 Access http://localhost:8000 to see the App running.
 
+To stop the server just hit Ctrl-C.
+
+You may as well have a bash inside the container by executing:
+
+    docker run -it lbaw20gg/lbaw20gg bash
+
+Note that if you pause the containers by hitting Ctrl-C, for example, it won't work. 
+This means that you'll need one terminal to run the containers and another to exec commands onto the container.
+
+Inside the container you may, for example, see the content of the Web server logs by executing:
+
+    root@2804d54698c0:/# tail -f /var/log/nginx/error.log    # follow the errors
+    root@2804d54698c0:/# tail -f /var/log/nginx/access.log   # follow the accesses
+
 
 ## Publishing your image
 
