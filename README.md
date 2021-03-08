@@ -6,7 +6,7 @@ This README describes how to setup the development environment for LBAW 2019/20.
 These instructions address the development with a local environment, i.e. on the machine (that can be a VM) **without using a Docker container for PHP or Laravel**.
 Containers are used for PostgreSQL and pgAdmin, though.
 
-The template was prepared to run on Linux 18.04LTS, but it should be fairly easy to follow and adapt for other operating systems.
+The template was prepared to run on Linux 20.04LTS, but it should be fairly easy to follow and adapt for other operating systems.
 
 * [Installing the Software Dependencies](#installing-the-software-dependencies)
 * [Installing Docker and Docker Compose](#installing-docker-and-docker-compose)
@@ -21,10 +21,10 @@ The template was prepared to run on Linux 18.04LTS, but it should be fairly easy
 
 To prepare you computer for development you need to install some software, namely PHP and the PHP package manager composer.
 
-We recommend using an __Ubuntu__ distribution that ships PHP 7.2 (e.g Ubuntu 18.04LTS).
+We recommend using an __Ubuntu__ distribution that ships PHP 7.4 (e.g Ubuntu 20.04LTS).
 You may install the required software with:
 
-    sudo apt-get install git composer php7.2 php7.2-mbstring php7.2-xml php7.2-pgsql
+    sudo apt-get install git composer php7.4 php7.4-mbstring php7.4-xml php7.4-pgsql
 
 
 ## Installing Docker and Docker Compose
@@ -47,7 +47,7 @@ It resumes to executing the commands:
     # Sign out and back in again so this setting takes effect.
 
     # install docker-compose
-    sudo curl -L "https://github.com/docker/compose/releases/download/1.25.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo curl -L "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
     sudo chmod +x /usr/local/bin/docker-compose
     docker-compose --version # verify that you have Docker Compose installed.
 
@@ -57,9 +57,9 @@ It resumes to executing the commands:
 You should have your own repository and a copy of the demo repository in the same folder in your machine.
 Then, copy the contents of the demo repository to your own.
 
-    # Clone the group repository (lbaw20gg), if not yet available locally
+    # Clone the group repository (lbaw21gg), if not yet available locally
     # Notice that you need to substitute gg by your group's number
-    git clone https://git.fe.up.pt/lbaw/lbaw20/lbaw20gg.git
+    git clone https://git.fe.up.pt/lbaw/lbaw21/lbaw21gg.git
 
     # clone the LBAW's project skeleton
     git clone https://git.fe.up.pt/lbaw/template-laravel.git
@@ -70,7 +70,7 @@ Then, copy the contents of the demo repository to your own.
     mv template-laravel/README.md template-laravel/README_lbaw.md
 
     # go to your repository
-    cd lbaw20gg
+    cd lbaw21gg
 
     # make sure you are using the master branch
     git checkout master
@@ -97,21 +97,21 @@ Afterwards, the command bellow will install all local dependencies, required for
 
 ## Working with PostgreSQL
 
-We've created a _docker-compose_ file that sets up __PostgreSQL9.4__ and __pgAdmin4__ to run as local Docker containers.
+We've created a _docker-compose_ file that sets up __PostgreSQL13__ and __pgAdmin4__ to run as local Docker containers.
 
 From the project root issue the following command:
 
     docker-compose up
 
 This will start the database and the pgAdmin tool.
-The database's username is _postgres_ and the password is _pg!lol!2020_.
+The database's username is _postgres_ and the password is _pg!lol!2021_.
 
 You can hit http://localhost:5050 to access __pgAdmin4__ and manage your database.
 On the first usage you will need to add the connection to the database using the following attributes:
 
     hostname: postgres
     username: postgres
-    password: pg!lol!2020
+    password: pg!lol!2021
 
 Hostname is _postgres_ instead of _localhost_ since _Docker composer_ creates an internal DNS entry to facilitate the connection between linked containers.
 
@@ -136,9 +136,9 @@ To stop the server just hit Ctrl-C.
 
 You may as well have a bash inside the container by executing:
 
-    docker run -it lbaw20gg/lbaw20gg bash
+    docker run -it lbaw21gg/lbaw21gg bash
 
-Note that if you pause the containers by hitting Ctrl-C, for example, it won't work. 
+Note that if you pause the containers by hitting Ctrl-C, for example, it won't work.
 This means that you'll need one terminal to run the containers and another to exec commands onto the container.
 
 Inside the container you may, for example, see the content of the Web server logs by executing:
@@ -150,7 +150,7 @@ Inside the container you may, for example, see the content of the Web server log
 ## Publishing your image
 
 You should keep your git's master branch always functional and frequently build and deploy your code.
-To do so, you will create a _Docker image_ for your project and publish it at [docker hub](https://hub.docker.com/), like you did for the PIU. LBAW's production machine will frequently pull all these images and make them available at http://lbaw20gg.lbaw-prod.fe.up.pt/.
+To do so, you will create a _Docker image_ for your project and publish it at [docker hub](https://hub.docker.com/), like you did for the PIU. LBAW's production machine will frequently pull all these images and make them available at http://lbaw21gg.lbaw-prod.fe.up.pt/.
 
 BTW, this demo repository is available at http://demo.lbaw-prod.fe.up.pt/.
 Make sure you are inside FEUP's network or are using the VPN.
@@ -164,7 +164,7 @@ Once your Docker is able to communicate with the Docker Hub using your credentia
 Example configuration:
 
     DOCKER_USERNAME=johndoe # Replace by your docker hub username
-    IMAGE_NAME=lbaw20gg     # Replace by your lbaw group name
+    IMAGE_NAME=lbaw21gg     # Replace by your lbaw group name
 
 Afterwards, you can build and upload the docker image by executing that script from the project root:
 
@@ -172,7 +172,7 @@ Afterwards, you can build and upload the docker image by executing that script f
 
 You can test locally the image, just published in the Docker Hub, by running:
 
-    docker run -it -p 8000:80 -e DB_DATABASE="lbaw20gg" -e DB_USERNAME="lbaw20gg" -e DB_PASSWORD="PASSWORD" <DOCKER_USERNAME>/lbaw20gg
+    docker run -it -p 8000:80 -e DB_DATABASE="lbaw21gg" -e DB_USERNAME="lbaw21gg" -e DB_PASSWORD="PASSWORD" <DOCKER_USERNAME>/lbaw21gg
 
 The above command exposes your application on http://localhost:8000.
 The `-e` argument creates environment variables inside the container, used to provide Laravel with the required database configurations.
@@ -184,7 +184,7 @@ This prevents anyone else but us from running your container with your database.
 
 Finally, note that there should be only one image per group.
 One team member should create the image initially and add his team to the **public** repository at Docker Hub.
-You should provide your teacher the details for accessing your Docker image, namely, the Docker username and repository (*DOCKER_USERNAME/lbaw20gg*), in case it was changed.
+You should provide your teacher the details for accessing your Docker image, namely, the Docker username and repository (*DOCKER_USERNAME/lbaw21gg*), in case it was changed.
 
 
 ## Laravel code structure
@@ -193,7 +193,7 @@ In Laravel, a typical web request involves the following steps and files.
 
 ### 1) Routes
 
-The web page is processed by *Laravel*'s [routing](https://laravel.com/docs/5.8/routing) mechanism.
+The web page is processed by *Laravel*'s [routing](https://laravel.com/docs/8.x/routing) mechanism.
 By default, routes are defined inside *routes/web.php*. A typical *route* looks like this:
 
     Route::get('cards/{id}', 'CardController@show');
@@ -202,7 +202,7 @@ This route receives a parameter *id* that is passed on to the *show* method of a
 
 ### 2) Controllers
 
-[Controllers](https://laravel.com/docs/5.8/controllers) group related request handling logic into a single class.
+[Controllers](https://laravel.com/docs/8.x/controllers) group related request handling logic into a single class.
 Controllers are normally defined in the __app/Http/Controllers__ folder.
 
     class CardController extends Controller
@@ -220,7 +220,7 @@ The method searches for a card in the database, checks if the user as permission
 
 ### 3) Database and Models
 
-To access the database, we will use the query builder capabilities of [Eloquent](https://laravel.com/docs/5.8/eloquent) but the initial database seeding will still be done using raw SQL (the script that creates the tables can be found in __resources/sql/seed.sql__).
+To access the database, we will use the query builder capabilities of [Eloquent](https://laravel.com/docs/8.x/eloquent) but the initial database seeding will still be done using raw SQL (the script that creates the tables can be found in __resources/sql/seed.sql__).
 
     $card = Card::find($id);
 
@@ -240,7 +240,7 @@ This class extends the *Model* class and contains information about the relation
 
 ### 4) Policies
 
-[Policies](https://laravel.com/docs/5.8/authorization#writing-policies) define which actions a user can take.
+[Policies](https://laravel.com/docs/8.x/authorization#writing-policies) define which actions a user can take.
 You can find policies inside the __app/Policies__ folder.
 For example, in the __CardPolicy.php__ file, we defined a *show* method that only allows a certain user to view a card if that user is the card owner:
 
@@ -259,7 +259,7 @@ As you can see, there is no need to pass the current *user*.
 
 ### 5) Views
 
-A *controller* only needs to return HTML code for it to be sent to the *browser*. However we will be using [Blade](https://laravel.com/docs/5.8/blade) templates to make this task easier:
+A *controller* only needs to return HTML code for it to be sent to the *browser*. However we will be using [Blade](https://laravel.com/docs/8.x/blade) templates to make this task easier:
 
     return view('pages.card', ['card' => $card]);
 
@@ -292,5 +292,4 @@ If you change the configuration, you might need to run the following command to 
 
     php artisan cache:clear
 
-
--- André Restivo, Tiago Boldt, 2020
+-- André Restivo, Tiago Boldt Sousa, 2021
