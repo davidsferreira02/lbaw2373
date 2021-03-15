@@ -19,7 +19,7 @@ The template was prepared to run on Linux 20.04LTS, but it should be fairly easy
 
 ## Installing the Software Dependencies
 
-To prepare you computer for development you need to install some software, namely PHP and the PHP package manager composer.
+To prepare you computer for development you need to install some software, namely PHP and the PHP package manager Composer.
 
 We recommend using an __Ubuntu__ distribution that ships PHP 7.4 (e.g Ubuntu 20.04LTS).
 You may install the required software with:
