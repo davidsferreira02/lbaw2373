@@ -1,8 +1,8 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 # Install dependencies
 RUN apt-get update
-RUN apt-get install -y --no-install-recommends libpq-dev vim nginx php7.2-fpm php7.2-mbstring php7.2-xml php7.2-pgsql
+RUN apt-get install -y --no-install-recommends libpq-dev vim nginx php7.4-fpm php7.4-mbstring php7.4-xml php7.4-pgsql
 
 # Copy project code and install project dependencies
 COPY . /var/www/
@@ -14,7 +14,6 @@ COPY ./etc/nginx/default.conf /etc/nginx/sites-enabled/default
 #COPY ./etc/docker/daemon.json /etc/docker/daemon.json
 COPY .env_production /var/www/.env
 COPY docker_run.sh /docker_run.sh
-RUN mkdir /var/run/php
 
 # Start command
 CMD sh /docker_run.sh
