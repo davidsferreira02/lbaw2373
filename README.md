@@ -113,7 +113,7 @@ On the first usage you will need to add the connection to the database using the
     username: postgres
     password: pg!lol!2021
 
-Hostname is _postgres_ instead of _localhost_ since _Docker composer_ creates an internal DNS entry to facilitate the connection between linked containers.
+Hostname is _postgres_ instead of _localhost_ since _Docker Compose_ creates an internal DNS entry to facilitate the connection between linked containers.
 
 
 ## Developing the project
