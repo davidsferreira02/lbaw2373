@@ -19,7 +19,7 @@ The template was prepared to run on Linux 20.04LTS, but it should be fairly easy
 
 ## Installing the Software Dependencies
 
-To prepare you computer for development you need to install some software, namely PHP and the PHP package manager composer.
+To prepare you computer for development you need to install some software, namely PHP and the PHP package manager Composer.
 
 We recommend using an __Ubuntu__ distribution that ships PHP 7.4 (e.g Ubuntu 20.04LTS).
 You may install the required software with:
@@ -113,7 +113,7 @@ On the first usage you will need to add the connection to the database using the
     username: postgres
     password: pg!lol!2021
 
-Hostname is _postgres_ instead of _localhost_ since _Docker composer_ creates an internal DNS entry to facilitate the connection between linked containers.
+Hostname is _postgres_ instead of _localhost_ since _Docker Compose_ creates an internal DNS entry to facilitate the connection between linked containers.
 
 
 ## Developing the project
@@ -150,12 +150,12 @@ Inside the container you may, for example, see the content of the Web server log
 ## Publishing your image
 
 You should keep your git's master branch always functional and frequently build and deploy your code.
-To do so, you will create a _Docker image_ for your project and publish it at [docker hub](https://hub.docker.com/), like you did for the PIU. LBAW's production machine will frequently pull all these images and make them available at http://lbaw21gg.lbaw-prod.fe.up.pt/.
+To do so, you will create a _Docker image_ for your project and publish it at [Docker Hub](https://hub.docker.com/), like you did for the PIU. LBAW's production machine will frequently pull all these images and make them available at http://lbaw21gg.lbaw-prod.fe.up.pt/.
 
 BTW, this demo repository is available at http://demo.lbaw-prod.fe.up.pt/.
 Make sure you are inside FEUP's network or are using the VPN.
 
-First thing you need to do is create a [docker hub](https://hub.docker.com/) account and get your username from it.
+First thing you need to do is create a [Docker Hub](https://hub.docker.com/) account and get your username from it.
 Once you have a username, let your Docker know who you are by executing:
 
     docker login
@@ -163,8 +163,8 @@ Once you have a username, let your Docker know who you are by executing:
 Once your Docker is able to communicate with the Docker Hub using your credentials, configure the __upload_image.sh__ script with your username and the image name.
 Example configuration:
 
-    DOCKER_USERNAME=johndoe # Replace by your docker hub username
-    IMAGE_NAME=lbaw21gg     # Replace by your lbaw group name
+    DOCKER_USERNAME=johndoe # Replace by your Docker Hub username
+    IMAGE_NAME=lbaw21gg     # Replace by your LBAW group name
 
 Afterwards, you can build and upload the docker image by executing that script from the project root:
 
