@@ -230,12 +230,12 @@ This class extends the *Model* class and contains information about the relation
 
     /* A card belongs to one user */
     public function user() {
-      return $this->belongsTo('App\User');
+      return $this->belongsTo('App\Models\User');
     }
 
     /* A card has many items */
     public function items() {
-      return $this->hasMany('App\Item');
+      return $this->hasMany('App\Models\Item');
     }
 
 ### 4) Policies
