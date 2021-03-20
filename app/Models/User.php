@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -34,6 +34,6 @@ class User extends Authenticatable
      * The cards this user owns.
      */
      public function cards() {
-      return $this->hasMany('App\Card');
+      return $this->hasMany('App\Models\Card');
     }
 }
