@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,12 +12,10 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-     public function run()
-     {
-         Eloquent::unguard();
-
-         $path = 'resources/sql/seed.sql';
-         DB::unprepared(file_get_contents($path));
-         $this->command->info('Database seeded!');
-     }
+    public function run()
+    {
+        $path = 'resources/sql/seed.sql';
+        DB::unprepared(file_get_contents($path));
+        $this->command->info('Database seeded!');
+    }
 }
