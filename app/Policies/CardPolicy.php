@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\User;
-use App\Card;
+use App\Models\User;
+use App\Models\Card;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Support\Facades\Auth;

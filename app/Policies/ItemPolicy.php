@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
-use App\User;
-use App\Card;
-use App\Item;
+use App\Models\User;
+use App\Models\Card;
+use App\Models\Item;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 
