@@ -103,10 +103,12 @@ From the project root issue the following command:
 
     docker-compose up
 
-This will start the database and the pgAdmin tool.
-The database's username is _postgres_ and the password is _pg!lol!2021_.
+This will start the database and the pgAdmin tool. You can hit http://localhost:4321 to access __pgAdmin4__ and manage your database.
+Use the following credentials to login:
 
-You can hit http://localhost:5050 to access __pgAdmin4__ and manage your database.
+    Email: postgres@lbaw.com
+    Password: pg!lol!2021
+
 On the first usage you will need to add the connection to the database using the following attributes:
 
     hostname: postgres
