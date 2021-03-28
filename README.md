@@ -189,7 +189,9 @@ Inside the container you may, for example, see the content of the Web server log
 
 ## Laravel code structure
 
-In Laravel, a typical web request involves the following steps and files.
+Before you start, you should make yourself familiar with [Laravel's documentation](https://laravel.com/docs/8.x).
+
+In Laravel, a typical web request will touch the following concepts and files.
 
 ### 1) Routes
 
