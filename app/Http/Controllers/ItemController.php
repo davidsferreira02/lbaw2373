@@ -22,13 +22,10 @@ class ItemController extends Controller
   {
     $item = new Item();
     $item->card_id = $card_id;
-
     $this->authorize('create', $item);
-
     $item->done = false;
     $item->description = $request->input('description');
     $item->save();
-
     return $item;
   }
 
@@ -42,12 +39,9 @@ class ItemController extends Controller
     public function update(Request $request, $id)
     {
       $item = Item::find($id);
-
       $this->authorize('update', $item);
-
       $item->done = $request->input('done');
       $item->save();
-
       return $item;
     }
 
@@ -60,10 +54,8 @@ class ItemController extends Controller
     public function delete(Request $request, $id)
     {
       $item = Item::find($id);
-
       $this->authorize('delete', $item);
       $item->delete();
-
       return $item;
     }
 
