@@ -136,57 +136,6 @@ Access http://localhost:8000 to access the app. Username is `admin@example.com`,
 
 To stop the server just hit Ctrl-C.
 
-
-
-## Publishing your image
-
-You should keep your git's master branch always functional and frequently build and deploy your code.
-To do so, you will create a _Docker image_ for your project and publish it at [Docker Hub](https://hub.docker.com/), like you did for the PIU. LBAW's production machine will frequently pull all these images and make them available at http://lbaw21gg.lbaw-prod.fe.up.pt/.
-
-BTW, this demo repository is available at http://demo.lbaw-prod.fe.up.pt/.
-Make sure you are inside FEUP's network or are using the VPN.
-
-First thing you need to do is create a [Docker Hub](https://hub.docker.com/) account and get your username from it.
-Once you have a username, let your Docker know who you are by executing:
-
-    docker login
-
-Once your Docker is able to communicate with the Docker Hub using your credentials, configure the __upload_image.sh__ script with your username and the image name.
-Example configuration:
-
-    DOCKER_USERNAME=johndoe # Replace by your Docker Hub username
-    IMAGE_NAME=lbaw21gg     # Replace by your LBAW group name
-
-Afterwards, you can build and upload the docker image by executing that script from the project root:
-
-    ./upload_image.sh
-
-You can test locally the image, just published in the Docker Hub, by running:
-
-    docker run -it -p 8000:80 -e DB_DATABASE="lbaw21gg" -e DB_USERNAME="lbaw21gg" -e DB_PASSWORD="PASSWORD" <DOCKER_USERNAME>/lbaw21gg
-
-The above command exposes your application on http://localhost:8000.
-The `-e` argument creates environment variables inside the container, used to provide Laravel with the required database configurations.
-
-Note that during the build process we adopt the production configurations configured in the __.env_production__ file.
-**You should not add your database username and password to this file.
-The configuration will be provided as an environment variable to your container on execution time**.
-This prevents anyone else but us from running your container with your database.
-
-Finally, note that there should be only one image per group.
-One team member should create the image initially and add his team to the **public** repository at Docker Hub.
-You should provide your teacher the details for accessing your Docker image, namely, the Docker username and repository (*DOCKER_USERNAME/lbaw21gg*), in case it was changed.
-
-While running your container, you can use another terminal to run a shell inside the container by executing:
-
-    docker run -it lbaw21gg/lbaw21gg bash
-
-Inside the container you may, for example, see the content of the Web server logs by executing:
-
-    root@2804d54698c0:/# tail -f /var/log/nginx/error.log    # follow the errors
-    root@2804d54698c0:/# tail -f /var/log/nginx/access.log   # follow the accesses
-
-
 ## Laravel code structure
 
 Before you start, you should make yourself familiar with [Laravel's documentation](https://laravel.com/docs/8.x).
@@ -293,5 +242,54 @@ Laravel configurations ar acquired from environment variables. They can be avail
 If you change the configuration, you might need to run the following command to discard a compiled version of the configuration from laravel's cache:
 
     php artisan cache:clear
+
+## Publishing your image
+
+You should keep your git's master branch always functional and frequently build and deploy your code.
+To do so, you will create a _Docker image_ for your project and publish it at [Docker Hub](https://hub.docker.com/), like you did for the PIU. LBAW's production machine will frequently pull all these images and make them available at http://lbaw21gg.lbaw-prod.fe.up.pt/.
+
+BTW, this demo repository is available at http://demo.lbaw-prod.fe.up.pt/.
+Make sure you are inside FEUP's network or are using the VPN.
+
+First thing you need to do is create a [Docker Hub](https://hub.docker.com/) account and get your username from it.
+Once you have a username, let your Docker know who you are by executing:
+
+    docker login
+
+Once your Docker is able to communicate with the Docker Hub using your credentials, configure the __upload_image.sh__ script with your username and the image name.
+Example configuration:
+
+    DOCKER_USERNAME=johndoe # Replace by your Docker Hub username
+    IMAGE_NAME=lbaw21gg     # Replace by your LBAW group name
+
+Afterwards, you can build and upload the docker image by executing that script from the project root:
+
+    ./upload_image.sh
+
+You can test locally the image, just published in the Docker Hub, by running:
+
+    docker run -it -p 8000:80 -e DB_DATABASE="lbaw21gg" -e DB_USERNAME="lbaw21gg" -e DB_PASSWORD="PASSWORD" <DOCKER_USERNAME>/lbaw21gg
+
+The above command exposes your application on http://localhost:8000.
+The `-e` argument creates environment variables inside the container, used to provide Laravel with the required database configurations.
+
+Note that during the build process we adopt the production configurations configured in the __.env_production__ file.
+**You should not add your database username and password to this file.
+The configuration will be provided as an environment variable to your container on execution time**.
+This prevents anyone else but us from running your container with your database.
+
+Finally, note that there should be only one image per group.
+One team member should create the image initially and add his team to the **public** repository at Docker Hub.
+You should provide your teacher the details for accessing your Docker image, namely, the Docker username and repository (*DOCKER_USERNAME/lbaw21gg*), in case it was changed.
+
+While running your container, you can use another terminal to run a shell inside the container by executing:
+
+    docker run -it lbaw21gg/lbaw21gg bash
+
+Inside the container you may, for example, see the content of the Web server logs by executing:
+
+    root@2804d54698c0:/# tail -f /var/log/nginx/error.log    # follow the errors
+    root@2804d54698c0:/# tail -f /var/log/nginx/access.log   # follow the accesses
+
 
 -- André Restivo, Tiago Boldt Sousa, 2021
