@@ -136,17 +136,6 @@ Access http://localhost:8000 to access the app. Username is `admin@example.com`,
 
 To stop the server just hit Ctrl-C.
 
-You may as well have a bash inside the container by executing:
-
-    docker run -it lbaw21gg/lbaw21gg bash
-
-Note that if you pause the containers by hitting Ctrl-C, for example, it won't work.
-This means that you'll need one terminal to run the containers and another to exec commands onto the container.
-
-Inside the container you may, for example, see the content of the Web server logs by executing:
-
-    root@2804d54698c0:/# tail -f /var/log/nginx/error.log    # follow the errors
-    root@2804d54698c0:/# tail -f /var/log/nginx/access.log   # follow the accesses
 
 
 ## Publishing your image
@@ -187,6 +176,15 @@ This prevents anyone else but us from running your container with your database.
 Finally, note that there should be only one image per group.
 One team member should create the image initially and add his team to the **public** repository at Docker Hub.
 You should provide your teacher the details for accessing your Docker image, namely, the Docker username and repository (*DOCKER_USERNAME/lbaw21gg*), in case it was changed.
+
+While running your container, you can use another terminal to run a shell inside the container by executing:
+
+    docker run -it lbaw21gg/lbaw21gg bash
+
+Inside the container you may, for example, see the content of the Web server logs by executing:
+
+    root@2804d54698c0:/# tail -f /var/log/nginx/error.log    # follow the errors
+    root@2804d54698c0:/# tail -f /var/log/nginx/access.log   # follow the accesses
 
 
 ## Laravel code structure
