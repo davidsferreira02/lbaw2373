@@ -132,7 +132,7 @@ To start the development server, from the project's root run:
     # Start the development server
     php artisan serve
 
-Access http://localhost:8000 to see the App running.
+Access http://localhost:8000 to access the app. Username is `admin@example.com`, and password `1234`. These credentials are copied to the database on the first instruction above.
 
 To stop the server just hit Ctrl-C.
 
