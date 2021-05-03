@@ -242,6 +242,7 @@ Laravel configurations ar acquired from environment variables. They can be avail
 If you change the configuration, you might need to run the following command to discard a compiled version of the configuration from laravel's cache:
 
     php artisan cache:clear
+    php artisan config:clear
 
 ## Publishing your image
 
