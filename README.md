@@ -274,10 +274,7 @@ You can test locally the image, just published in the Docker Hub, by running:
 The above command exposes your application on http://localhost:8000.
 The `-e` argument creates environment variables inside the container, used to provide Laravel with the required database configurations.
 
-Note that during the build process we adopt the production configurations configured in the __.env_production__ file.
-**You should not add your database username and password to this file.
-The configuration will be provided as an environment variable to your container on execution time**.
-This prevents anyone else but us from running your container with your database.
+Your database configuration will be provided as an environment variable to your container on start. You do not need to specify it on you env file. Any specification there will be replaced when the docker image starts. 
 
 Finally, note that there should be only one image per group.
 One team member should create the image initially and add his team to the **public** repository at Docker Hub.
