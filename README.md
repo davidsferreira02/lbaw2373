@@ -103,17 +103,17 @@ From the project root issue the following command:
 
     docker-compose up
 
-This will start the database and the pgAdmin tool. You can hit http://localhost:4321 to access __pgAdmin4__ and manage your database.
+Navigate on your browser to http://localhost:4321 to access pgAdmin4 and manage your database. Depending on your installation setup, you might need to use the IP address from the virtual machine providing docker instead of localhost. Please refer to your installation documentation.
 Use the following credentials to login:
 
     Email: postgres@lbaw.com
-    Password: pg!lol!2021
+    Password: pg!password
 
 On the first usage you will need to add the connection to the database using the following attributes:
 
     hostname: postgres
     username: postgres
-    password: pg!lol!2021
+    password: pg!password
 
 Hostname is _postgres_ instead of _localhost_ since _Docker Compose_ creates an internal DNS entry to facilitate the connection between linked containers.
 
