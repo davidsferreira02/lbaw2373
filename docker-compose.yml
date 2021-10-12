@@ -6,15 +6,15 @@ services:
     restart: always
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: pg!lol!2021
+      POSTGRES_PASSWORD: pg!password
     ports:
       - "5432:5432"
 
   pgadmin:
-    image: dpage/pgadmin4:5.1
+    image: dpage/pgadmin4:6
     environment:
       PGADMIN_DEFAULT_EMAIL: postgres@lbaw.com
-      PGADMIN_DEFAULT_PASSWORD: pg!lol!2021
+      PGADMIN_DEFAULT_PASSWORD: pg!password
     ports:
       - "4321:80"
     depends_on:
