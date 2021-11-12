@@ -26,31 +26,7 @@ You may install the required software with:
 
     sudo apt-get install git composer php7.4 php7.4-mbstring php7.4-xml php7.4-pgsql
 
-
-## Installing Docker and Docker Compose
-
-Firstly, you'll need to have __Docker__ and __Docker Compose__ installed on your PC.
-The official instructions are in [Install Docker](https://docs.docker.com/install/) and in [Install Docker Compose](https://docs.docker.com/compose/install/#install-compose).
-It resumes to executing the commands:
-
-    # install docker-ce
-    sudo apt-get update
-    sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-    sudo apt-get update
-    sudo apt-get install docker-ce
-    docker run hello-world # make sure that the installation worked
-
-    # optionally, add your user to the docker group by using a terminal to run:
-    # sudo usermod -aG docker $USER
-    # Sign out and back in again so this setting takes effect.
-
-    # install docker-compose
-    sudo curl -L "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    sudo chmod +x /usr/local/bin/docker-compose
-    docker-compose --version # verify that you have Docker Compose installed.
-
+The following links provide instructions for installing [Docker](https://docs.docker.com/get-docker/)and [Docker Compose](https://docs.docker.com/compose/install/)
 
 ## Setting up the Development repository
 
