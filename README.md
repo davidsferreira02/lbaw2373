@@ -26,7 +26,7 @@ You may install the required software with:
 
     sudo apt-get install git composer php7.4 php7.4-mbstring php7.4-xml php7.4-pgsql
 
-The following links provide instructions for installing [Docker](https://docs.docker.com/get-docker/)and [Docker Compose](https://docs.docker.com/compose/install/)
+The following links provide instructions for installing [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/)
 
 ## Setting up the Development repository
 
