@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This README describes how to setup the development environment for LBAW 2020/21.
+This README describes how to setup the development environment for LBAW 2021/22.
 These instructions address the development with a local environment, i.e. on the machine (that can be a VM) **without using a Docker container for PHP or Laravel**.
 Containers are used for PostgreSQL and pgAdmin, though.
 
