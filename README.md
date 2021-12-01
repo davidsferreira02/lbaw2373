@@ -69,7 +69,7 @@ cp -r ../template-laravel/. .
 
 # add the new files to your repository
 git add .
-git commit -m "Base laravel structure"
+git commit -m "Base Laravel structure"
 git push origin master
 ```
 
@@ -250,9 +250,9 @@ To add JavaScript into your project, just edit the file found at __public/js/app
 
 ### 8) Configuration
 
-Laravel configurations are acquired from environment variables. They can be available in the environment where the laravel process is started, or acquired by reading the `.env` file in the root folder of the laravel project. This file can set environment variables, which set or overwride the variables from the current context. You will likely have to update these variables, mainly the ones configuring the access to the database, starting with `DB_`.
+Laravel configurations are acquired from environment variables. They can be available in the environment where the Laravel process is started, or acquired by reading the `.env` file in the root folder of the Laravel project. This file can set environment variables, which set or overwride the variables from the current context. You will likely have to update these variables, mainly the ones configuring the access to the database, starting with `DB_`.
 
-If you change the configuration, you might need to run the following command to discard a compiled version of the configuration from laravel's cache:
+If you change the configuration, you might need to run the following command to discard a compiled version of the configuration from Laravel's cache:
 
 ```bash
 php artisan cache:clear
@@ -261,8 +261,8 @@ php artisan config:clear
 
 ## Publishing your image
 
-You should keep your git's master branch always functional and frequently build and deploy your code.
-To do so, you will create a _Docker image_ for your project and publish it at [Docker Hub](https://hub.docker.com/), like you did for the PIU. LBAW's production machine will frequently pull all these images and make them available at http://lbaw21gg.lbaw-prod.fe.up.pt/.
+You should keep your git master branch always functional and frequently build and deploy your code.
+To do so, you will create a _Docker image_ for your project and publish it at [Docker Hub](https://hub.docker.com/). LBAW's production machine will frequently pull all these images and make them available at http://lbaw21gg.lbaw-prod.fe.up.pt/.
 
 BTW, this demo repository is available at http://demo.lbaw-prod.fe.up.pt/.
 Make sure you are inside FEUP's network or are using the VPN.
