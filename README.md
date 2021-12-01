@@ -8,13 +8,23 @@ Containers are used for PostgreSQL and pgAdmin, though.
 
 The template was prepared to run on Linux 20.04LTS, but it should be fairly easy to follow and adapt for other operating systems.
 
-* [Installing the Software Dependencies](#installing-the-software-dependencies)
-* [Installing Docker and Docker Compose](#installing-docker-and-docker-compose)
-* [Setting up the Development repository](#setting-up-the-development-repository)
-* [Working with PostgreSQL](#working-with-postgresql)
-* [Developing the project](#developing-the-project)
-* [Publishing the image](#publishing-your-image)
-* [Laravel code structure](#laravel-code-structure)
+- [LBAW's framework](#lbaws-framework)
+  - [Introduction](#introduction)
+  - [Installing the Software Dependencies](#installing-the-software-dependencies)
+  - [Setting up the Development repository](#setting-up-the-development-repository)
+  - [Installing local PHP dependencies](#installing-local-php-dependencies)
+  - [Working with PostgreSQL](#working-with-postgresql)
+  - [Developing the project](#developing-the-project)
+  - [Laravel code structure](#laravel-code-structure)
+    - [1) Routes](#1-routes)
+    - [2) Controllers](#2-controllers)
+    - [3) Database and Models](#3-database-and-models)
+    - [4) Policies](#4-policies)
+    - [5) Views](#5-views)
+    - [6) CSS](#6-css)
+    - [7) JavaScript](#7-javascript)
+    - [8) Configuration](#8-configuration)
+  - [Publishing your image](#publishing-your-image)
 
 
 ## Installing the Software Dependencies
@@ -77,7 +87,7 @@ We've created a _docker-compose_ file that sets up __PostgreSQL__ and __pgAdmin4
 
 From the project root issue the following command:
 
-    docker-compose up
+    docker-compose up -d
 
 Navigate on your browser to http://localhost:4321 to access pgAdmin4 and manage your database. Depending on your installation setup, you might need to use the IP address from the virtual machine providing docker instead of localhost. Please refer to your installation documentation.
 Use the following credentials to login:
