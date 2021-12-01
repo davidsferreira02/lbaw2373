@@ -250,7 +250,7 @@ To add JavaScript into your project, just edit the file found at __public/js/app
 
 ### 8) Configuration
 
-Laravel configurations ar acquired from environment variables. They can be available in the environment where the laravel process is started, or acquired by reading the `.env` file in the root folder of the laravel project. This file can set environment variables, which set or overwride the variables from the current context. You will likely have to update these variables, mainly the ones configuring the access to the database, starting with `DB_`.
+Laravel configurations are acquired from environment variables. They can be available in the environment where the laravel process is started, or acquired by reading the `.env` file in the root folder of the laravel project. This file can set environment variables, which set or overwride the variables from the current context. You will likely have to update these variables, mainly the ones configuring the access to the database, starting with `DB_`.
 
 If you change the configuration, you might need to run the following command to discard a compiled version of the configuration from laravel's cache:
 
