@@ -262,10 +262,10 @@ php artisan config:clear
 ## Publishing your image
 
 You should keep your git master branch always functional and frequently build and deploy your code.
-To do so, you will create a _Docker image_ for your project and publish it at [Docker Hub](https://hub.docker.com/). LBAW's production machine will frequently pull all these images and make them available at http://lbaw21gg.lbaw-prod.fe.up.pt/.
+To do so, you will create a _Docker image_ for your project and publish it at [Docker Hub](https://hub.docker.com/). LBAW's production machine will frequently pull all these images and make them available at http://lbaw21gg.lbaw.fe.up.pt/.
 
-BTW, this demo repository is available at http://demo.lbaw-prod.fe.up.pt/.
-Make sure you are inside FEUP's network or are using the VPN.
+BTW, this demo repository is available at http://demo.lbaw.fe.up.pt/.
+To view it make sure you are inside FEUP's network or are using the VPN.
 
 First thing you need to do is create a [Docker Hub](https://hub.docker.com/) account and get your username from it.
 Once you have a username, let your Docker know who you are by executing:
