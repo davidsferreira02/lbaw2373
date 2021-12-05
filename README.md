@@ -31,12 +31,12 @@ The template was prepared to run on Linux 20.04LTS, but it should be fairly easy
 
 To prepare you computer for development you need to install some software, namely PHP and the PHP package manager Composer.
 
-We recommend using an __Ubuntu__ distribution that ships PHP 7.4 (e.g Ubuntu 20.04LTS).
-You may install the required software with:
+We recommend using an __Ubuntu__ distribution that ships PHP 8.0 (e.g Ubuntu 21.10). You may install the required software with:
 
 ```bash
-sudo apt-get install git composer php7.4 php7.4-mbstring php7.4-xml php7.4-pgsql
+sudo apt install git composer php8.0 php8.0-mbstring php8.0-xml php8.0-pgsql
 ```
+
 
 The following links provide instructions for installing [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/)
 
@@ -93,7 +93,7 @@ We've created a _docker-compose_ file that sets up __PostgreSQL__ and __pgAdmin4
 From the project root issue the following command:
 
 ```bash
-docker-compose up -d
+docker-compose up
 ```
 
 Navigate on your browser to http://localhost:4321 to access pgAdmin4 and manage your database. Depending on your installation setup, you might need to use the IP address from the virtual machine providing docker instead of localhost. Please refer to your installation documentation.
@@ -250,7 +250,7 @@ To add JavaScript into your project, just edit the file found at __public/js/app
 
 ### 8) Configuration
 
-Laravel configurations are acquired from environment variables. They can be available in the environment where the Laravel process is started, or acquired by reading the `.env` file in the root folder of the Laravel project. This file can set environment variables, which set or overwride the variables from the current context. You will likely have to update these variables, mainly the ones configuring the access to the database, starting with `DB_`.
+Laravel configurations are acquired from environment variables. They can be available in the environment where the Laravel process is started, or acquired by reading the `.env` file in the root folder of the Laravel project. This file can set environment variables, which set or overwride the variables from the current context. You will likely have to update these variables, mainly the ones configuring the access to the database, starting with `DB_`. *You must manually create a schema that matches your username.*
 
 If you change the configuration, you might need to run the following command to discard a compiled version of the configuration from Laravel's cache:
 
@@ -316,4 +316,4 @@ root@2804d54698c0:/# tail -f /var/log/nginx/error.log    # follow the errors
 root@2804d54698c0:/# tail -f /var/log/nginx/access.log   # follow the accesses
 ```
 
--- André Restivo, Tiago Boldt Sousa, 2021
+-- LBAW, 2021
