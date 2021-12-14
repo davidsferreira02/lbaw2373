@@ -255,6 +255,7 @@ Laravel configurations are acquired from environment variables. They can be avai
 If you change the configuration, you might need to run the following command to discard a compiled version of the configuration from Laravel's cache:
 
 ```bash
+php artisan route:clear
 php artisan cache:clear
 php artisan config:clear
 ```
