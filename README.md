@@ -263,7 +263,17 @@ php artisan config:clear
 
 You should keep your git master branch always functional and frequently build and deploy your code as a Docker image. LBAW's production machine will frequently pull all these images and make them available at http://lbaw21XX.lbaw.fe.up.pt/.
 
-**Always ensure your `.env` file is configured with your group's `db.fe.up.pt` credentials before building your docker image.**
+**Always ensure your `.env` file is configured with your group's `db.fe.up.pt` credentials before building your docker image, by updating the DB section:**
+
+```bash
+DB_CONNECTION=pgsql
+DB_HOST=db.fe.up.pt
+DB_PORT=5432
+DB_SCHEMA=lbaw21XX
+DB_DATABASE=lbaw21XX
+DB_USERNAME=lbaw21XX
+DB_PASSWORD=password
+```
 
 This demo repository is available at http://template-laravel.lbaw.fe.up.pt/. To view it make sure you are inside FEUP's network or are using the VPN.
 
