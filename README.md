@@ -6,7 +6,7 @@ This README describes how to setup the development environment for LBAW 2021/22.
 These instructions address the development with a local environment, i.e. on the machine (that can be a VM) **without using a Docker container for PHP or Laravel**.
 Containers are used for PostgreSQL and pgAdmin, though.
 
-The template was prepared to run on Linux 20.04LTS, but it should be fairly easy to follow and adapt for other operating systems.
+The template was prepared to run on Ubuntu 21.10, but it should be fairly easy to follow and adapt for other operating systems.
 
 - [LBAW's framework](#lbaws-framework)
   - [Introduction](#introduction)
@@ -290,7 +290,7 @@ You can now build and upload the docker image by executing that script from the 
 
 There should be only one image per group. All team members should be able to update the image at any time, after they login with the Gitlab's registry.
 
-You can test locally the image, just published in the Docker Hub, by running:
+You can test locally the image by running:
 
 ```
 docker run -it -p 8000:80 --name=lbaw21XX -e DB_DATABASE="lbaw21XX" -e DB_SCHEMA="lbaw21XX" -e DB_USERNAME="lbaw21XX" -e DB_PASSWORD="PASSWORD" git.fe.up.pt:5050/lbaw/lbaw2122/lbaw21XX # Replace with your group's image name
@@ -299,7 +299,7 @@ docker run -it -p 8000:80 --name=lbaw21XX -e DB_DATABASE="lbaw21XX" -e DB_SCHEMA
 The above command exposes your application on http://localhost:8000.
 The `-e` argument creates environment variables inside the container, used to provide Laravel with the required database configurations.
 
-Your database configuration will be provided as an environment variable to your container on start. You do not need to specify it on you env file. Any specification there will be replaced when the docker image starts.
+Your database configuration will be provided as an environment variable to your container on start. You do not need to specify it on your env file. Any specification there will be replaced when the docker image starts.
 
 
 While running your container, you can use another terminal to run a shell inside the container by executing:
