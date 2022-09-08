@@ -88,12 +88,12 @@ composer install
 
 ## Working with PostgreSQL
 
-We've created a _docker-compose_ file that sets up __PostgreSQL__ and __pgAdmin4__ to run as local Docker containers.
+We've created a _docker compose_ file that sets up __PostgreSQL__ and __pgAdmin4__ to run as local Docker containers.
 
 From the project root issue the following command:
 
 ```bash
-docker-compose up
+docker compose up
 ```
 
 Navigate on your browser to http://localhost:4321 to access pgAdmin4 and manage your database. Depending on your installation setup, you might need to use the IP address from the virtual machine providing docker instead of localhost. Please refer to your installation documentation.
