@@ -34,7 +34,7 @@ To prepare you computer for development you need to install some software, namel
 We recommend using an __Ubuntu__ distribution that ships PHP 8.1 (e.g Ubuntu 22.04). You may install the required software with:
 
 ```bash
-sudo apt install git composer php8.1 php8.1-mbstring php8.1-xml php8.1-pgsql
+sudo apt install git composer php8.1 php8.1-mbstring php8.1-xml php8.1-pgsql php8.1-curl
 ```
 
 
