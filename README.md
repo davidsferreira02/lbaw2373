@@ -310,7 +310,9 @@ You can now build and upload the docker image by executing that script from the 
 
 There should be only one image per group. All team members should be able to update the image at any time, after they login with the Gitlab's registry.
 
-You can test locally the image by running:
+## Testing your image
+
+After building it, you can test locally the image by running:
 
 ```bash
 docker run -it -p 8000:80 --name=lbawYYXX -e DB_DATABASE="lbawYYXX" -e DB_SCHEMA="lbawYYXX" -e DB_USERNAME="lbawYYXX" -e DB_PASSWORD="PASSWORD" git.fe.up.pt:5050/lbaw/lbawYYYY/lbawYYXX # Replace with your group's image name
