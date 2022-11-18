@@ -257,6 +257,8 @@ To add JavaScript into your project, just edit the file found at __public/js/app
 
 Laravel configurations are acquired from environment variables. They can be available in the environment where the Laravel process is started, or acquired by reading the `.env` file in the root folder of the Laravel project. This file can set environment variables, which set or overwride the variables from the current context. You will likely have to update these variables, mainly the ones configuring the access to the database, starting with `DB_`. *You must manually create a schema that matches your username.*
 
+There are two environment configuration files. `.env` should be used for local development and `.env_production` will be bundled with your Docker image. The differ in that the production environment should connect to the production database and use HTTPS.
+
 If you change the configuration, you might need to run the following command to discard a compiled version of the configuration from Laravel's cache:
 
 ```bash
