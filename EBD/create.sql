@@ -164,7 +164,6 @@ CREATE TABLE commentOwner(
 );
 
 
---Indexes
 
 DROP INDEX IF EXISTS searchGenericUserName;
 DROP INDEX IF EXISTS searchProjectTitle;
@@ -179,201 +178,39 @@ DROP INDEX IF EXISTS searchCommentOwner;
 DROP INDEX IF EXISTS searchUser;
 DROP INDEX IF EXISTS searchProject;
 
+-- IDX01
 CREATE INDEX searchGenericUserName ON generic_user USING HASH (name);
+
+-- IDX02
 CREATE INDEX searchProjectTitle ON projectt USING HASH (title);
+
+-- IDX03
 CREATE INDEX searchProjectTheme ON projectt USING HASH (theme);
+
+-- IDX04
 CREATE INDEX searchTaskDeadline ON task USING BTREE (deadLine);
+
+-- IDX05
 CREATE INDEX searchTaskPriority ON task USING BTREE (priority);
+
+-- IDX06
 CREATE INDEX searchMember ON isMember USING BTREE (id_project);
+
+-- IDX07
 CREATE INDEX searchLeader ON isLeader USING HASH (id_project);
+
+-- IDX08
 CREATE INDEX searchTaskOwner ON taskOwner USING HASH (id_task);
+
+-- IDX09
 CREATE INDEX searchAssigned ON assigned USING BTREE (id_task);
+
+-- IDX10
 CREATE INDEX searchCommentOwner ON commentOwner USING HASH (id_comment);
 
+
+-- IDX11
 CREATE INDEX searchUser ON generic_user USING GIN (search);
-CREATE INDEX searchProject ON projectt USING GIN (search);
-
-
-
--- Triggers
-
-
--- Add comment like notification
-CREATE OR REPLACE FUNCTION add_comment_like_notification() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-INSERT INTO comment_notification (comment, notification_id, user_id, comment_id)
-VALUES ('like', 7, NEW.user_id, NEW.id_comment);
-RETURN NEW;
-END;
-$BODY$
-    LANGUAGE plpgsql;
-
-DROP TRIGGER IF EXISTS add_comment_like_notification ON comment_notification;
-
-CREATE TRIGGER add_comment_like_notification
-    AFTER INSERT ON comment_notification
-    FOR EACH ROW
-EXECUTE PROCEDURE add_comment_like_notification();
-
-
--- Add comment response notification
-CREATE OR REPLACE FUNCTION add_comment_response_notification() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-INSERT INTO comment_notification (comment, notification_id, user_id, comment_id)
-VALUES ('response', 8, NEW.user_id, NEW.id_comment);
-RETURN NEW;
-END;
-$BODY$
-    LANGUAGE plpgsql;
-
-DROP TRIGGER IF EXISTS add_comment_response_notification ON comment_notification;
-
-CREATE TRIGGER add_comment_response_notification
-    AFTER INSERT ON comment_notification
-    FOR EACH ROW
-EXECUTE PROCEDURE add_comment_response_notification();
-
-
--- Add task assigned notification
-CREATE OR REPLACE FUNCTION add_task_assigned_notification() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-INSERT INTO task_notification (taskType, notification_id, user_id, task_id)
-VALUES ('assigned', 5, NEW.user_id, NEW.id_task);
-RETURN NEW;
-END;
-$BODY$
-    LANGUAGE plpgsql;
-
-DROP TRIGGER IF EXISTS add_task_assigned_notification ON task_notification;
-
-CREATE TRIGGER add_task_assigned_notification
-    AFTER INSERT ON task_notification
-    FOR EACH ROW
-EXECUTE PROCEDURE add_task_assigned_notification();
-
-
--- Add task completed notification
-CREATE OR REPLACE FUNCTION add_task_completed_notification() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-INSERT INTO task_notification (taskType, notification_id, user_id, task_id)
-VALUES ('completed', 6, NEW.user_id, NEW.id_task);
-RETURN NEW;
-END;
-$BODY$
-    LANGUAGE plpgsql;
-
-DROP TRIGGER IF EXISTS add_task_completed_notification ON task_notification;
-
-CREATE TRIGGER add_task_completed_notification
-    AFTER INSERT ON task_notification
-    FOR EACH ROW
-EXECUTE PROCEDURE add_task_completed_notification();
-
-
--- Add project leader notification
-CREATE OR REPLACE FUNCTION add_project_leader_notification() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-INSERT INTO project_notification (projectType, notification_id, user_id, project_id)
-VALUES ('newLeader', 1, NEW.user_id, NEW.id);
-RETURN NEW;
-END;
-$BODY$
-    LANGUAGE plpgsql;
-
-DROP TRIGGER IF EXISTS add_project_leader_notification ON project_notification;
-
-CREATE TRIGGER add_project_leader_notification
-    AFTER INSERT ON project_notification
-    FOR EACH ROW
-EXECUTE PROCEDURE add_project_leader_notification();
-
-
--- Add expelled notification
-CREATE OR REPLACE FUNCTION add_expelled_notification() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-INSERT INTO project_notification (projectType, notification_id, user_id, project_id)
-VALUES ('expelled', 2, NEW.user_id, NEW.id);
-RETURN NEW;
-END;
-$BODY$
-    LANGUAGE plpgsql;
-
-DROP TRIGGER IF EXISTS add_expelled_notification ON project_notification;
-
-CREATE TRIGGER add_expelled_notification
-    AFTER INSERT ON project_notification
-    FOR EACH ROW
-EXECUTE PROCEDURE add_expelled_notification();
-
-
--- Add deleted notification
-CREATE OR REPLACE FUNCTION add_deleted_notification() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-INSERT INTO project_notification (projectType, notification_id, user_id, project_id)
-VALUES ('deleted', 3, NEW.user_id, NEW.id);
-RETURN NEW;
-END;
-$BODY$
-    LANGUAGE plpgsql;
-
-DROP TRIGGER IF EXISTS add_deleted_notification ON project_notification;
-
-CREATE TRIGGER add_deleted_notification
-    AFTER INSERT ON project_notification
-    FOR EACH ROW
-EXECUTE PROCEDURE add_deleted_notification();
-
-
-
--- Add new member notification
-CREATE OR REPLACE FUNCTION add_new_member_notification() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-INSERT INTO project_notification (projectType, notification_id, user_id, project_id)
-VALUES ('newMember', 4, NEW.user_id, NEW.id);
-RETURN NEW;
-END;
-$BODY$
-    LANGUAGE plpgsql;
-
-DROP TRIGGER IF EXISTS add_new_member_notification ON project_notification;
-
-CREATE TRIGGER add_new_member_notification
-    AFTER INSERT ON project_notification
-    FOR EACH ROW
-EXECUTE PROCEDURE add_new_member_notification();
-
-
--- 'A user cant have more than 5 favorite projects'
-DROP TRIGGER IF EXISTS add_favorite ON favorite;
-
-CREATE TRIGGER add_favorite
-    BEFORE INSERT OR UPDATE ON favorite
-    FOR EACH ROW
-EXECUTE PROCEDURE add_favorite();
-
-CREATE OR REPLACE FUNCTION add_favorite() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-    IF ((SELECT COUNT(*)
-        FROM favorite
-        WHERE NEW.generic_user_id = generic_user_id)>=5)
-        THEN
-            RAISE EXCEPTION 'A user cant have more than 5 favorite projects';
-    END IF;
-        RETURN NEW;
-    END;
-$BODY$
-LANGUAGE plpgsql;
-
--- search users
 CREATE OR REPLACE FUNCTION user_search_update() RETURNS TRIGGER AS
 $BODY$
 BEGIN
@@ -395,8 +232,8 @@ CREATE TRIGGER update_user_search
 EXECUTE PROCEDURE user_search_update();
 
 
-
--- search projects
+-- IDX12
+CREATE INDEX searchProject ON projectt USING GIN (search);
 CREATE OR REPLACE FUNCTION project_search_update() RETURNS TRIGGER AS
 $BODY$
 BEGIN
@@ -416,3 +253,179 @@ CREATE TRIGGER update_project_search
     BEFORE INSERT OR UPDATE ON projectt
     FOR EACH ROW
 EXECUTE PROCEDURE project_search_update();
+
+
+-- TRIGGER01
+DROP TRIGGER IF EXISTS add_favorite ON favorite;
+
+CREATE TRIGGER add_favorite
+    BEFORE INSERT OR UPDATE ON favorite
+    FOR EACH ROW
+EXECUTE PROCEDURE add_favorite();
+
+CREATE OR REPLACE FUNCTION add_favorite() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    IF ((SELECT COUNT(*)
+        FROM favorite
+        WHERE NEW.generic_user_id = generic_user_id)>=5)
+        THEN
+            RAISE EXCEPTION 'A user cant have more than 5 favorite projects';
+    END IF;
+        RETURN NEW;
+    END;
+$BODY$
+LANGUAGE plpgsql;
+
+
+-- TRIGGER02
+CREATE OR REPLACE FUNCTION add_new_member_notification() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+INSERT INTO project_notification (projectType, notification_id, user_id, project_id)
+VALUES ('newMember', 4, NEW.user_id, NEW.id);
+RETURN NEW;
+END;
+$BODY$
+    LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS add_new_member_notification ON project_notification;
+
+CREATE TRIGGER add_new_member_notification
+    AFTER INSERT ON project_notification
+    FOR EACH ROW
+EXECUTE PROCEDURE add_new_member_notification();
+
+
+-- TRIGGER03
+CREATE OR REPLACE FUNCTION add_deleted_notification() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+INSERT INTO project_notification (projectType, notification_id, user_id, project_id)
+VALUES ('deleted', 3, NEW.user_id, NEW.id);
+RETURN NEW;
+END;
+$BODY$
+    LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS add_deleted_notification ON project_notification;
+
+CREATE TRIGGER add_deleted_notification
+    AFTER INSERT ON project_notification
+    FOR EACH ROW
+EXECUTE PROCEDURE add_deleted_notification();
+
+
+-- TRIGGER04
+CREATE OR REPLACE FUNCTION add_expelled_notification() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+INSERT INTO project_notification (projectType, notification_id, user_id, project_id)
+VALUES ('expelled', 2, NEW.user_id, NEW.id);
+RETURN NEW;
+END;
+$BODY$
+    LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS add_expelled_notification ON project_notification;
+
+CREATE TRIGGER add_expelled_notification
+    AFTER INSERT ON project_notification
+    FOR EACH ROW
+EXECUTE PROCEDURE add_expelled_notification();
+
+
+-- TRIGGER05
+CREATE OR REPLACE FUNCTION add_project_leader_notification() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+INSERT INTO project_notification (projectType, notification_id, user_id, project_id)
+VALUES ('newLeader', 1, NEW.user_id, NEW.id);
+RETURN NEW;
+END;
+$BODY$
+    LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS add_project_leader_notification ON project_notification;
+
+CREATE TRIGGER add_project_leader_notification
+    AFTER INSERT ON project_notification
+    FOR EACH ROW
+EXECUTE PROCEDURE add_project_leader_notification();
+
+
+-- TRIGGER06
+CREATE OR REPLACE FUNCTION add_task_completed_notification() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+INSERT INTO task_notification (taskType, notification_id, user_id, task_id)
+VALUES ('completed', 6, NEW.user_id, NEW.id_task);
+RETURN NEW;
+END;
+$BODY$
+    LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS add_task_completed_notification ON task_notification;
+
+CREATE TRIGGER add_task_completed_notification
+    AFTER INSERT ON task_notification
+    FOR EACH ROW
+EXECUTE PROCEDURE add_task_completed_notification();
+
+
+--TRIGGER07
+CREATE OR REPLACE FUNCTION add_task_assigned_notification() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+INSERT INTO task_notification (taskType, notification_id, user_id, task_id)
+VALUES ('assigned', 5, NEW.user_id, NEW.id_task);
+RETURN NEW;
+END;
+$BODY$
+    LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS add_task_assigned_notification ON task_notification;
+
+CREATE TRIGGER add_task_assigned_notification
+    AFTER INSERT ON task_notification
+    FOR EACH ROW
+EXECUTE PROCEDURE add_task_assigned_notification();
+
+
+-- TRIGGER08
+CREATE OR REPLACE FUNCTION add_comment_response_notification() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+INSERT INTO comment_notification (comment, notification_id, user_id, comment_id)
+VALUES ('response', 8, NEW.user_id, NEW.id_comment);
+RETURN NEW;
+END;
+$BODY$
+    LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS add_comment_response_notification ON comment_notification;
+
+CREATE TRIGGER add_comment_response_notification
+    AFTER INSERT ON comment_notification
+    FOR EACH ROW
+EXECUTE PROCEDURE add_comment_response_notification();
+
+
+-- TRIGGER09
+CREATE OR REPLACE FUNCTION add_comment_like_notification() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+INSERT INTO comment_notification (comment, notification_id, user_id, comment_id)
+VALUES ('like', 7, NEW.user_id, NEW.id_comment);
+RETURN NEW;
+END;
+$BODY$
+    LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS add_comment_like_notification ON comment_notification;
+
+CREATE TRIGGER add_comment_like_notification
+    AFTER INSERT ON comment_notification
+    FOR EACH ROW
+EXECUTE PROCEDURE add_comment_like_notification();
+
