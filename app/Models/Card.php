@@ -2,24 +2,33 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
+// Added to define Eloquent relationships.
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Card extends Model
 {
-  // Don't add create and update timestamps in database.
-  public $timestamps  = false;
+    use HasFactory;
 
-  /**
-   * The user this card belongs to
-   */
-  public function user() {
-    return $this->belongsTo('App\Models\User');
-  }
+    // Don't add create and update timestamps in database.
+    public $timestamps  = false;
 
-  /**
-   * Items inside this card
-   */
-  public function items() {
-    return $this->hasMany('App\Models\Item');
-  }
+    /**
+     * Get the user that owns the card.
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the items for the card.
+     */
+    public function items(): HasMany
+    {
+        return $this->hasMany(Item::class);
+    }
 }

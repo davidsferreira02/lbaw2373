@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+
+use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\Card;
@@ -11,56 +12,83 @@ use App\Models\Card;
 class CardController extends Controller
 {
     /**
-     * Shows the card for a given id.
-     *
-     * @param  int  $id
-     * @return Response
+     * Show the card for a given id.
      */
-    public function show($id)
+    public function show(string $id): View
     {
-      $card = Card::find($id);
-      $this->authorize('show', $card);
-      return view('pages.card', ['card' => $card]);
+        // Get the card.
+        $card = Card::findOrFail($id);
+
+        // Check if the current user can see (show) the card.
+        $this->authorize('show', $card);  
+
+        // Use the pages.card template to display the card.
+        return view('pages.card', [
+            'card' => $card
+        ]);
     }
 
     /**
      * Shows all cards.
-     *
-     * @return Response
      */
     public function list()
     {
-      if (!Auth::check()) return redirect('/login');
-      $this->authorize('list', Card::class);
-      $cards = Auth::user()->cards()->orderBy('id')->get();
-      return view('pages.cards', ['cards' => $cards]);
+        // Check if the user is logged in.
+        if (!Auth::check()) {
+            // Not logged in, redirect to login.
+            return redirect('/login');
+
+        } else {
+            // The user is logged in.
+
+            // Get cards for user ordered by id.
+            $cards = Auth::user()->cards()->orderBy('id')->get();
+
+            // Check if the current user can list the cards.
+            $this->authorize('list', Card::class);
+
+            // The current user is authorized to list cards.
+
+            // Use the pages.cards template to display all cards.
+            return view('pages.cards', [
+                'cards' => $cards
+            ]);
+        }
     }
 
     /**
      * Creates a new card.
-     *
-     * @return Card The card created.
      */
     public function create(Request $request)
     {
-      $card = new Card();
+        // Create a blank new Card.
+        $card = new Card();
 
-      $this->authorize('create', $card);
+        // Check if the current user is authorized to create this card.
+        $this->authorize('create', $card);
 
-      $card->name = $request->input('name');
-      $card->user_id = Auth::user()->id;
-      $card->save();
+        // Set card details.
+        $card->name = $request->input('name');
+        $card->user_id = Auth::user()->id;
 
-      return $card;
+        // Save the card and return it as JSON.
+        $card->save();
+        return response()->json($card);
     }
 
+    /**
+     * Delete a card.
+     */
     public function delete(Request $request, $id)
     {
-      $card = Card::find($id);
+        // Find the card.
+        $card = Card::find($id);
 
-      $this->authorize('delete', $card);
-      $card->delete();
+        // Check if the current user is authorized to delete this card.
+        $this->authorize('delete', $card);
 
-      return $card;
+        // Delete the card and return it as JSON.
+        $card->delete();
+        return response()->json($card);
     }
 }
