@@ -2,20 +2,20 @@
 
 namespace Database\Seeders;
 
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
-     *
-     * @return void
+     * Seed the application's database.
      */
-    public function run()
+    public function run(): void
     {
-        $path = 'resources/sql/seed.sql';
-        DB::unprepared(file_get_contents($path));
+        $path = base_path('database/thingy-seed.sql');
+        $sql = file_get_contents($path);
+        DB::unprepared($sql);
         $this->command->info('Database seeded!');
     }
 }

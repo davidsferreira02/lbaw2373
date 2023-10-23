@@ -3,5 +3,7 @@
 @section('title', $card->name)
 
 @section('content')
-  @include('partials.card', ['card' => $card])
+    <section id="cards">
+        @include('partials.card', ['card' => $card])
+    </section>
 @endsection

@@ -1,9 +1,20 @@
-create schema if not exists lbaw;
+--
+-- Use a specific schema and set it as default - thingy.
+--
+DROP SCHEMA IF EXISTS thingy CASCADE;
+CREATE SCHEMA IF NOT EXISTS thingy;
+SET search_path TO thingy;
 
+--
+-- Drop any existing tables.
+--
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS cards CASCADE;
 DROP TABLE IF EXISTS items CASCADE;
 
+--
+-- Create tables.
+--
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   name VARCHAR NOT NULL,
@@ -24,6 +35,10 @@ CREATE TABLE items (
   description VARCHAR NOT NULL,
   done BOOLEAN NOT NULL DEFAULT FALSE
 );
+
+--
+-- Insert value.
+--
 
 INSERT INTO users VALUES (
   DEFAULT,

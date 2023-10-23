@@ -2,12 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Notifications\Notifiable;
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+
+// Added to define Eloquent relationships.
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     // Don't add create and update timestamps in database.
     public $timestamps  = false;
@@ -15,25 +21,39 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
+     * The attributes that should be hidden for serialization.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
-     * The cards this user owns.
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
      */
-     public function cards() {
-      return $this->hasMany('App\Models\Card');
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
+
+    /**
+     * Get the cards for a user.
+     */
+    public function cards(): HasMany
+    {
+        return $this->hasMany(Card::class);
     }
 }
