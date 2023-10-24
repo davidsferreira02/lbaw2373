@@ -116,14 +116,22 @@ paths:
               properties:
                 name:
                   type: string
+                username:
+                  type: string
                 email:
                   type: string
-                picture:
+                birthdate:
+                  type: date
+                profilePic:
                   type: string
                   format: binary
+                isBanned:
+                  type: boolean
               required:
                 - email
                 - password
+                - birthdate
+                - profilePic
 
       responses:
         '302':
