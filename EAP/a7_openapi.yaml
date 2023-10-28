@@ -2,42 +2,63 @@ openapi: 3.0.0
 
 info:
   version: '1.0'
-  title: 'LBAW MediaLibrary Web API'
-  description: 'Web Resources Specification (A7) for MediaLibrary'
+  title: 'LBAW Project TaskSquad'
+  description: 'Web Resources Specification (A7) for TaskSquad'
 
 servers:
-- url: http://lbaw.fe.up.pt
+- url: http://lbaw2373.lbaw.fe.up.pt
   description: Production server
 
-externalDocs:
-  description: Find more info here.
-  url: https://web.fe.up.pt/~ssn/wiki/teach/lbaw/medialib/a07
-
 tags:
-  - name: 'M01: Authentication and Individual Profile'
-  - name: 'M02: Works'
-  - name: 'M03: Reviews and Wish list'
-  - name: 'M04: Loans'
-  - name: 'M05: User Administration and Static pages'
+  - name: 'M01: Static Pages'
+  - name: 'M02: Authentication'
+  - name: 'M03: Authenticated user'
+  - name: 'M04: Project Area'
+  - name: 'M05: Tasks'
+  - name: 'M06: Administrator Area'
 
 paths:
-
-  /login:
+#-------------------------------- M01 -----------------------------------------
+  /about-us/:
     get:
       operationId: R101
-      summary: 'R101: Login Form'
+      summary: 'R101: See About Us'
+      description: 'Provide description about website and its creators. Access: PUB'
+      tags:
+      - 'M01: Static Pages'
+      responses: 
+        '200':
+          description: 'Ok. Show About Us page' 
+
+  /home/:
+    get:
+      operationId: R102
+      summary: 'R102: Home'
+      description: 'The Home Page is the central point of entry to our website, serving as a gateway to our services. Access: PUB'
+      tags:
+      - 'M01: Static Pages'
+      responses: 
+        '200':
+          description: 'Ok. Show Home page'         
+ 
+
+#-------------------------------- M02 -----------------------------------------
+  /login:
+    get:
+      operationId: R201
+      summary: 'R201: Login Form'
       description: 'Provide login form. Access: PUB'
       tags:
-        - 'M01: Authentication and Individual Profile'
+        - 'M02: Authentication'
       responses:
         '200':
           description: 'Ok. Show log-in UI'
     post:
-      operationId: R102
-      summary: 'R102: Login Action'
+      operationId: R202
+      summary: 'R202: Login Action'
       description: 'Processes the login form submission. Access: PUB'
       tags:
-        - 'M01: Authentication and Individual Profile'
+        - 'M02: Authentication'
  
       requestBody:
         required: true
@@ -63,49 +84,29 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: 'Successful authentication. Redirect to user profile.'
-                  value: '/users/{id}'
+                  description: 'Successful authentication. Redirect to projects page.'
+                  value: '/projects'
                 302Error:
                   description: 'Failed authentication. Redirect to login form.'
                   value: '/login'
- 
-  /logout:
-
-    post:
-      operationId: R103
-      summary: 'R103: Logout Action'
-      description: 'Logout the current authenticated used. Access: USR, ADM'
-      tags:
-        - 'M01: Authentication and Individual Profile'
-      responses:
-        '302':
-          description: 'Redirect after processing logout.'
-          headers:
-            Location:
-              schema:
-                type: string
-              examples:
-                302Success:
-                  description: 'Successful logout. Redirect to login form.'
-                  value: '/login'
-
+                  
   /register:
     get:
-      operationId: R104
-      summary: 'R104: Register Form'
+      operationId: R203
+      summary: 'R203: Register Form'
       description: 'Provide new user registration form. Access: PUB'
       tags:
-        - 'M01: Authentication and Individual Profile'
+        - 'M02: Authentication'
       responses:
         '200':
           description: 'Ok. Show sign-up UI'
 
     post:
-      operationId: R105
-      summary: 'R105: Register Action'
+      operationId: R204
+      summary: 'R204: Register Action'
       description: 'Processes the new user registration form submission. Access: PUB'
       tags:
-        - 'M01: Authentication and Individual Profile'
+        - 'M02: Authentication'
 
       requestBody:
         required: true
@@ -116,22 +117,12 @@ paths:
               properties:
                 name:
                   type: string
-                username:
-                  type: string
                 email:
                   type: string
-                birthdate:
-                  type: date
-                profilePic:
-                  type: string
-                  format: binary
-                isBanned:
-                  type: boolean
               required:
+                - name
                 - email
                 - password
-                - birthdate
-                - profilePic
 
       responses:
         '302':
@@ -142,106 +133,55 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: 'Successful authentication. Redirect to user profile.'
-                  value: '/users/{id}'
+                  description: 'Successful authentication. Redirect to the projects page.'
+                  value: '/projects'
                 302Failure:
                   description: 'Failed authentication. Redirect to login form.'
                   value: '/login'
-
-  /users/{id}:
-    get:
-      operationId: R106
-      summary: 'R106: View user profile'
-      description: 'Show the individual user profile. Access: USR'
-      tags:
-        - 'M01: Authentication and Individual Profile'
-
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-
-      responses:
-        '200':
-          description: 'Ok. Show view profile UI'
  
-
-  /api/works:
+  /password/recovery:
     get:
-      operationId: R202
-      summary: 'R202: Search Works API'
-      description: 'Searches for works and returns the results as JSON. Access: PUB.'
+      operationId: R205
+      summary: 'R205: Password Recovery Form'
+      description: 'Provide password recovery form. Access: PUB'
+      tags:
+        - 'M02: Authentication'
+      responses:
+        '200':  
+          description: 'Ok. Show password recovery form'
+    post:
+      operationId: R206
+      summary: 'R206: Recover Password Action'
+      description: "Recover a user's password"
+      tags:
+        - 'M02: Authentication'
 
-      tags: 
-        - 'M02: Works'
-
-      parameters:
-        - in: query
-          name: query
-          description: String to use for full-text search
-          schema:
-            type: string
-          required: false
-        - in: query
-          name: item
-          description: Category of the works
-          schema:
-            type: string
-          required: false
-        - in: query
-          name: loaned
-          description: Boolean with the loaned flag value
-          schema:
-            type: boolean
-          required: false
-        - in: query
-          name: owner
-          description: Boolean with the owner flag value
-          schema:
-            type: boolean
-          required: false
-        - in: query
-          name: classification
-          description: Integer corresponding to the work classification
-          schema:
-            type: integer
-          required: false
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                inputEmail:
+                  type: string
+              required:
+                - inputEmail
 
       responses:
-        '200':
-          description: Success
-          content:
-            application/json:
+        '303':
+          description: 'Redirect after processing password recovery request'
+          headers:
+            Location:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                    title:
-                      type: string
-                    obs:
-                      type: string
-                    year:
-                      type: string
-                    owner:
-                      type: string
-                    type:
-                      type: string
-                example:
-                  - id: 1
-                    title: Rihanna - Unapologetic
-                    obs: Good pop music album.
-                    year: 2012
-                    owner: Joana Lima
-                    type: MP3
-                  - id: 15
-                    title: Mr. Bean
-                    obs: The best comedy movie.
-                    year: 1995
-                    owner: Manuel Teixeira
-                    type: DVD
+                type: string
+              examples:
+                303Success:
+                  description: 'Ok. Redirect to login.'
+                  value: '/login/'
+                303Error:
+                  description: 'Failed password recovery. Redirect to password recovery.'
+                  value: '/login/'
 
+ # ---------------------------- M03 -----------------------------------------------
+  
