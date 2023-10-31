@@ -205,49 +205,19 @@ paths:
                 302Success:
                   description: 'Successful logout. Redirect to login form.'
                   value: '/login'
-  
-
  /userpage:
-    get:
-      operationId: R302
-      summary: 'R302: View user profile'
-      description: 'Show the individual user profile. Access: OWN'
-      tags:
-        - 'M03: Authenticated User Area'
+  get:
+    operationId: R302
+    summary: 'R302: View user profile'
+    description: 'Show the individual user profile. Access: OWN'
+    tags:
+      - 'M03: Authenticated User Area'
 
-      responses:
-        '200':
-          description: 'Ok. Show view profile UI'
-          content:
-              schema:
-               type: object
-                 properties:
-                 name:
-                  type: string
-                 email:
-                  type: string
-                 description:
-                  type: string
-  
- /edituserpage:
-    get:
-      operationId: R303
-      summary: 'R303: Edit user profile form'
-      description: 'Show the individual user profile edit form. Access: OWN'
-      tags:
-        - 'M03: Authenticated User Area'
-
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-
-      responses:
-        '200':
-          description: 'Ok. Show edit profile UI'
-          content:
+    responses:
+      '200':
+        description: 'Ok. Show view profile UI'
+        content:
+          application/json:
             schema:
               type: object
               properties:
@@ -257,42 +227,71 @@ paths:
                   type: string
                 description:
                   type: string
-    post:
-     operationID: R304
-     summary: 'R304: Edit user profile action'
-     description: 'Edit user profile. Access: OWN'
-     tags:
-        - 'M03: Authenticated User Area'
-     requestBody:
+
+  
+ /edituserpage:
+  get:
+    operationId: R303
+    summary: 'R303: Edit user profile form'
+    description: 'Show the individual user profile edit form. Access: OWN'
+    tags:
+      - 'M03: Authenticated User Area'
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
         required: true
+    responses:
+      '200':
+        description: 'Ok. Show edit profile UI'
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
               type: object
               properties:
-                inputName:
+                name:
                   type: string
-                inputEmail:
+                email:
                   type: string
-                inputDescription:
+                description:
                   type: string
-                inputProfilePicture:
-                  type: string
-
-      responses:
-        '302':
-          description: 'Redirect after processing the new user information.'
-          headers:
-            Location:
-              schema:
+  post:
+    operationId: R304
+    summary: 'R304: Edit user profile action'
+    description: 'Edit user profile. Access: OWN'
+    tags:
+      - 'M03: Authenticated User Area'
+    requestBody:
+      required: true
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            type: object
+            properties:
+              inputName:
                 type: string
-              examples:
-                302Success:
-                  description: 'Information successfully processed. Redirect to user profile.'
-                  value: '/userpage'
-                302Failure:
-                  description: 'Failed to process information. Redirect to edit user information form.'
-                  value: '/edituserpage'
+              inputEmail:
+                type: string
+              inputDescription:
+                type: string
+              inputProfilePicture:
+                type: string
+    responses:
+      '302':
+        description: 'Redirect after processing the new user information.'
+        headers:
+          Location:
+            schema:
+              type: string
+            examples:
+              302Success:
+                description: 'Information successfully processed. Redirect to user profile.'
+                value: '/userpage'
+              302Failure:
+                description: 'Failed to process information. Redirect to edit user information form.'
+                value: '/edituserpage'
+
  /deleteuser:
     get:
       operationId: R305
@@ -304,270 +303,268 @@ paths:
       responses:
         '200':
           description: 'Ok. Account Deleted'
-
  /changePassword:
-    get:
-      operationId: R306
-      summary: "R306: Change user's password form"
-      description: 'Show the password change form. Access: OWN'
-      tags:
-        - 'M03: Authenticated User Area'
-
-      responses:
-        '200':
-          description: 'Ok. Show edit profile UI'
-    post:
-      operationID: R307
-      summary: "R307: Change user's password"
-      description: "Change user's password"
-      tags:
-        - 'M03: Authenticated User Area'
-      requestBody:
-        required: true
-
-      responses:
-        '302':
-          description: 'Redirect after processing the new user information.'
-          headers:
-            Location:
-              schema:
+  get:
+    operationId: R306
+    summary: "R306: Change user's password form"
+    description: 'Show the password change form. Access: OWN'
+    tags:
+      - 'M03: Authenticated User Area'
+    responses:
+      '200':
+        description: 'Ok. Show edit profile UI'
+  post:
+    operationId: R307
+    summary: "R307: Change user's password"
+    description: "Change user's password"
+    tags:
+      - 'M03: Authenticated User Area'
+    requestBody:
+      required: true
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            type: object
+            properties:
+              inputName:
                 type: string
-              examples:
-                302Success:
-                  description: 'Information successfully processed. Redirect to user profile.'
-                  value: '/userpage'
-                302Failure:
-                  description: 'Failed to process information. Redirect to edit user information form.'
-                  value: '/edituserpage'
-                  
-  
- #------------------------------- M04 -----------------------------------------------------------------
+              inputEmail:
+                type: string
+              inputDescription:
+                type: string
+    responses:
+      '302':
+        description: 'Redirect after processing the new user information.'
+        headers:
+          Location:
+            schema:
+              type: string
+            examples:
+              302Success:
+                description: 'Information successfully processed. Redirect to user profile.'
+                value: '/userpage'
+              302Failure:
+                description: 'Failed to process information. Redirect to edit user information form.'
+                value: '/edituserpage'
 
  /create-project:
-    get:
-      operationId: R401
-      summary: 'R401: Create New Project Form'
-      description: 'Create New Project. Access: USR'
-      tags:
-        - 'MO4: Project Area'
-      responses:
-       '200':
+  get:
+    operationId: R401
+    summary: 'R401: Create New Project Form'
+    description: 'Create New Project. Access: USR'
+    tags:
+      - 'MO4: Project Area'
+    responses:
+      '200':
         description: 'Ok. Show edit profile UI'
         content:
-          schema:
-            type: array
-               items:
-               type: object
-               properties:
-                company:
-                  type: string
-
- /api/project/create:
-    post:
-      operationId: R402
-      summary: 'R402: Create New Project Action'
-      description: 'Create New Project. Access: USR'
-      tags:
-        - 'M04: Project Area'
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
-              type: object
-              properties:
-                inputName:
-                  type: string
-                inputCompanyID:
-                  type: integer
-                inputDescription:
-                  type: string
-                inputAssignedMembers:
-                  type: string
-      responses:
-        '302':
-            description: 'Redirect after processing the project information.'
-            headers:
-              Location:
-                schema:
-                  type: string
-                examples:
-                  302Success:
-                    description: 'Success. Redirect to project area.'
-                    value: '/project/{id}'
-                  302Error:
-                    description: 'Failed. Redirect to project creation form.'
-                    value: '/create-project/'
-
-
-project/{id}:
-    get:
-        operationID: R403
-        summary: "R403: See project page"
-        description: "See the project page and all its information. Access: PM"
-        tags:
-          - 'M04: Project Area'
-        parameters:
-          - in: path
-            name: id
-            schema:
-              type: integer
-            required: true
-
-        responses:
-          '200':
-            description: 'Ok. Show project page UI'
-            content:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                    members:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          $ref: '#/components/schemas/User'
-          delete:
-            operationID: R404
-            summary: "R404: Delete Project"
-            description: "Delete a Project. Access: PL"
-            tags:
-              - 'M04: Project Area'
-            parameters:
-            - in: path
-            name: id
-            schema:
-            type: integer
-            required: true
-            responses:
-            '200':
-              description: 'Project deleted'
-
-  
-
-
-/api/load-users:
-    get:
-      operationId: R405
-      summary: 'R405: Load Users'
-      description: 'Load Users. Access: PM'
-      tags:
-        - 'M04: Project Area'
-      responses:
-        '200':
-          description: "Return users for pagination"
-          content: 
-            application/json:
-              schema:
+              type: array
+              items:
                 type: object
                 properties:
-                  posts:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/User'
-        '400':
-          description: "Error in parameters"
-            
-/project/{project_id}/search:
-    get:
-      operationId: R406
-      summary: 'R406: Search Tasks API'
-      description: 'Searches for tasks and returns the results as JSON. Access: PM.'
+                  company:
+                    type: string
 
-      tags: 
-        - 'M04: Project Area'
-
-      parameters:
-        - in: query
-          name: query
-          description: String to use for full-text search
+ /api/project/create:
+  post:
+    operationId: R402
+    summary: 'R402: Create New Project Action'
+    description: 'Create New Project. Access: USR'
+    tags:
+      - 'M04: Project Area'
+    requestBody:
+      required: true
+      content:
+        application/x-www-form-urlencoded:
           schema:
-            type: string
-          required: true
+            type: object
+            properties:
+              inputName:
+                type: string
+              inputCompanyID:
+                type: integer
+              inputDescription:
+                type: string
+              inputAssignedMembers:
+                type: string
+    responses:
+      '302':
+        description: 'Redirect after processing the project information.'
+        headers:
+          Location:
+            schema:
+              type: string
+            examples:
+              302Success:
+                description: 'Success. Redirect to project area.'
+                value: '/project/{id}'
+              302Error:
+                description: 'Failed. Redirect to project creation form.'
+                value: '/create-project/'
 
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items: 
-                  $ref: '#/components/schemas/Task'
-                   
-/api/task/{project_id}:
-    put:
-      operationId: R407
-      summary: "R407: Create new task"
-      description: "Create a new task. Access: PM"
-      tags:
-        - 'M04: Project Area'
-      requestBody:
+ /project/{id}:
+  get:
+    operationId: R403
+    summary: "R403: See project page"
+    description: "See the project page and all its information. Access: PM"
+    tags:
+      - 'M04: Project Area'
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
         required: true
+    responses:
+      '200':
+        description: 'Ok. Show project page UI'
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
               type: object
               properties:
-                task-name:
+                name:
                   type: string
-                task-description:
-                  type: string
-                task-members:
+                members:
                   type: array
                   items:
                     $ref: '#/components/schemas/User'
-                due-date:
-                  type: string
-      responses:
-        '201':
-          description: 'Task created'
+  delete:
+    operationId: R404
+    summary: "R404: Delete Project"
+    description: "Delete a Project. Access: PL"
+    tags:
+      - 'M04: Project Area'
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+    responses:
+      '200':
+        description: 'Project deleted'
 
-api/task/{id}:
-    get:
-      operationID: R408
-      summary: "R408: Get task info"
-      description: "Get the task's information. Access: PM"
-      tags:
-        - 'M04: Project Area'
-      parameters:
-        - in: path
-          name: id
+ /api/load-users:
+  get:
+    operationId: R405
+    summary: 'R405: Load Users'
+    description: 'Load Users. Access: PM'
+    tags:
+      - 'M04: Project Area'
+    responses:
+      '200':
+        description: "Return users for pagination"
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                posts:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/User'
+      '400':
+        description: "Error in parameters"
+            
+ /project/{project_id}/search:
+  get:
+    operationId: R406
+    summary: 'R406: Search Tasks API'
+    description: 'Search for tasks and return the results as JSON. Access: PM.'
+    tags: 
+      - 'M04: Project Area'
+    parameters:
+      - in: query
+        name: query
+        description: String to use for full-text search
+        schema:
+          type: string
+        required: true
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              type: array
+              items: 
+                $ref: '#/components/schemas/Task'
+                   
+ /api/task/{project_id}:
+  put:
+    operationId: R407
+    summary: "R407: Create new task"
+    description: "Create a new task. Access: PM"
+    tags:
+      - 'M04: Project Area'
+    requestBody:
+      required: true
+      content:
+        application/x-www-form-urlencoded:
           schema:
-            type: integer
-          required: true
-
-      responses:
-        '200':
-          description: 'Ok. Show task page UI'
-          content:
-            application/json:
-              schema:
+            type: object
+            properties:
+              task-name:
+                type: string
+              task-description:
+                type: string
+              task-members:
                 type: array
-                items: 
-                  $ref: '#/components/schemas/Task'
-    delete:
-      operationID: R409
-      summary: "R409: Delete task"
-      description: "Delete a task. Access: PM"
-      tags:
-        - 'M04: Project Area'
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
+                items:
+                  $ref: '#/components/schemas/User'
+              due-date:
+                type: string
+    responses:
+      '201':
+        description: 'Task created'
 
-      responses:
-        '200':
-           description: 'Task deleted'
+ /api/task/{id}:
+  get:
+    operationId: R408
+    summary: "R408: Get task info"
+    description: "Get the task's information. Access: PM"
+    tags:
+      - 'M04: Project Area'
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+    responses:
+      '200':
+        description: 'Ok. Show task page UI'
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                members:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Task'
+  delete:
+    operationId: R409
+    summary: "R409: Delete task"
+    description: "Delete a task. Access: PM"
+    tags:
+      - 'M04: Project Area'
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+    responses:
+      '200':
+        description: 'Task deleted'
     post:
-      operationID: R410
+      operationId: R410
       summary: "R410: Update task info"
       description: "Update the task's information. Access: PM"
       tags:
@@ -591,17 +588,20 @@ api/task/{id}:
                   type: string
       responses:
         '200':
-         description: 'Task updated'
+          description: 'Task updated'
+
+ /user_admin:
+  
+  post:
+    operationId: R601
+    summary: "R601: Invite a user to be admin"
+    description: "Invite a user to be an admin in the workspace. Access: ADM"
+    tags:
+      - 'M06: Administrator Area'
 
 
-#------------------------------- M06 -----------------------------------------------------------------
-/user_admin:
-    post:
-      operationID: R601
-      summary: "R601: Invite a user to be admin"
-      description: "Invite a user to be admin workspace. Access: ADM"
-      tags:
-        - 'M06:  Administrator Area'
+
+
 
       
 # -------------------- Components --------------------
