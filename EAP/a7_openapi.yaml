@@ -14,26 +14,25 @@ tags:
   - name: 'M02: Authentication'
   - name: 'M03: Authenticated User Area'
   - name: 'M04: Project Area'
-  - name: 'M05': Comment Area'
+  - name: 'M05: Comment Area'
   - name: 'M06:  Administrator Area'
 
 paths:
 #-------------------------------- M01 -----------------------------------------
 
-  /:
+
+ /:
     get:
-      operationID: R101
-      summary: 'R101: Home page'
+      operationId: R101
+      summary: 'R101: Home Page'
       description: 'See the home page when you access the app. Access: PUB'
       tags:
       - 'M01: Static Pages'
       responses:
-      '200':
-        description: 'Ok. Show homepage'
-
-
-
-  /about-us/:
+       '200':
+        description: 'Ok. Show homepage' 
+ 
+ /about-us/:
     get:
       operationId: R102
       summary: 'R102: About Us'
@@ -41,13 +40,11 @@ paths:
       tags:
       - 'M01: Static Pages'
       responses:
-      '200':
+       '200':
         description: 'Ok. Show About Us page' 
 
-
-
 #-------------------------------- M02 -----------------------------------------
-  /login:
+ /login:
     get:
       operationId: R201
       summary: 'R201: Login Form'
@@ -93,8 +90,8 @@ paths:
                 302Error:
                   description: 'Failed authentication. Redirect to login form.'
                   value: '/login'
-                  
-  /register:
+
+ /register:
     get:
       operationId: R203
       summary: 'R203: Register Form'
@@ -143,7 +140,7 @@ paths:
                   description: 'Failed authentication. Redirect to login form.'
                   value: '/login'
  
-  /password/recovery:
+ /password/recovery:
     get:
       operationId: R205
       summary: 'R205: Password Recovery Form'
@@ -189,7 +186,7 @@ paths:
 
  # ---------------------------- M03 -----------------------------------------------
   
-  /logout:
+ /logout:
 
     post:
       operationId: R301
@@ -210,7 +207,7 @@ paths:
                   value: '/login'
   
 
-  /userpage:
+ /userpage:
     get:
       operationId: R302
       summary: 'R302: View user profile'
@@ -222,17 +219,17 @@ paths:
         '200':
           description: 'Ok. Show view profile UI'
           content:
-            schema:
-              type: object
-              properties:
-                name:
+              schema:
+               type: object
+                 properties:
+                 name:
                   type: string
-                email:
+                 email:
                   type: string
-                description:
+                 description:
                   type: string
   
-  /edituserpage:
+ /edituserpage:
     get:
       operationId: R303
       summary: 'R303: Edit user profile form'
@@ -261,12 +258,12 @@ paths:
                 description:
                   type: string
     post:
-      operationID: R304
-      summary: 'R304: Edit user profile action'
-      description: 'Edit user profile. Access: OWN'
-      tags:
+     operationID: R304
+     summary: 'R304: Edit user profile action'
+     description: 'Edit user profile. Access: OWN'
+     tags:
         - 'M03: Authenticated User Area'
-      requestBody:
+     requestBody:
         required: true
         content:
           application/x-www-form-urlencoded:
@@ -280,7 +277,7 @@ paths:
                 inputDescription:
                   type: string
                 inputProfilePicture:
-                  type: file
+                  type: string
 
       responses:
         '302':
@@ -296,7 +293,7 @@ paths:
                 302Failure:
                   description: 'Failed to process information. Redirect to edit user information form.'
                   value: '/edituserpage'
-  /deleteuser:
+ /deleteuser:
     get:
       operationId: R305
       summary: "R305: Delete User"
@@ -308,7 +305,7 @@ paths:
         '200':
           description: 'Ok. Account Deleted'
 
-  /changePassword:
+ /changePassword:
     get:
       operationId: R306
       summary: "R306: Change user's password form"
@@ -346,7 +343,7 @@ paths:
   
  #------------------------------- M04 -----------------------------------------------------------------
 
-  /create-project:
+ /create-project:
     get:
       operationId: R401
       summary: 'R401: Create New Project Form'
@@ -354,18 +351,18 @@ paths:
       tags:
         - 'MO4: Project Area'
       responses:
-      '200':
+       '200':
         description: 'Ok. Show edit profile UI'
         content:
           schema:
             type: array
-            items:
-              type: object
-              properties:
+               items:
+               type: object
+               properties:
                 company:
                   type: string
 
-  /api/project/create:
+ /api/project/create:
     post:
       operationId: R402
       summary: 'R402: Create New Project Action'
@@ -401,8 +398,9 @@ paths:
                   302Error:
                     description: 'Failed. Redirect to project creation form.'
                     value: '/create-project/'
-          
-  project/{id}:
+
+
+project/{id}:
     get:
         operationID: R403
         summary: "R403: See project page"
@@ -439,21 +437,20 @@ paths:
             description: "Delete a Project. Access: PL"
             tags:
               - 'M04: Project Area'
-           parameters:
-           - in: path
-           name: id
-           schema:
+            parameters:
+            - in: path
+            name: id
+            schema:
             type: integer
             required: true
-
-           responses:
+            responses:
             '200':
               description: 'Project deleted'
 
   
 
 
-  /api/load-users:
+/api/load-users:
     get:
       operationId: R405
       summary: 'R405: Load Users'
@@ -475,7 +472,7 @@ paths:
         '400':
           description: "Error in parameters"
             
-  /project/{project_id}/search:
+/project/{project_id}/search:
     get:
       operationId: R406
       summary: 'R406: Search Tasks API'
@@ -502,7 +499,7 @@ paths:
                 items: 
                   $ref: '#/components/schemas/Task'
                    
-  /api/task/{project_id}:
+/api/task/{project_id}:
     put:
       operationId: R407
       summary: "R407: Create new task"
@@ -530,7 +527,7 @@ paths:
         '201':
           description: 'Task created'
 
-  api/task/{id}:
+api/task/{id}:
     get:
       operationID: R408
       summary: "R408: Get task info"
@@ -597,12 +594,8 @@ paths:
          description: 'Task updated'
 
 
-   
-#-------------------------------- M05 -----------------------------------------
-  
-
 #------------------------------- M06 -----------------------------------------------------------------
-  /invite-user-admin:
+/user_admin:
     post:
       operationID: R601
       summary: "R601: Invite a user to be admin"
@@ -640,7 +633,7 @@ components:
           name:
             type: string
           email: 
-            type: String
+            type: string
           profile_description:
             type: string
           profile_image:
