@@ -569,6 +569,8 @@ paths:
                 type: string
               task-members:
                 type: array
+              dead-line:
+                type: string
                 items:
                   $ref: '#/components/schemas/User'
               due-date:
@@ -602,12 +604,14 @@ paths:
                   type: string
                 members:
                   type: array
+                dead-line:
+                  type: array  
                   items:
                     $ref: '#/components/schemas/Task'
   delete:
     operationId: R409
     summary: "R409: Delete task"
-    description: "Delete a task. Access: PM"
+    description: "Delete a task. Access: OWN"
     tags:
       - 'M04: Project Area'
     parameters:
@@ -640,21 +644,15 @@ paths:
                   type: array
                   items:
                     $ref: '#/components/schemas/User'
-                due-date:
+                dead-line:
                   type: string
       responses:
         '200':
           description: 'Task updated'
-
-
-
-
-
-
  /admin:
-    get:
+     get:
       operationId: R501
-      summary: "R601: Admin Page"
+      summary: "R501: Admin Page"
       description: "Show administrator page. Access: ADM"
       tags:
         - "M05:Admin Pages"
