@@ -14,8 +14,7 @@ tags:
   - name: 'M02: Authentication'
   - name: 'M03: Authenticated User Area'
   - name: 'M04: Project Area'
-  - name: 'M05: Comment Area'
-  - name: 'M06:  Administrator Area'
+  - name: 'M05:  Admin Page'
 
 paths:
 #-------------------------------- M01 -----------------------------------------
@@ -42,6 +41,22 @@ paths:
       responses:
        '200':
         description: 'Ok. Show About Us page' 
+
+ /404:
+    get:
+      operationId: R
+      summary: "R805: Not Found Page"
+      description: "Show Nexus Not Found page. Access: PUB"
+      tags:
+        - "M08: User Administration and Static pages"
+
+      responses:
+        "302":
+          description: "Ok. Show features page UI"
+        "404":
+          description: "Page not available"
+
+       
 
 #-------------------------------- M02 -----------------------------------------
  /login:
@@ -347,6 +362,47 @@ paths:
                 description: 'Failed to process information. Redirect to edit user information form.'
                 value: '/edituserpage'
 
+ /profile/{username}:
+    get:
+      operationId: R308
+      summary: 'R308: Profile page'
+      description: 'Show the profile page . Access: USR'
+      tags:
+        - 'M03: Authenticated User Area'
+
+      parameters:
+        - in: path
+          name: username
+          schema:
+            type: string
+          required: true
+
+      responses:
+        '200':
+          description: 'Ok. Show profile page'
+        '404':
+            description: 'Profile not found'          
+
+ /search/{query}:
+    get:
+      operationId: R309
+      summary: "R309: Search"
+      description: "Show Search hits page. Access: PUB"
+      tags:
+        - 'M03: Authenticated User Area'
+
+      parameters:
+        - in: query
+          name: query
+          description: 'Queried String'
+          schema: 
+            type: string
+          required: true
+
+      responses:
+        "302":
+          description: "Ok. Show search page"             
+
  /create-project:
   get:
     operationId: R401
@@ -563,7 +619,7 @@ paths:
     responses:
       '200':
         description: 'Task deleted'
-    post:
+  post:
       operationId: R410
       summary: "R410: Update task info"
       description: "Update the task's information. Access: PM"
@@ -590,16 +646,24 @@ paths:
         '200':
           description: 'Task updated'
 
- /user_admin:
-  
-  post:
-    operationId: R601
-    summary: "R601: Invite a user to be admin"
-    description: "Invite a user to be an admin in the workspace. Access: ADM"
-    tags:
-      - 'M06: Administrator Area'
 
 
+
+
+
+ /admin:
+    get:
+      operationId: R501
+      summary: "R601: Admin Page"
+      description: "Show administrator page. Access: ADM"
+      tags:
+        - "M05:Admin Pages"
+
+      responses:
+        "302":
+          description: "Ok. Show admin UI"
+        "404": 
+          description: "Page not available"
 
 
 
