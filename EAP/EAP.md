@@ -1,3 +1,55 @@
+## EAP
+
+
+
+ 
+
+
+### A7: Web Resources Specification
+
+The web application architecture that has to be developed is described, along with a list of resources and their attributes, such as graphical interface references and response formats in JSON. 
+
+
+### 1. Overview
+
+Identify and overview the modules that will be part of the application.
+
+|Module| Description|
+|---|---|
+| M01: Static Pages| Website pages connected with static information such as about us page and Contact us|  
+| M02 : Authentication|Web resources with user authentication,includes register,login,logout and passorwd recovery |   
+| M03 :Authenticated User|Web resources related to managing and customizing the user's personal area and deleting the account.| 
+| M04 : Project Area|The project area holds all member-related information and is responsible for managing the project hierarchy.|
+|M05:Administrator Area |Web resources associated with the administrator capabilities of the organization include user management, which enables the administrator to add or remove users from the workspace.|
+
+
+### 2. Permissions
+
+Define the permissions used by each module, necessary to access its data and features.
+
+| Identifier| Name|Description | 
+|---|---|---|
+|Pub| Public | Users without privileges| 
+| OWN|Owner  | The owner of the content like project,task or comment| 
+|USR|User  | Authenticated users| 
+| PM|Project Member | Member of a project|
+| PL|Project Leader | Leader of a project| 
+|ADM|Admin |System administrator |
+
+
+
+
+
+### 3. OpenAPI Specification
+
+OpenAPI specification in YAML format to describe the vertical prototype's web resources.
+
+
+[Link to a7_openapi.yaml file](https://git.fe.up.pt/lbaw/lbaw2324/lbaw2373/-/blob/main/EAP/a7_openapi.yaml?ref_type=heads)
+
+
+
+```yaml 
 openapi: 3.0.0
 
 info:
@@ -44,11 +96,11 @@ paths:
 
  /404:
     get:
-      operationId: R103
-      summary: "R103: Not Found Page"
-      description: "Show TaskSquad Not Found page. Access: PUB"
+      operationId: R
+      summary: "R805: Not Found Page"
+      description: "Show Nexus Not Found page. Access: PUB"
       tags:
-        - 'M01: Static Pages'
+        - "M08: User Administration and Static pages"
 
       responses:
         "302":
@@ -700,3 +752,80 @@ components:
             type: string
           profile_image:
             type: string
+
+
+```
+
+### A8: Vertical prototype
+
+Brief presentation of the artifact goals.
+
+
+1. Implemented Features
+
+1.1. Implemented User Stories
+
+Identify the user stories that were implemented in the prototype.
+
+
+User Story  reference |	Name|Priority| Description|
+| ----------- | -------------------------------------------------------|-----------|---------|
+|US01| Name of the user story	 | Priority of the user story|Description of the user story
+
+
+
+
+
+
+
+
+
+...
+
+#### 1.2. Implemented Web Resources
+
+Identify the web resources that were implemented in the prototype.
+
+
+Module M01: Module Name
+
+
+
+
+Web Resource Reference
+URL
+
+
+
+
+R01: Web resource name
+URL to access the web resource
+
+
+
+...
+
+Module M02: Module Name
+
+...
+
+2. Prototype
+
+URL of the prototype plus user credentials necessary to test all features.
+Link to the prototype source code in the group's git repository.
+
+
+
+Revision history
+Changes made to the first submission:
+
+Item 1
+..
+
+
+GROUP2373, 20/10/2023
+
+    David dos Santos Ferreira , up202006302@fc.up.pt (Editor)
+    Ana Sofia Oliveira Teixeira , up201806629@fe.up.pt
+    Ana Sofia Silva Pinto , up202004606@fc.up.pt
+    Gabriela Dias Salazar Neto Silva , up202004443@fe.up.pt
