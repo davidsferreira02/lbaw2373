@@ -7,7 +7,7 @@ use App\Http\Controllers\ItemController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
-
+use App\Http\Controllers\ProjectController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -53,3 +53,12 @@ Route::controller(RegisterController::class)->group(function () {
     Route::get('/register', 'showRegistrationForm')->name('register');
     Route::post('/register', 'register');
 });
+
+
+Route::controller(ProjectController::class)->group(function () {
+    
+    Route::get('/create-project', 'showCreateProjectForm')->name('project.create');
+    Route::post('/create-project', 'store')->name('project.store');
+
+});
+

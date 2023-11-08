@@ -6,7 +6,7 @@ info:
   description: 'Web Resources Specification (A7) for TaskSquad'
 
 servers:
-- url: http://lbaw2371.lbaw.fe.up.pt
+- url: http://lbaw2373.lbaw.fe.up.pt
   description: Production server
 
 tags:
@@ -14,9 +14,13 @@ tags:
   - name: 'M02: Authentication'
   - name: 'M03: Authenticated User Area'
   - name: 'M04: Project Area'
-  - name: 'M05:  Admin Page'
+  - name: 'M05: Task Area'
+  - name: 'M06: Admin Page'
 
 paths:
+
+
+
 #-------------------------------- M01 -----------------------------------------
 
 
@@ -52,7 +56,7 @@ paths:
 
       responses:
         "302":
-          description: "Ok. Show features page UI"
+          description: "Ok. Show Project Page"
         "404":
           description: "Page not available"
 
@@ -165,13 +169,12 @@ paths:
       responses:
         '200':  
           description: 'Ok. Show password recovery form'
-    post:
-      operationId: R206
-      summary: 'R206: Recover Password Action'
-      description: "Recover a user's password"
+    put:
+      operationId: R303
+      summary: "R303: Change User's Password Form"
+      description: 'Show the Password Change Form. Access: OWN'
       tags:
-        - 'M02: Authentication'
-
+        - 'M03: Authenticated User Area'
       requestBody:
         required: true
         content:
@@ -179,11 +182,18 @@ paths:
             schema:
               type: object
               properties:
-                inputEmail:
+                task-name:
                   type: string
-              required:
-                - inputEmail
-
+                task-description:
+                  type: string
+                task-members:
+                  type: array
+                dead-line:
+                  type: string
+                  items:
+                    $ref: '#/components/schemas/User'
+                due-date:
+                  type: string
       responses:
         '303':
           description: 'Redirect after processing password recovery request'
@@ -199,55 +209,63 @@ paths:
                   description: 'Failed password recovery. Redirect to password recovery.'
                   value: '/login/'
 
+ /logout:
+        post:
+          operationId: R206
+          summary: 'R206: Logout Action'
+          description: 'Logout the current authenticated used. Access: USR, ADM'
+          tags:
+            - 'M02: Authentication'
+          responses:
+            '301':
+              description: 'Redirect after processing logout.'
+              headers:
+                Location:
+                  schema:
+                    type: string
+                  examples:
+                    302Success:
+                      description: 'Successful logout. Redirect to login form.'
+                      value: '/login'
+
  # ---------------------------- M03 -----------------------------------------------
   
- /logout:
-
-    post:
+ /profile/{username}:
+    get:
       operationId: R301
-      summary: 'R301: Logout Action'
-      description: 'Logout the current authenticated used. Access: USR, ADM'
+      summary: 'R301: View User Profile Page'
+      description: 'Show the profile page . Access: USR'
+      tags:
+        - 'M03: Authenticated User Area'
+
+      parameters:
+        - in: path
+          name: username
+          schema:
+            type: string
+          required: true
+
+      responses:
+        '200':
+          description: 'Ok. Show profile page'
+        '404':
+            description: 'Profile not found'
+
+    delete:
+      operationId: R305
+      summary: "R305: Delete User Profile"
+      description: "Delete User account. Access: OWN"
       tags:
         - 'M03: Authenticated User Area'
       responses:
-        '302':
-          description: 'Redirect after processing logout.'
-          headers:
-            Location:
-              schema:
-                type: string
-              examples:
-                302Success:
-                  description: 'Successful logout. Redirect to login form.'
-                  value: '/login'
- /userpage:
+        '200':
+          description: 'Ok. Account deleted'
+          
+  
+ /profile/{username}/edit:
   get:
     operationId: R302
-    summary: 'R302: View user profile'
-    description: 'Show the individual user profile. Access: OWN'
-    tags:
-      - 'M03: Authenticated User Area'
-
-    responses:
-      '200':
-        description: 'Ok. Show view profile UI'
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                email:
-                  type: string
-                description:
-                  type: string
-
-  
- /edituserpage:
-  get:
-    operationId: R303
-    summary: 'R303: Edit user profile form'
+    summary: 'R302: Edit User Profile Form'
     description: 'Show the individual user profile edit form. Access: OWN'
     tags:
       - 'M03: Authenticated User Area'
@@ -272,9 +290,9 @@ paths:
                 description:
                   type: string
   post:
-    operationId: R304
-    summary: 'R304: Edit user profile action'
-    description: 'Edit user profile. Access: OWN'
+    operationId: R302
+    summary: 'R302: Edit User Profile Action'
+    description: 'Edit User Profile. Access: OWN'
     tags:
       - 'M03: Authenticated User Area'
     requestBody:
@@ -293,7 +311,7 @@ paths:
               inputProfilePicture:
                 type: string
     responses:
-      '302':
+      '301':
         description: 'Redirect after processing the new user information.'
         headers:
           Location:
@@ -306,82 +324,6 @@ paths:
               302Failure:
                 description: 'Failed to process information. Redirect to edit user information form.'
                 value: '/edituserpage'
-
- /deleteuser:
-    get:
-      operationId: R305
-      summary: "R305: Delete User"
-      description: 'Delete User account. Access: OWN'
-      tags:
-        - 'M03: Authenticated User Area'
-
-      responses:
-        '200':
-          description: 'Ok. Account Deleted'
- /changePassword:
-  get:
-    operationId: R306
-    summary: "R306: Change user's password form"
-    description: 'Show the password change form. Access: OWN'
-    tags:
-      - 'M03: Authenticated User Area'
-    responses:
-      '200':
-        description: 'Ok. Show edit profile UI'
-  post:
-    operationId: R307
-    summary: "R307: Change user's password"
-    description: "Change user's password"
-    tags:
-      - 'M03: Authenticated User Area'
-    requestBody:
-      required: true
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            type: object
-            properties:
-              inputName:
-                type: string
-              inputEmail:
-                type: string
-              inputDescription:
-                type: string
-    responses:
-      '302':
-        description: 'Redirect after processing the new user information.'
-        headers:
-          Location:
-            schema:
-              type: string
-            examples:
-              302Success:
-                description: 'Information successfully processed. Redirect to user profile.'
-                value: '/userpage'
-              302Failure:
-                description: 'Failed to process information. Redirect to edit user information form.'
-                value: '/edituserpage'
-
- /profile/{username}:
-    get:
-      operationId: R308
-      summary: 'R308: Profile page'
-      description: 'Show the profile page . Access: USR'
-      tags:
-        - 'M03: Authenticated User Area'
-
-      parameters:
-        - in: path
-          name: username
-          schema:
-            type: string
-          required: true
-
-      responses:
-        '200':
-          description: 'Ok. Show profile page'
-        '404':
-            description: 'Profile not found'          
 
  /search/{query}:
     get:
@@ -403,13 +345,14 @@ paths:
         "302":
           description: "Ok. Show search page"             
 
+#-------------------------------- M04 -----------------------------------------
  /create-project:
   get:
     operationId: R401
     summary: 'R401: Create New Project Form'
     description: 'Create New Project. Access: USR'
     tags:
-      - 'MO4: Project Area'
+      - 'M04: Project Area'
     responses:
       '200':
         description: 'Ok. Show edit profile UI'
@@ -423,7 +366,7 @@ paths:
                   company:
                     type: string
 
- /api/project/create:
+ /project/create:
   post:
     operationId: R402
     summary: 'R402: Create New Project Action'
@@ -503,29 +446,8 @@ paths:
       '200':
         description: 'Project deleted'
 
- /api/load-users:
-  get:
-    operationId: R405
-    summary: 'R405: Load Users'
-    description: 'Load Users. Access: PM'
-    tags:
-      - 'M04: Project Area'
-    responses:
-      '200':
-        description: "Return users for pagination"
-        content: 
-          application/json:
-            schema:
-              type: object
-              properties:
-                posts:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/User'
-      '400':
-        description: "Error in parameters"
             
- /project/{project_id}/search:
+ /project/{project_id}/search/{query}:
   get:
     operationId: R406
     summary: 'R406: Search Tasks API'
@@ -548,14 +470,19 @@ paths:
               type: array
               items: 
                 $ref: '#/components/schemas/Task'
-                   
- /api/task/{project_id}:
-  put:
-    operationId: R407
-    summary: "R407: Create new task"
+
+
+
+#-------------------------------- M05 -----------------------------------------
+
+
+ /task/{project_id}:
+  post:
+    operationId: R501
+    summary: "R501: Create new task"
     description: "Create a new task. Access: PM"
     tags:
-      - 'M04: Project Area'
+      - 'M05: Task Area'
     requestBody:
       required: true
       content:
@@ -581,11 +508,11 @@ paths:
 
  /api/task/{id}:
   get:
-    operationId: R408
-    summary: "R408: Get task info"
+    operationId: R502
+    summary: "R502: Get task info"
     description: "Get the task's information. Access: PM"
     tags:
-      - 'M04: Project Area'
+      - 'M05: Task Area'
     parameters:
       - in: path
         name: id
@@ -609,11 +536,11 @@ paths:
                   items:
                     $ref: '#/components/schemas/Task'
   delete:
-    operationId: R409
-    summary: "R409: Delete task"
+    operationId: R503
+    summary: "R503: Delete task"
     description: "Delete a task. Access: OWN"
     tags:
-      - 'M04: Project Area'
+      - 'M05: Task Area'
     parameters:
       - in: path
         name: id
@@ -623,12 +550,12 @@ paths:
     responses:
       '200':
         description: 'Task deleted'
-  post:
-      operationId: R410
-      summary: "R410: Update task info"
+  put:
+      operationId: R504
+      summary: "R504: Update task info"
       description: "Update the task's information. Access: PM"
       tags:
-        - 'M04: Project Area'
+        - 'M05: Task Area'
       requestBody:
         required: true
         content:
@@ -649,13 +576,90 @@ paths:
       responses:
         '200':
           description: 'Task updated'
+
+ /api/task/{id}/comments:
+  post:
+    operationId: R505
+    summary: "R506: Create a Comment for a Task"
+    description: "Create a comment for a task. Access: PM"
+    tags:
+      - 'M05: Task Area'
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              text:
+                type: string
+    responses:
+      '201':
+        description: 'Comment created'
+    
+ /api/task/{id}/comments/{comment_id}:
+  put:
+    operationId: R507
+    summary: "R507: Edit a Comment for a Task"
+    description: "Edit a comment for a task. Access: PM"
+    tags:
+      - 'M05: Task Area'
+    parameters:
+      - in: path
+        name: task_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: comment_id
+        schema:
+          type: integer
+        required: true
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              text:
+                type: string
+    responses:
+      '200':
+        description: 'Comment updated'
+
+  delete:
+    operationId: R508
+    summary: "R508: Delete a Comment for a Task"
+    description: "Delete a comment for a task. Access: PM"
+    tags:
+      - 'M05: Task Area'
+    parameters:
+      - in: path
+        name: task_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: comment_id
+        schema:
+          type: integer
+        required: true
+    responses:
+      '200':
+        description: 'Comment deleted'
+
+
+
+#-------------------------------- M06 -----------------------------------------
+
  /admin:
      get:
-      operationId: R501
-      summary: "R501: Admin Page"
+      operationId: R601
+      summary: "R601: Admin Page"
       description: "Show administrator page. Access: ADM"
       tags:
-        - "M05:Admin Pages"
+        - "M06:Admin Pages"
 
       responses:
         "302":
@@ -663,8 +667,7 @@ paths:
         "404": 
           description: "Page not available"
 
-
-
+ 
       
 # -------------------- Components --------------------
   
