@@ -15,7 +15,7 @@ class Project extends Model
 
     public function owners()
     {
-        return $this->hasMany('App\Models\Owner', 'id_group');
+        return $this->hasMany('App\Models\Owner', 'id_project');
     }
 
   
