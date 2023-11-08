@@ -4,9 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
+
+
+    public function index()
+{
+    return view('pages.home');
+}
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -24,4 +32,8 @@ class ProjectController extends Controller
     return redirect()->route('project.store')->with('success', 'Projeto criado com sucesso.');
 }
 
+
+
 }
+
+
