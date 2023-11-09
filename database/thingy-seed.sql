@@ -36,13 +36,6 @@ CREATE TABLE items (
   done BOOLEAN NOT NULL DEFAULT FALSE
 );
 
-CREATE TABLE isLeader(
-   id_user Int not null,
-  id_project int not null,
-  primary key (id_user, id_project),
-  foreign key(id_user) references userss(id),
-  foreign key(id_project) references projectt(id)
-);
 
 
 CREATE TABLE projectt(
@@ -52,6 +45,22 @@ CREATE TABLE projectt(
   theme varchar(255) NOT NULL,
   archived boolean NOT NULL,
   search TSVECTOR
+);
+CREATE TABLE isLeader(
+   id_user Int not null,
+  id_project int not null,
+  primary key (id_user, id_project),
+  foreign key(id_user) references users(id),
+  foreign key(id_project) references projectt(id)
+);
+
+
+CREATE TABLE isMember(
+   id_user Int not null,
+  id_project int not null,
+  primary key (id_user, id_project),
+  foreign key(id_user) references users(id),
+  foreign key(id_project) references projectt(id)
 );
 --
 -- Insert value.

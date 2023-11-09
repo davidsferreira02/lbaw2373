@@ -60,8 +60,10 @@ Route::controller(ProjectController::class)->group(function () {
     Route::get('/create-project', 'showCreateProjectForm')->name('project.create');
     Route::post('/create-project', 'store')->name('project.store');
     Route::get('/home', 'index')->name('project.index');
+    Route::get('/projects/{title}', 'show')->name('project.show');
 
 
+    
 
 
 
