@@ -48,21 +48,16 @@ public function home(){
         // Crie o projeto com os dados do formulário
         $project = new Project();
         $leader=new Leader();
-        $member=new Member();
+      
         $project->title = $request->input('title');
         $project->description = $request->input('description');
         $project->theme = $request->input('theme');
         $project->archived = false;
         $project->save();
-        $leader->id_user= Auth::user()->id;
-        $leader->id_project= $project->id;
-        $member->id_user= Auth::user()->id;
-        $member->id_project= $project->id;
+      
+        $leader = $this->addProjectLeader(Auth::user()->id, $project->id);
+        $project->owners()->save($leader);
         
-        $leader->save();
-        $member->save();
-       
-       
     
         // Redirecione o usuário após criar o projeto
         return redirect()->route('project.show', ['title' => $project->title])->with('success', 'Projeto criado com sucesso!');
@@ -73,34 +68,24 @@ public function home(){
 
     public function addProjectMember($userId, $projectId)
     {
-        // Verifique se o registro já existe na tabela 'isMember' para evitar duplicatas
-        $existingMember = DB::table('isMember')
-            ->where('id_user', $userId)
-            ->where('id_project', $projectId);
+     
           
-    
-        if (!$existingMember) {
             DB::table('isMember')->insert([
                 'id_user' => $userId,
                 'id_project' => $projectId
             ]);
-        }
     }
     
     public function addProjectLeader($userId, $projectId)
     {
-           // Verifique se o registro já existe na tabela 'isMember' para evitar duplicatas
-           $existingOwner = DB::table('isLeader')
-           ->where('id_user', $userId)
-           ->where('id_project', $projectId);
-           
-   
-       if (!$existingOwner) {
-           DB::table('isLeader')->insert([
-               'id_user' => $userId,
-               'id_project' => $projectId
-           ]);
-       }
+         
+        $leader = new Leader();
+
+        $leader->id_user = $userId;
+        $leader->id_project = $projectId;
+
+        return $leader;
+       
     }
     
     public function show($title)

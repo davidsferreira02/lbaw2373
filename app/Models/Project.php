@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\DB;
 class Project extends Model
 {
     use HasFactory;
-    protected $table = 'projectt';
+    protected $table = 'project';
     public $timestamps  = false;
 
 
     public function owners()
     {
-        return $this->hasMany('App\Models\Owner', 'id_project');
+        return $this->hasMany('App\Models\Leader', 'id_project');
     }
 
   

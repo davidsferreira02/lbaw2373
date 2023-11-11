@@ -11,6 +11,9 @@ SET search_path TO thingy;
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS cards CASCADE;
 DROP TABLE IF EXISTS items CASCADE;
+DROP TABLE IF EXISTS projectt CASCADE;
+DROP TABLE IF EXISTS isLeader CASCADE;
+DROP TABLE IF EXISTS isMember CASCADE;
 
 --
 -- Create tables.
@@ -38,7 +41,7 @@ CREATE TABLE items (
 
 
 
-CREATE TABLE projectt(
+CREATE TABLE project(
   id SERIAL PRIMARY KEY,
   title varchar(255) NOT NULL,
   description varchar(255) NOT NULL,
@@ -51,7 +54,7 @@ CREATE TABLE isLeader(
   id_project int not null,
   primary key (id_user, id_project),
   foreign key(id_user) references users(id),
-  foreign key(id_project) references projectt(id)
+  foreign key(id_project) references project(id)
 );
 
 
@@ -60,18 +63,18 @@ CREATE TABLE isMember(
   id_project int not null,
   primary key (id_user, id_project),
   foreign key(id_user) references users(id),
-  foreign key(id_project) references projectt(id)
+  foreign key(id_project) references project(id)
 );
---
--- Insert value.
---
+
+
 
 INSERT INTO users VALUES (
   DEFAULT,
-  'John Doe',
-  'admin@example.com',
+  'David Ferreira',
+  'davidsferreira02@gmail.com',
   '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W'
 ); -- Password is 1234. Generated using Hash::make('1234')
+
 
 INSERT INTO cards VALUES (DEFAULT, 'Things to do', 1);
 INSERT INTO items VALUES (DEFAULT, 1, 'Buy milk');
@@ -80,3 +83,15 @@ INSERT INTO items VALUES (DEFAULT, 1, 'Walk the dog', true);
 INSERT INTO cards VALUES (DEFAULT, 'Things not to do', 1);
 INSERT INTO items VALUES (DEFAULT, 2, 'Break a leg');
 INSERT INTO items VALUES (DEFAULT, 2, 'Crash the car');
+
+
+
+INSERT INTO project (title, description, theme, archived)
+VALUES ('Research and Development', 'In-depth research and product development', 'Technology', false);
+
+INSERT INTO isLeader (id_user, id_project)
+VALUES (1, 1);
+
+
+INSERT INTO isMember (id_user, id_project)
+VALUES (1, 1);
