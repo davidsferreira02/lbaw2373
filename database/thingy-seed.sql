@@ -1,9 +1,8 @@
 --
 -- Use a specific schema and set it as default - thingy.
 --
-DROP SCHEMA IF EXISTS thingy CASCADE;
-CREATE SCHEMA IF NOT EXISTS thingy;
-SET search_path TO thingy;
+
+SET search_path TO public;
 
 --
 -- Drop any existing tables.
@@ -49,8 +48,9 @@ CREATE TABLE project(
   archived boolean NOT NULL,
   search TSVECTOR
 );
+
 CREATE TABLE isLeader(
-   id_user Int not null,
+ id_user Int not null,
   id_project int not null,
   primary key (id_user, id_project),
   foreign key(id_user) references users(id),

@@ -13,11 +13,34 @@ class Project extends Model
     public $timestamps  = false;
 
 
-    public function owners()
+    public function leader()
     {
-        return $this->hasMany('App\Models\Leader', 'id_project');
+        return $this->belongsToMany('App\Models\User','isLeader','id_user','id_project');
     }
 
+    public function member() {
+        return $this->belongsToMany('App\Models\User','isMember','id_user','id_project');
+        }
+
+
+        public function isLeader(User $user){
+        
+            foreach($this->leaders as $leaders){
+                if($user->id==$leaders->id){
+                    return TRUE;
+                }
+            }
+            return FALSE;
+        }
+    
+        public function isMember($email){
+            foreach($this->members as $member){
+                if(strcmp($member->email,$email)==0){
+                    return TRUE;
+                }
+            }
+            return FALSE;
+        }
   
 
   

@@ -11,4 +11,7 @@
             </li>
         @endforeach
     </ul>
+
+    <!-- Botão para voltar para a página inicial (home) -->
+    <a href="{{ route('project.home') }}" class="btn btn-primary">Voltar para atrás</a>
 @endsection

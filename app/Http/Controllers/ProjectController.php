@@ -54,10 +54,12 @@ public function home(){
         $project->theme = $request->input('theme');
         $project->archived = false;
         $project->save();
+        $project->member()->attach(Auth::user()->id);
+        $project->leader()->attach(Auth::user()->id);
       
-        $leader = $this->addProjectLeader(Auth::user()->id, $project->id);
-        $project->owners()->save($leader);
-        
+       
+      
+  
     
         // Redirecione o usuário após criar o projeto
         return redirect()->route('project.show', ['title' => $project->title])->with('success', 'Projeto criado com sucesso!');
@@ -66,25 +68,14 @@ public function home(){
     
 
 
-    public function addProjectMember($userId, $projectId)
-    {
-     
-          
-            DB::table('isMember')->insert([
-                'id_user' => $userId,
-                'id_project' => $projectId
-            ]);
-    }
     
     public function addProjectLeader($userId, $projectId)
     {
          
-        $leader = new Leader();
-
-        $leader->id_user = $userId;
-        $leader->id_project = $projectId;
-
-        return $leader;
+        DB::table('isLeader')->insert([
+            'id_user' => $userId,
+            'id_project' => $projectId
+        ]);
        
     }
     
