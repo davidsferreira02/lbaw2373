@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Owner extends Model
+class Leader extends Model
 {
     use HasFactory;
     public $timestamps  = false;
-    public $incrementing = false;
+  
     protected $table = 'isLeader';
 
     public function user()

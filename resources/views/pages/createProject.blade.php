@@ -14,8 +14,8 @@
             @csrf
 
             <div class="form-group">
-                <label for="name">Project Name</label>
-                <input type="text" id="name" name="name" class="form-control">
+                <label for="title">Project Title</label>
+                <input type="text" id="title" name="title" class="form-control">
             </div>
 
             <div class="form-group">
@@ -27,8 +27,7 @@
                 <label for="theme">Project Theme</label>
                 <textarea id="theme" name="theme" class="form-control"></textarea>
             </div>
-
-            <button type="submit" class="btn btn-primary">Create Project</button>
+            <button type="submit"href="{{ route('project.index') }}" class="btn btn-primary">Create Project</button>
         </form>
     </div>
 @endsection

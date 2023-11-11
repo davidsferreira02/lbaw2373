@@ -58,9 +58,10 @@ Route::controller(RegisterController::class)->group(function () {
 Route::controller(ProjectController::class)->group(function () {
     
     Route::get('/create-project', 'showCreateProjectForm')->name('project.create');
-    Route::post('/create-project', 'store')->name('project.store');
-    Route::get('/home', 'index')->name('project.index');
+    Route::post('/projects', 'store')->name('project.store');
+    Route::get('/home', 'home')->name('project.home');
     Route::get('/projects/{title}', 'show')->name('project.show');
+    Route::get('/myprojects', 'index')->name('project.index');
 
 
     
