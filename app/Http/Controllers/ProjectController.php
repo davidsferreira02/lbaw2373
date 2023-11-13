@@ -47,17 +47,25 @@ public function home(){
     
         // Crie o projeto com os dados do formulário
         $project = new Project();
-        $leader=new Leader();
       
         $project->title = $request->input('title');
         $project->description = $request->input('description');
         $project->theme = $request->input('theme');
         $project->archived = false;
-        $project->save();
-        $project->member()->attach(Auth::user()->id);
-        $project->leader()->attach(Auth::user()->id);
-      
        
+        $project->save();
+       
+        
+      
+        DB::table('is_leader')->insert([
+            'id_user' => Auth::user()->id,
+            'id_project' => $project->id,
+        ]);
+
+        DB::table('is_member')->insert([
+            'id_user' => Auth::user()->id,
+            'id_project' => $project->id,
+        ]);
       
   
     
@@ -69,15 +77,7 @@ public function home(){
 
 
     
-    public function addProjectLeader($userId, $projectId)
-    {
-         
-        DB::table('isLeader')->insert([
-            'id_user' => $userId,
-            'id_project' => $projectId
-        ]);
-       
-    }
+   
     
     public function show($title)
     {
@@ -95,7 +95,7 @@ public function home(){
     public function countProjectMembers($projectId)
 {
     // Faça uma consulta para contar o número de membros associados ao projeto
-    $count = DB::table('isMember')->where('id_project', $projectId)->count();
+    $count = DB::table('is_member')->where('id_project', $projectId)->count();
 
     return $count;
 }
@@ -103,7 +103,7 @@ public function home(){
 public function countProjectLeaders($projectId)
 {
     // Faça uma consulta para contar o número de membros associados ao projeto
-    $count = DB::table('isLeader')->where('id_project', $projectId)->count();
+    $count = DB::table('is_leader')->where('id_project', $projectId)->count();
 
     return $count;
 }

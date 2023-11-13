@@ -15,16 +15,14 @@ tags:
   - name: 'M03: Authenticated User Area'
   - name: 'M04: Project Area'
   - name: 'M05: Task Area'
-  - name: 'M06: Admin Page'
+  - name: 'M06: Admin Pages'
 
 paths:
 
 
 
 #-------------------------------- M01 -----------------------------------------
-
-
- /:
+  /:
     get:
       operationId: R101
       summary: 'R101: Home Page'
@@ -35,7 +33,7 @@ paths:
        '200':
         description: 'Ok. Show homepage' 
  
- /about-us/:
+  /about-us/:
     get:
       operationId: R102
       summary: 'R102: About Us'
@@ -46,24 +44,21 @@ paths:
        '200':
         description: 'Ok. Show About Us page' 
 
- /404:
+  /404:
     get:
       operationId: R103
       summary: "R103: Not Found Page"
       description: "Show TaskSquad Not Found page. Access: PUB"
       tags:
         - 'M01: Static Pages'
-
       responses:
-        "302":
-          description: "Ok. Show Project Page"
         "404":
           description: "Page not available"
 
        
 
 #-------------------------------- M02 -----------------------------------------
- /login:
+  /login:
     get:
       operationId: R201
       summary: 'R201: Login Form'
@@ -79,7 +74,6 @@ paths:
       description: 'Processes the login form submission. Access: PUB'
       tags:
         - 'M02: Authentication'
- 
       requestBody:
         required: true
         content:
@@ -87,14 +81,13 @@ paths:
             schema:
               type: object
               properties:
-                email:          # <!--- form field name
+                email:
                   type: string
-                password:    # <!--- form field name
+                password:
                   type: string
               required:
                 - email
                 - password
- 
       responses:
         '302':
           description: 'Redirect after processing the login credentials.'
@@ -109,8 +102,8 @@ paths:
                 302Error:
                   description: 'Failed authentication. Redirect to login form.'
                   value: '/login'
-
- /register:
+                  
+  /register:
     get:
       operationId: R203
       summary: 'R203: Register Form'
@@ -120,14 +113,12 @@ paths:
       responses:
         '200':
           description: 'Ok. Show sign-up UI'
-
     post:
       operationId: R204
       summary: 'R204: Register Action'
       description: 'Processes the new user registration form submission. Access: PUB'
       tags:
         - 'M02: Authentication'
-
       requestBody:
         required: true
         content:
@@ -139,11 +130,12 @@ paths:
                   type: string
                 email:
                   type: string
+                password:
+                  type: string
               required:
                 - name
                 - email
                 - password
-
       responses:
         '302':
           description: 'Redirect after processing the new user information.'
@@ -156,10 +148,10 @@ paths:
                   description: 'Successful authentication. Redirect to the projects page.'
                   value: '/projects'
                 302Failure:
-                  description: 'Failed authentication. Redirect to login form.'
-                  value: '/login'
+                  description: 'Failed authentication. Redirect to register form.'
+                  value: '/register'
  
- /password/recovery:
+  /password-recovery:
     get:
       operationId: R205
       summary: 'R205: Password Recovery Form'
@@ -170,9 +162,116 @@ paths:
         '200':  
           description: 'Ok. Show password recovery form'
     put:
-      operationId: R303
-      summary: "R303: Change User's Password Form"
+      operationId: R206
+      summary: "R206: Change User's Password Form"
       description: 'Show the Password Change Form. Access: OWN'
+      tags:
+        - 'M02: Authentication'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+      responses:
+        '302':
+          description: 'Redirect after processing password recovery request'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Ok. Redirect to login.'
+                  value: '/login'
+                302Error:
+                  description: 'Failed password recovery. Redirect to password recovery.'
+                  value: '/password-recovery'
+  /logout:
+    post:
+      operationId: R207
+      summary: 'R207: Logout Action'
+      description: 'Logout the current authenticated used. Access: USR, ADM'
+      tags:
+        - 'M02: Authentication'
+      responses:
+        '302':
+          description: 'Redirect after processing logout.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful logout. Redirect to login form.'
+                  value: '/login'
+
+ # ---------------------------- M03 -----------------------------------------------
+  
+  /profile/{username}:
+    parameters:
+    - in: path
+      name: username
+      schema:
+        type: string
+      required: true
+    get:
+      operationId: R301
+      summary: 'R301: View User Profile Page'
+      description: 'Show the profile page . Access: USR'
+      tags:
+        - 'M03: Authenticated User Area'
+      parameters:
+        - in: path
+          name: username
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: 'Ok. Show profile page'
+        '404':
+            description: 'Profile not found'
+    delete:
+      operationId: R302
+      summary: "R302: Delete User Profile"
+      description: "Delete User account. Access: OWN"
+      tags:
+        - 'M03: Authenticated User Area'
+      responses:
+        '200':
+          description: 'Ok. Account deleted'
+          
+  
+  /profile/{username}/edit:
+    parameters:
+    - in: path
+      name: username
+      schema:
+        type: string
+      required: true
+    get:
+      operationId: R303
+      summary: 'R303: Edit User Profile Form'
+      description: 'Show the individual user profile edit form. Access: OWN'
+      tags:
+        - 'M03: Authenticated User Area'
+      parameters:
+        - in: path
+          name: username
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: 'Ok. Show edit profile UI'
+    put:
+      operationId: R304
+      summary: 'R304: Edit User Profile Action'
+      description: 'Edit User Profile. Access: OWN'
       tags:
         - 'M03: Authenticated User Area'
       requestBody:
@@ -182,157 +281,45 @@ paths:
             schema:
               type: object
               properties:
-                task-name:
+                username:
                   type: string
-                task-description:
+                email: 
                   type: string
-                task-members:
-                  type: array
-                dead-line:
+                name:
                   type: string
-                  items:
-                    $ref: '#/components/schemas/User'
-                due-date:
+                birthdate:
+                  type: integer
+                profile_pic:
                   type: string
       responses:
-        '303':
-          description: 'Redirect after processing password recovery request'
+        '302':
+          description: 'Redirect after processing the new user information.'
           headers:
             Location:
               schema:
                 type: string
               examples:
-                303Success:
-                  description: 'Ok. Redirect to login.'
-                  value: '/login/'
-                303Error:
-                  description: 'Failed password recovery. Redirect to password recovery.'
-                  value: '/login/'
+                302Success:
+                  description: 'Information successfully processed. Redirect to user profile.'
+                  value: '/profile/{username}'
+                302Failure:
+                  description: 'Failed to process information. Redirect to edit user information form.'
+                  value: '/profile/{username}/edit'
 
- /logout:
-        post:
-          operationId: R206
-          summary: 'R206: Logout Action'
-          description: 'Logout the current authenticated used. Access: USR, ADM'
-          tags:
-            - 'M02: Authentication'
-          responses:
-            '301':
-              description: 'Redirect after processing logout.'
-              headers:
-                Location:
-                  schema:
-                    type: string
-                  examples:
-                    302Success:
-                      description: 'Successful logout. Redirect to login form.'
-                      value: '/login'
 
- # ---------------------------- M03 -----------------------------------------------
-  
- /profile/{username}:
-    get:
-      operationId: R301
-      summary: 'R301: View User Profile Page'
-      description: 'Show the profile page . Access: USR'
-      tags:
-        - 'M03: Authenticated User Area'
-
-      parameters:
-        - in: path
-          name: username
-          schema:
-            type: string
-          required: true
-
-      responses:
-        '200':
-          description: 'Ok. Show profile page'
-        '404':
-            description: 'Profile not found'
-
-    delete:
-      operationId: R305
-      summary: "R305: Delete User Profile"
-      description: "Delete User account. Access: OWN"
-      tags:
-        - 'M03: Authenticated User Area'
-      responses:
-        '200':
-          description: 'Ok. Account deleted'
-          
-  
- /profile/{username}/edit:
-  get:
-    operationId: R302
-    summary: 'R302: Edit User Profile Form'
-    description: 'Show the individual user profile edit form. Access: OWN'
-    tags:
-      - 'M03: Authenticated User Area'
+  /search/{query}:
     parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-    responses:
-      '200':
-        description: 'Ok. Show edit profile UI'
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                email:
-                  type: string
-                description:
-                  type: string
-  post:
-    operationId: R302
-    summary: 'R302: Edit User Profile Action'
-    description: 'Edit User Profile. Access: OWN'
-    tags:
-      - 'M03: Authenticated User Area'
-    requestBody:
+    - in: path
+      name: query
+      schema:
+        type: string
       required: true
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            type: object
-            properties:
-              inputName:
-                type: string
-              inputEmail:
-                type: string
-              inputDescription:
-                type: string
-              inputProfilePicture:
-                type: string
-    responses:
-      '301':
-        description: 'Redirect after processing the new user information.'
-        headers:
-          Location:
-            schema:
-              type: string
-            examples:
-              302Success:
-                description: 'Information successfully processed. Redirect to user profile.'
-                value: '/userpage'
-              302Failure:
-                description: 'Failed to process information. Redirect to edit user information form.'
-                value: '/edituserpage'
-
- /search/{query}:
     get:
-      operationId: R309
-      summary: "R309: Search"
+      operationId: R305
+      summary: "R305: Search"
       description: "Show Search hits page. Access: PUB"
       tags:
         - 'M03: Authenticated User Area'
-
       parameters:
         - in: query
           name: query
@@ -340,220 +327,196 @@ paths:
           schema: 
             type: string
           required: true
-
       responses:
-        "302":
+        "200":
           description: "Ok. Show search page"             
 
 #-------------------------------- M04 -----------------------------------------
- /create-project:
-  get:
-    operationId: R401
-    summary: 'R401: Create New Project Form'
-    description: 'Create New Project. Access: USR'
-    tags:
-      - 'M04: Project Area'
-    responses:
-      '200':
-        description: 'Ok. Show edit profile UI'
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                type: object
-                properties:
-                  company:
-                    type: string
 
- /project/create:
-  post:
-    operationId: R402
-    summary: 'R402: Create New Project Action'
-    description: 'Create New Project. Access: USR'
-    tags:
-      - 'M04: Project Area'
-    requestBody:
-      required: true
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            type: object
-            properties:
-              inputName:
-                type: string
-              inputCompanyID:
-                type: integer
-              inputDescription:
-                type: string
-              inputAssignedMembers:
-                type: string
-    responses:
-      '302':
-        description: 'Redirect after processing the project information.'
-        headers:
-          Location:
-            schema:
-              type: string
-            examples:
-              302Success:
-                description: 'Success. Redirect to project area.'
-                value: '/project/{id}'
-              302Error:
-                description: 'Failed. Redirect to project creation form.'
-                value: '/create-project/'
-
- /project/{id}:
-  get:
-    operationId: R403
-    summary: "R403: See project page"
-    description: "See the project page and all its information. Access: PM"
-    tags:
-      - 'M04: Project Area'
-    parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
+  /create-project:
+    get:
+      operationId: R401
+      summary: 'R401: Create New Project Form'
+      description: 'Create New Project. Access: USR'
+      tags:
+        - 'M04: Project Area'
+      responses:
+        '200':
+          description: 'Ok. Show Create Project UI'
+    post:
+      operationId: R402
+      summary: 'R402: Create New Project Action'
+      description: 'Create New Project. Access: USR'
+      tags:
+        - 'M04: Project Area'
+      requestBody:
         required: true
-    responses:
-      '200':
-        description: 'Ok. Show project page UI'
         content:
-          application/json:
+          application/x-www-form-urlencoded:
             schema:
               type: object
               properties:
-                name:
+                title:
                   type: string
-                members:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/User'
-  delete:
-    operationId: R404
-    summary: "R404: Delete Project"
-    description: "Delete a Project. Access: PL"
-    tags:
-      - 'M04: Project Area'
-    parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-    responses:
-      '200':
-        description: 'Project deleted'
+                description:
+                  type: string
+                theme:
+                  type: string
+      responses:
+        '302':
+          description: 'Redirect after processing the project information.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Success. Redirect to project area.'
+                  value: '/project/{id}'
+                302Error:
+                  description: 'Failed. Redirect to project creation form.'
+                  value: '/create-project'
 
-            
- /project/{project_id}/search/{query}:
-  get:
-    operationId: R406
-    summary: 'R406: Search Tasks API'
-    description: 'Search for tasks and return the results as JSON. Access: PM.'
-    tags: 
-      - 'M04: Project Area'
+  /project/{id}:
     parameters:
-      - in: query
-        name: query
-        description: String to use for full-text search
-        schema:
-          type: string
+    - in: path
+      name: id
+      schema:
+        type: integer
+      required: true
+    get:
+      operationId: R403
+      summary: "R403: See project page"
+      description: "See the project page and all its information. Access: PM"
+      tags:
+        - 'M04: Project Area'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: 'Ok. Show project page UI'
+    delete:
+      operationId: R404
+      summary: "R404: Delete Project"
+      description: "Delete a Project. Access: PL"
+      tags:
+        - 'M04: Project Area'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: 'Project deleted'
+  
+  /project/{id}/edit:
+    parameters:
+    - in: path
+      name: id
+      schema:
+        type: integer
+      required: true
+    get:
+      operationId: R405
+      summary: 'R405: Edit Project Form'
+      description: 'Show the project edit form. Access: OWN'
+      tags:
+        - 'M04: Project Area'
+      responses:
+        '200':
+          description: 'Ok. Show edit project UI'
+    put:
+      operationId: R406
+      summary: 'R406: Edit Project Action'
+      description: 'Edit Project. Access: OWN'
+      tags:
+        - 'M04: Project Area'
+      requestBody:
         required: true
-    responses:
-      '200':
-        description: Success
         content:
-          application/json:
+          application/x-www-form-urlencoded:
             schema:
-              type: array
-              items: 
-                $ref: '#/components/schemas/Task'
-
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                theme:
+                  type: string
+      responses:
+        '302':
+          description: 'Redirect after processing the new project information.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Information successfully processed. Redirect to project page.'
+                  value: '/project/{id}'
+                302Failure:
+                  description: 'Failed to process information. Redirect to edit project form.'
+                  value: '/project/{id}/edit'
+        
+              
+  /project/{project_id}/search/{query}:
+    parameters:
+    - in: path
+      name: project_id
+      schema:
+        type: integer
+      required: true
+    - in: path
+      name: query
+      schema:
+        type: string
+      required: true
+    get:
+      operationId: R407
+      summary: 'R407: Search Tasks API'
+      description: 'Search for tasks and return the results as JSON. Access: PM.'
+      tags: 
+        - 'M04: Project Area'
+      parameters:
+        - in: query
+          name: query
+          description: 'String to use for full-text search'
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Task'
+  
 
 
 #-------------------------------- M05 -----------------------------------------
 
 
- /task/{project_id}:
-  post:
-    operationId: R501
-    summary: "R501: Create new task"
-    description: "Create a new task. Access: PM"
-    tags:
-      - 'M05: Task Area'
-    requestBody:
+  /{project_id}/task:
+    parameters:
+    - in: path
+      name: project_id
+      schema:
+        type: integer
       required: true
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            type: object
-            properties:
-              task-name:
-                type: string
-              task-description:
-                type: string
-              task-members:
-                type: array
-              dead-line:
-                type: string
-                items:
-                  $ref: '#/components/schemas/User'
-              due-date:
-                type: string
-    responses:
-      '201':
-        description: 'Task created'
-
- /api/task/{id}:
-  get:
-    operationId: R502
-    summary: "R502: Get task info"
-    description: "Get the task's information. Access: PM"
-    tags:
-      - 'M05: Task Area'
-    parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-    responses:
-      '200':
-        description: 'Ok. Show task page UI'
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                members:
-                  type: array
-                dead-line:
-                  type: array  
-                  items:
-                    $ref: '#/components/schemas/Task'
-  delete:
-    operationId: R503
-    summary: "R503: Delete task"
-    description: "Delete a task. Access: OWN"
-    tags:
-      - 'M05: Task Area'
-    parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-    responses:
-      '200':
-        description: 'Task deleted'
-  put:
-      operationId: R504
-      summary: "R504: Update task info"
-      description: "Update the task's information. Access: PM"
+    post:
+      operationId: R501
+      summary: "R501: Create new task"
+      description: "Create a new task. Access: PM"
       tags:
         - 'M05: Task Area'
       requestBody:
@@ -569,98 +532,225 @@ paths:
                   type: string
                 task-members:
                   type: array
+                  items: 
+                    $ref: '#/components/schemas/Task'
+                dead-line:
+                  type: string
                   items:
                     $ref: '#/components/schemas/User'
-                dead-line:
+                due-date:
                   type: string
       responses:
         '200':
-          description: 'Task updated'
+          description: 'Task Created'
 
- /api/task/{id}/comments:
-  post:
-    operationId: R505
-    summary: "R506: Create a Comment for a Task"
-    description: "Create a comment for a task. Access: PM"
-    tags:
-      - 'M05: Task Area'
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              text:
-                type: string
-    responses:
-      '201':
-        description: 'Comment created'
-    
- /api/task/{id}/comments/{comment_id}:
-  put:
-    operationId: R507
-    summary: "R507: Edit a Comment for a Task"
-    description: "Edit a comment for a task. Access: PM"
-    tags:
-      - 'M05: Task Area'
+  /{project_id}/task/{task_id}:
     parameters:
-      - in: path
-        name: task_id
-        schema:
-          type: integer
-        required: true
-      - in: path
-        name: comment_id
-        schema:
-          type: integer
-        required: true
-    requestBody:
+    - in: path
+      name: project_id
+      schema:
+        type: integer
       required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              text:
-                type: string
-    responses:
-      '200':
-        description: 'Comment updated'
+    - in: path
+      name: task_id
+      schema:
+        type: integer
+      required: true
+    get:
+      operationId: R502
+      summary: "R502: Get task info"
+      description: "Get the task's information. Access: PM"
+      tags:
+        - 'M05: Task Area'
+      responses:
+        '200':
+          description: 'Ok. Show task page UI'
+    delete:
+      operationId: R503
+      summary: "R503: Delete task"
+      description: "Delete a task. Access: OWN"
+      tags:
+        - 'M05: Task Area'
+      responses:
+        '200':
+          description: 'Task deleted'
+          
+  /{project_id}/task/{task_id}/edit:
+    parameters:
+    - in: path
+      name: project_id
+      schema:
+        type: integer
+      required: true
+    - in: path
+      name: task_id
+      schema:
+        type: integer
+      required: true
+    get:
+      operationId: R504
+      summary: "R504: Edit Task Form"
+      description: "Get the edit task form. Access: OWN"
+      tags:
+        - 'M05: Task Area'
+      responses:
+        '200':
+          description: 'Ok. Show edit task page UI'
+    put:
+        operationId: R505
+        summary: "R505: Update task info"
+        description: "Update the task's information. Access: OWN"
+        tags:
+          - 'M05: Task Area'
+        requestBody:
+          required: true
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                type: object
+                properties:
+                  priority:
+                    type: string
+                  content:
+                    type: string
+                  is_completed:
+                    type: boolean
+                  date_creation:
+                    type: integer
+                  deadline:
+                    type: integer
+                  title:
+                    type: string
+                  id_project:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Project'
+        responses:
+          '302':
+            description: 'Redirect after processing the new task information.'
+            headers:
+              Location:
+                schema:
+                  type: string
+                examples:
+                  302Success:
+                    description: 'Information successfully processed. Redirect to task page.'
+                    value: '/{project_id}/task/{task_id}'
+                  302Failure:
+                    description: 'Failed to process information. Redirect to edit task form.'
+                    value: '/{project_id}/task/{task_id}/edit'
+          
 
-  delete:
-    operationId: R508
-    summary: "R508: Delete a Comment for a Task"
-    description: "Delete a comment for a task. Access: PM"
-    tags:
-      - 'M05: Task Area'
+  /{project_id}/task/{task_id}/comments:
     parameters:
-      - in: path
-        name: task_id
-        schema:
-          type: integer
+    - in: path
+      name: project_id
+      schema:
+        type: integer
+      required: true
+    - in: path
+      name: task_id
+      schema:
+        type: integer
+      required: true
+    post:
+      operationId: R506
+      summary: "R506: Create a Comment for a Task"
+      description: "Create a comment for a task. Access: PM"
+      tags:
+        - 'M05: Task Area'
+      requestBody:
         required: true
-      - in: path
-        name: comment_id
-        schema:
-          type: integer
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+      responses:
+        '200':
+          description: 'Comment created'
+      
+  /{project_id}/task/{task_id}/comments/{comment_id}:
+    parameters:
+    - in: path
+      name: project_id
+      schema:
+        type: integer
+      required: true
+    - in: path
+      name: task_id
+      schema:
+        type: integer
+      required: true
+    - in: path
+      name: comment_id
+      schema:
+        type: integer
+      required: true
+    put:
+      operationId: R507
+      summary: "R507: Edit a Comment for a Task"
+      description: "Edit a comment for a task. Access: PM"
+      tags:
+        - 'M05: Task Area'
+      parameters:
+        - in: path
+          name: task_id
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: comment_id
+          schema:
+            type: integer
+          required: true
+      requestBody:
         required: true
-    responses:
-      '200':
-        description: 'Comment deleted'
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+      responses:
+        '200':
+          description: 'Comment updated'
+    delete:
+      operationId: R508
+      summary: "R508: Delete a Comment for a Task"
+      description: "Delete a comment for a task. Access: PM"
+      tags:
+        - 'M05: Task Area'
+      parameters:
+        - in: path
+          name: task_id
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: comment_id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: 'Comment deleted'
 
 
 
 #-------------------------------- M06 -----------------------------------------
 
- /admin:
-     get:
+
+  /admin:
+    get:
       operationId: R601
-      summary: "R601: Admin Page"
+      summary: "R601: Admin Pages"
       description: "Show administrator page. Access: ADM"
       tags:
-        - "M06:Admin Pages"
-
+        - "M06: Admin Pages"
       responses:
         "302":
           description: "Ok. Show admin UI"
@@ -673,33 +763,242 @@ paths:
   
 components:
   schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        password:
+          type: string
+        email: 
+          type: string
+        
+    Generic_User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        birthdate:
+          type: integer
+        profile_pic:
+          type: string
+        isBanned:
+          type: boolean
+        
+    Project:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        theme:
+          type: string
+        archived:
+          type: boolean
+        
     Task:
       type: object
       properties:
-        description:
+        id:
+          type: integer
+        priority:
           type: string
-        start_date:
+        content:
           type: string
-        delivery_Date:
+        is_completed:
+          type: boolean
+        date_creation:
+          type: integer
+        deadline:
+          type: integer
+        title:
           type: string
-        status:
-          type: string
-        project_member:
+        id_project:
           type: array
+          items:
+            $ref: '#/components/schemas/Project'
+    
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+        content:
+          type: string
+        date:
+          type: integer
+    
+    Likes:
+      type: object
+      properties:
+        id:
+          type: integer
+        comment_id:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+        generic_user_id:
+          type: array
+          items:
+            $ref: '#/components/schemas/Generic_User'
         
+        
+    Is_Admin:
+      type: object
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: array
           items:
             $ref: '#/components/schemas/User'
-        photo:
+    
+    Favorite:
+      type: object
+      properties:
+        id:
+          type: integer
+        project_id:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+        generic_user_id:
+          type: array
+          items:
+            $ref: '#/components/schemas/Generic_User'
+        
+    Notification:
+      type: object
+      properties:
+        id:
+          type: integer
+        description:
           type: string
+    
+    Project_Notification:
+      type: object
+      properties:
+        id:
+          type: integer
+        project_id:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+        notification_id:
+          type: array
+          items:
+            $ref: '#/components/schemas/Notification'
+        user_id:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        project_type:
+          type: string
+    
+    Task_Notification:
+      type: object
+      properties:
+        id:
+          type: integer
+        task_id:
+            type: array
+            items:
+              $ref: '#/components/schemas/Task'
+        notification_id:
+          type: array
+          items:
+            $ref: '#/components/schemas/Notification'
+        user_id:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        task_type:
+          type: string
+    
+    Comment_Notification:
+      type: object
+      properties:
+        id:
+          type: integer
+        comment_id:
+            type: array
+            items:
+              $ref: '#/components/schemas/Comment'
+        notification_id:
+          type: array
+          items:
+            $ref: '#/components/schemas/Notification'
+        user_id:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        comment:
+          type: string
+    
+    Is_Member:
+      type: object
+      properties:
+        id_user:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        id_project:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+        
+    Is_Leader:
+      type: object
+      properties:
+        id_user:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        id_project:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+      
+    Task_Owner:
+      type: object
+      properties:
+        id_user:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        id_task:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+      
+    Assigned:
+      type: object
+      properties:
+        id_user:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        id_task:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+      
+    Comment_Owner:
+      type: object
+      properties:
+        id_user:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        id_comment:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
 
-    User:
-        type: object
-        properties:
-          name:
-            type: string
-          email: 
-            type: string
-          profile_description:
-            type: string
-          profile_image:
-            type: string

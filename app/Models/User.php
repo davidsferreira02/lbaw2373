@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+
 // Added to define Eloquent relationships.
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -57,8 +58,6 @@ class User extends Authenticatable
         return $this->hasMany(Card::class);
     }
 
-    public function projects():HasMany {
-        return $this->hasMany(Project::class);
-    }
+  
 
 }

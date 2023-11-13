@@ -6,6 +6,8 @@
         <h1>{{ $project->title }}</h1>
         <p><strong>Description:</strong> {{ $project->description }}</p>
         <p><strong>Theme:</strong> {{ $project->theme }}</p>
+        <p><strong>Members:</strong> {{ count($project->members) }}</p>
+        <p><strong>Leaders:</strong> {{ count($project->leaders) }}</p>
        
     @endisset
     

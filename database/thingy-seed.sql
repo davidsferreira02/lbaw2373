@@ -1,8 +1,8 @@
---
 -- Use a specific schema and set it as default - thingy.
 --
-
-SET search_path TO public;
+DROP SCHEMA IF EXISTS thingy CASCADE;
+CREATE SCHEMA IF NOT EXISTS thingy;
+SET search_path TO thingy;
 
 --
 -- Drop any existing tables.
@@ -10,9 +10,8 @@ SET search_path TO public;
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS cards CASCADE;
 DROP TABLE IF EXISTS items CASCADE;
-DROP TABLE IF EXISTS projectt CASCADE;
+DROP TABLE IF EXISTS project CASCADE;
 DROP TABLE IF EXISTS isLeader CASCADE;
-DROP TABLE IF EXISTS isMember CASCADE;
 
 --
 -- Create tables.
@@ -39,7 +38,6 @@ CREATE TABLE items (
 );
 
 
-
 CREATE TABLE project(
   id SERIAL PRIMARY KEY,
   title varchar(255) NOT NULL,
@@ -49,16 +47,9 @@ CREATE TABLE project(
   search TSVECTOR
 );
 
-CREATE TABLE isLeader(
- id_user Int not null,
-  id_project int not null,
-  primary key (id_user, id_project),
-  foreign key(id_user) references users(id),
-  foreign key(id_project) references project(id)
-);
 
 
-CREATE TABLE isMember(
+CREATE TABLE is_leader(
    id_user Int not null,
   id_project int not null,
   primary key (id_user, id_project),
@@ -66,7 +57,16 @@ CREATE TABLE isMember(
   foreign key(id_project) references project(id)
 );
 
-
+CREATE TABLE is_member(
+   id_user Int not null,
+  id_project int not null,
+  primary key (id_user, id_project),
+  foreign key(id_user) references users(id),
+  foreign key(id_project) references project(id)
+);
+--
+-- Insert value.
+--
 
 INSERT INTO users VALUES (
   DEFAULT,
@@ -74,7 +74,6 @@ INSERT INTO users VALUES (
   'davidsferreira02@gmail.com',
   '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W'
 ); -- Password is 1234. Generated using Hash::make('1234')
-
 
 INSERT INTO cards VALUES (DEFAULT, 'Things to do', 1);
 INSERT INTO items VALUES (DEFAULT, 1, 'Buy milk');
@@ -84,14 +83,3 @@ INSERT INTO cards VALUES (DEFAULT, 'Things not to do', 1);
 INSERT INTO items VALUES (DEFAULT, 2, 'Break a leg');
 INSERT INTO items VALUES (DEFAULT, 2, 'Crash the car');
 
-
-
-INSERT INTO project (title, description, theme, archived)
-VALUES ('Research and Development', 'In-depth research and product development', 'Technology', false);
-
-INSERT INTO isLeader (id_user, id_project)
-VALUES (1, 1);
-
-
-INSERT INTO isMember (id_user, id_project)
-VALUES (1, 1);
