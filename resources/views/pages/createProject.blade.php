@@ -30,4 +30,5 @@
             <button type="submit"href="{{ route('project.index') }}" class="btn btn-primary">Create Project</button>
         </form>
     </div>
+    <a href="{{ route('project.home') }}" class="btn btn-primary">Voltar para atrás</a>
 @endsection

@@ -16,7 +16,13 @@ class ProjectController extends Controller
 
     public function index()
 {
-    $projects = Project::all(); // Isso busca todos os projetos na tabela 'projects'.
+    $user = Auth::user();
+    
+    $projects = Project::whereHas('members', function ($query) use ($user) {
+        $query->where('id_user', $user->id);
+    })->orWhereHas('leaders', function ($query) use ($user) {
+        $query->where('id_user', $user->id);
+    })->get();
 
     return view('pages.myProject', compact('projects'));
 }
@@ -82,8 +88,15 @@ public function home(){
             abort(404); // Projeto não encontrado, retorne uma resposta 404
         }
     
+        // Verifique se o usuário autenticado é membro ou líder do projeto
+        $user = Auth::user();
+        if (!$project->members->contains($user) && !$project->leaders->contains($user)) {
+            abort(403); // Usuário não tem permissão para visualizar este projeto, retorne uma resposta 403 (Proibido)
+        }
+    
         return view('pages.project', compact('project'));
     }
+    
 
     public function countProjectMembers($projectId)
 {
