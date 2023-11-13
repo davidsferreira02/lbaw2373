@@ -57,15 +57,8 @@ public function home(){
        
         
       
-        DB::table('is_leader')->insert([
-            'id_user' => Auth::user()->id,
-            'id_project' => $project->id,
-        ]);
-
-        DB::table('is_member')->insert([
-            'id_user' => Auth::user()->id,
-            'id_project' => $project->id,
-        ]);
+        $this->addProjectLeader(Auth::user()->id, $project->id);
+        $this->addProjectMember(Auth::user()->id, $project->id);
       
   
     
@@ -106,6 +99,20 @@ public function countProjectLeaders($projectId)
     $count = DB::table('is_leader')->where('id_project', $projectId)->count();
 
     return $count;
+}
+
+public function addProjectLeader($userId,$projectId){
+    DB::table('is_leader')->insert([
+        'id_user' => $userId,
+        'id_project' => $projectId,
+    ]);
+
+}
+public function addProjectMember($userId,$projectId){
+    DB::table('is_member')->insert([
+        'id_user' => $userId,
+        'id_project' => $projectId,
+    ]);
 }
 
 }
