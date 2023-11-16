@@ -12,7 +12,8 @@
     @endisset
     
         <!-- Adicione mais informações conforme necessário -->
-        <a href="{{ route('project.addMember') }}" class="btn btn-primary">Add Member</a>
-        <a href="{{ route('project.index') }}" class="btn btn-primary">Back to Projects</a>
+        <a href="{{ route('project.addMember', ['title' => $project->title]) }}" class="btn btn-primary">Add Member</a>
+
+        
     </div>
 @endsection
