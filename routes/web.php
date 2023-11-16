@@ -62,6 +62,8 @@ Route::controller(ProjectController::class)->group(function () {
     Route::get('/home', 'home')->name('project.home');
     Route::get('/projects/{title}', 'show')->name('project.show');
     Route::get('/myprojects', 'index')->name('project.index');
+    Route::get('/project/{title}/addMember', 'showaddMemberForm')->name('project.addMember');
+    Route::post('/projects/{title}/addMember/store', 'addOneMember')->name('project.Memberstore');
 
 
     

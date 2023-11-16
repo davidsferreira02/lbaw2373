@@ -41,6 +41,14 @@ public function home(){
         return view('pages.createProject');
     }
 
+   
+public function showaddMemberForm($title)
+{
+    $project = Project::where('title', $title)->first();
+    return view('pages.addMember', compact('project'));
+}
+
+
 
     public function store(Request $request)
     {
@@ -128,4 +136,23 @@ public function addProjectMember($userId,$projectId){
     ]);
 }
 
+public function addOneMember(Request $request,$title){
+    $validatedData = $request->validate([
+        'username' => 'required|max:255'
+    ]);
+    
+    $username = $request->input('username');
+    $user = User::where('name', $username)->first();
+    if (!$user) {
+        abort(404); 
+    }
+    $project = Project::where('title', $title)->first();
+    if (!$project) {
+        abort(404); 
+    }
+    $this->addProjectMember($user->id,$project->id);
+    return view('pages.project', compact('project'));
+
+
+}
 }
