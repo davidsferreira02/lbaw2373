@@ -8,6 +8,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\UsersController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -67,12 +68,8 @@ Route::controller(ProjectController::class)->group(function () {
     Route::get('/project/{title}/addLeader', 'showaddLeaderForm')->name('project.addLeader');
     Route::post('/projects/{title}/addLeader/store', 'addOneLeader')->name('project.Leaderstore');
 
-
-    
-
-
-
 });
 
-
-
+Route::controller(UsersController::class)->group(function () {
+Route::get('/search/users', 'search')->name('search.users');
+});
