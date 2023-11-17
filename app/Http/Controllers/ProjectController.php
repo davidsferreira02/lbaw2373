@@ -152,10 +152,16 @@ public function addOneMember(Request $request,$title){
     if (!$user) {
         abort(404); 
     }
+
+
     $project = Project::where('title', $title)->first();
-    if (!$project) {
+    $isMember = $project->members()->where('id_user', $user->id)->exists();
+$isLeader = $project->leaders()->where('id_user', $user->id)->exists();
+
+    if (!$project || $isMember || $isLeader) {
         abort(404); 
     }
+   
 
    $this->sendInvite($user->id, $project->id);
 
@@ -195,13 +201,12 @@ public function pendingInvite()
 public function acceptInvite($userId,$projectId)
 {
    
-    $invite = Invite::where('id_user', $userId)
+   Invite::where('id_user', $userId)
     ->where('id_project', $projectId)
-    ->first();
+    ->update(['acceptance_status' => 'Accepted']);
 
-    $invite->acceptance_status='Accepted';
+   
 
-    $invite->save();
  
     $project = Project::where('id', $projectId)->first();
 

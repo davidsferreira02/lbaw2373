@@ -9,7 +9,7 @@
         <ul>
             @foreach ($pendingInvites as $invite)
                 <li>
-                    Você recebeu um convite para o projeto: {{ $invite->project->name }}
+                    Você recebeu um convite para o projeto: {{ $invite->project->title }}
                     <form action="{{ route('accept.invite', ['id_user' => $invite->id_user, 'id_project' => $invite->id_project]) }}" method="POST">
                         @csrf
                         <button type="submit">Aceitar</button>
