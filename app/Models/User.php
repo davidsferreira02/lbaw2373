@@ -18,6 +18,7 @@ class User extends Authenticatable
 
     // Don't add create and update timestamps in database.
     public $timestamps  = false;
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -50,14 +51,8 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    /**
-     * Get the cards for a user.
-     */
-    public function cards(): HasMany
-    {
-        return $this->hasMany(Card::class);
-    }
+   
 
-  
+   
 
 }
