@@ -24,4 +24,9 @@ class Project extends Model
     {
         return $this->belongsToMany(User::class, 'is_leader', 'id_project', 'id_user');
     }
+
+    public function Invites()
+    {
+        return $this->hasMany('App\Models\Invite', 'id_project');
+    }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Leader;
+
 use App\Models\Project;
-use App\Models\Member;
+use App\Models\Invite;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -156,11 +156,79 @@ public function addOneMember(Request $request,$title){
     if (!$project) {
         abort(404); 
     }
-    $this->addProjectMember($user->id,$project->id);
-    return view('pages.project', compact('project'));
+
+   $this->sendInvite($user->id, $project->id);
+
+  
+   return redirect()->route('project.show', ['title' => $project->title])->with('success', 'Convite enviado com sucesso!');
 
 
 }
+
+public function sendInvite($userId,$projectId){
+    DB::table('inviteproject')->insert([
+        'id_user' => $userId,
+        'id_project' => $projectId,
+    ]);
+}
+
+public function pendingInvite()
+{
+    $userId = auth()->user()->id; 
+
+    
+    
+    $pendingInvites = Invite::where('id_user', $userId)
+        ->where('acceptance_status', 'Pendent')
+        ->with('project') 
+        ->get();
+
+        if ($pendingInvites->isEmpty()) {
+            // Não há convites pendentes, redirecionar ou retornar uma mensagem
+           abort(404);
+        }
+        
+
+        return view('pages.pedingInvites', compact('pendingInvites'));
+}
+
+public function acceptInvite($userId,$projectId)
+{
+   
+    $invite = Invite::where('id_user', $userId)
+    ->where('id_project', $projectId)
+    ->first();
+
+    $invite->acceptance_status='Accepted';
+
+    $invite->save();
+ 
+    $project = Project::where('id', $projectId)->first();
+
+    $this->addProjectMember($userId, $projectId);
+
+    // Lógica adicional para adicionar o usuário ao projeto (se necessário)
+    return redirect()->route('project.show', ['title' => $project->title])->with('success', 'Convite aceito com sucesso!');
+
+
+}
+
+public function declineInvite($userId,$projectId)
+{
+    $invite = Invite::where('id_user', $userId)
+    ->where('id_project', $projectId)
+    ->first();
+
+$invite->acceptance_status = 'Declined';
+$invite->save();
+
+    // Lógica adicional para adicionar o usuário ao projeto (se necessário)
+    return redirect()->route('pages.home', compact('project'))->with('success', 'Convite recusado com sucesso!');
+}
+
+
+
+
 
 public function addOneLeader(Request $request,$title){
     $validatedData = $request->validate([
@@ -189,4 +257,8 @@ public function addOneLeader(Request $request,$title){
 
 
 }
+
+
+
+
 }

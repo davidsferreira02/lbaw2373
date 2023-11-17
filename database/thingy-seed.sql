@@ -13,18 +13,18 @@ DROP TABLE IF EXISTS project CASCADE;
 DROP TABLE IF EXISTS task CASCADE;
 DROP TABLE IF EXISTS comment CASCADE;
 DROP TABLE IF EXISTS likes CASCADE;
-DROP TABLE IF EXISTS isAdmin CASCADE;
+DROP TABLE IF EXISTS isadmin CASCADE;
 DROP TABLE IF EXISTS favorite CASCADE;
 DROP TABLE IF EXISTS notification CASCADE;
 DROP TABLE IF EXISTS project_notification CASCADE;
 DROP TABLE IF EXISTS task_notification CASCADE;
 DROP TABLE IF EXISTS comment_notification CASCADE;
-DROP TABLE IF EXISTS isMember CASCADE;
-DROP TABLE IF EXISTS isLeader CASCADE;
-DROP TABLE IF EXISTS taskOwner CASCADE;
+DROP TABLE IF EXISTS ismember CASCADE;
+DROP TABLE IF EXISTS isleader CASCADE;
+DROP TABLE IF EXISTS taskowner CASCADE;
 DROP TABLE IF EXISTS assigned CASCADE;
-DROP TABLE IF EXISTS commentOwner CASCADE;
-
+DROP TABLE IF EXISTS commentowner CASCADE;
+CREATE TYPE accept_st as ENUM ('Pendent', 'Accepted', 'Rejected');
 
 --
 -- Create tables.
@@ -83,7 +83,7 @@ CREATE TABLE likes(
   FOREIGN KEY (generic_user_id) REFERENCES generic_user (id)
 );
 
-CREATE TABLE isAdmin(
+CREATE TABLE isadmin(
   id SERIAL PRIMARY KEY,
   user_id INT NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users (id)
@@ -135,7 +135,8 @@ FOREIGN KEY (notification_id) REFERENCES notification (id),
 FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
-CREATE TABLE isMember(
+
+CREATE TABLE is_leader(
    id_user Int not null,
   id_project int not null,
   primary key (id_user, id_project),
@@ -143,7 +144,7 @@ CREATE TABLE isMember(
   foreign key(id_project) references project(id)
 );
 
-CREATE TABLE isLeader(
+CREATE TABLE is_member(
    id_user Int not null,
   id_project int not null,
   primary key (id_user, id_project),
@@ -151,7 +152,8 @@ CREATE TABLE isLeader(
   foreign key(id_project) references project(id)
 );
 
-CREATE TABLE taskOwner(
+
+CREATE TABLE taskowner(
    id_user Int not null,
   id_task int not null,
   primary key (id_user, id_task),
@@ -167,13 +169,25 @@ CREATE TABLE assigned(
   foreign key(id_task) references task(id)
 );
 
-CREATE TABLE commentOwner(
+CREATE TABLE commentowner(
    id_user Int not null,
   id_comment int not null,
   primary key (id_user, id_comment),
   foreign key(id_user) references users(id),
   foreign key(id_comment) references comment(id)
 );
+
+Create Table inviteproject(
+	id_user Int not null,
+	id_project Int not null,
+	 "date" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    acceptance_status accept_st NOT NULL DEFAULT 'Pendent',
+	PRIMARY KEY (id_user, id_project),
+   foreign key(id_user) references users(id),
+  foreign key(id_project) references project(id)
+);
+
+
 -- Insert value.
 --
 
