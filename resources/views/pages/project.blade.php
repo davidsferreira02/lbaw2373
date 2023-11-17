@@ -13,6 +13,7 @@
     
         <!-- Adicione mais informações conforme necessário -->
         <a href="{{ route('project.addMember', ['title' => $project->title]) }}" class="btn btn-primary">Add Member</a>
+        <a href="{{ route('project.addLeader', ['title' => $project->title]) }}" class="btn btn-primary">Add Leader</a>
 
         
     </div>
