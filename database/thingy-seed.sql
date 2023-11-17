@@ -62,7 +62,7 @@ CREATE TABLE task (
   priority TEXT CHECK(priority IN ('Low', 'Medium', 'High')) NOT NULL,
   content TEXT, 
   isCompleted BOOLEAN, 
-    dateCreation DATE, 
+    dateCreation DATE DEFAULT CURRENT_TIMESTAMP, 
     deadLine DATE,
   title varchar(255) NOT null,
   id_project int not null,

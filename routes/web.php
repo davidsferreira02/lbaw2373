@@ -2,9 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\CardController;
-use App\Http\Controllers\ItemController;
 
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ProjectController;
@@ -44,12 +43,12 @@ Route::controller(ProjectController::class)->group(function () {
     Route::get('/create-project', 'showCreateProjectForm')->name('project.create');
     Route::post('/projects', 'store')->name('project.store');
     Route::get('/home', 'home')->name('project.home');
-    Route::get('/projects/{title}', 'show')->name('project.show');
+    Route::get('/project/{title}', 'show')->name('project.show');
     Route::get('/myprojects', 'index')->name('project.index');
     Route::get('/project/{title}/addMember', 'showaddMemberForm')->name('project.addMember');
-    Route::post('/projects/{title}/addMember/store', 'addOneMember')->name('project.Memberstore');
+    Route::post('/project/{title}/addMember/store', 'addOneMember')->name('project.Memberstore');
     Route::get('/project/{title}/addLeader', 'showaddLeaderForm')->name('project.addLeader');
-    Route::post('/projects/{title}/addLeader/store', 'addOneLeader')->name('project.Leaderstore');
+    Route::post('/project/{title}/addLeader/store', 'addOneLeader')->name('project.Leaderstore');
     Route::get('/convites-pendentes', 'pendingInvite')->name('pending.invites');
     Route::post('/accept-invite/{id_user}/{id_project}', 'acceptInvite')->name('accept.invite');
     Route::post('/decline-invite/{id_user}/{id_project}', 'declineInvite')->name('decline.invite');
@@ -62,5 +61,12 @@ Route::controller(ProjectController::class)->group(function () {
 Route::controller(UsersController::class)->group(function () {
 Route::get('/search/users', 'search')->name('search.users');
 
+
+});
+
+Route::controller(TaskController::class)->group(function () {
+    
+Route::get('/project/{title}/task/create', 'showCreateTaskForm')->name('task.create');
+Route::post('/project/{title}/task', 'create')->name('task.store');
 
 });
