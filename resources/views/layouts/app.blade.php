@@ -26,6 +26,11 @@
                 <h1><a href="{{ url('/home') }}">TaskSquad</a></h1>
                 @if (Auth::check())
                     <a class="button" href="{{ url('/logout') }}"> Logout </a> <span>{{ Auth::user()->name }}</span>
+                    <form id="search" action="{{ route('search.users') }}" method="GET">
+                        <input type="text" name="search" placeholder="Pesquisar users ou projetos">
+                        <button type="submit">Pesquisar</button>
+                    </form>
+                    
                 @endif
             </header>
             <section id="content">

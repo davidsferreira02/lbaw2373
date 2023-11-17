@@ -160,3 +160,25 @@ body {
     border-color: #9b4dca;
   }
   
+  
+
+
+  #search input[type="text"] {
+    /* Estilos específicos para o campo de entrada no formulário com ID "meuFormulario" */
+    padding: 6px;
+    font-size: 12px;
+    border-radius: 4px 0 0 4px;
+    border-color: white;
+  }
+  
+  #search button[type="submit"] {
+    
+    background-color: #9b4dca;
+    color: white;
+    border: 1px solid #9b4dca;
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+  }
+  

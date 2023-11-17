@@ -11,10 +11,6 @@
 <body>
     <h1>Minha Página Inicial</h1>
 
-    <form action="{{ route('search.users') }}" method="GET">
-        <input type="text" name="search" placeholder="Pesquisar users ou projetos">
-        <button type="submit">Pesquisar</button>
-    </form>
 
     <a href="{{ route('project.index') }}" class="btn btn-primary">My Projects</a>
     <a href="{{ route('project.create') }}" class="btn btn-success">Create Project</a>
