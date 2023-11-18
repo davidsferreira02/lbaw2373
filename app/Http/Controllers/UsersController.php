@@ -32,24 +32,8 @@ class UsersController extends Controller
     
         return view('pages.search_results', ['users' => $users,'projects'=>$projects, 'search' => $search]);
     }
-    public function pendingInvites()
-{
-    $userId = auth()->user()->id; 
 
-    
-    
-    $pendingInvites = Invite::where('id_user', $userId)
-        ->where('acceptance_status', 'Pendent')
-        ->with('project') 
-        ->get();
 
-        if ($pendingInvites->isEmpty()) {
-            // Não há convites pendentes, redirecionar ou retornar uma mensagem
-           abort(404);
-        }
-    
-    
-    return view('pages.pedingInvites', compact('pendingInvites'));
-}
+
 
 }

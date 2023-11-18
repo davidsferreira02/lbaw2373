@@ -2,51 +2,101 @@
 
 namespace App\Http\Controllers;
 
-
-
 use Illuminate\Http\Request;
 use App\Models\Task;
+use App\Models\User;
 use App\Models\Project;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-
 class TaskController extends Controller
 {
+   
 
-
-    public function showCreateTaskForm($title){
-        $project = Project::where('title', $title)->first();
-        return view("pages.createTask", compact('project'));
-    }
-    public function create(Request $request,$title)
+    public function show($title)
     {
-        // Validação dos dados do formulário
+      
+        $project = Project::where('title', $title)->first();
+
+        if (!$project) {
+            abort(404); 
+        }
+
+       
+        $tasks = Task::where('id_project', $project->id)->get();
+
+        return view('pages.tasks', compact('tasks', 'project'));
+    }
+
+    public function create($title)
+    {
+        
+        $project = Project::where('title', $title)->first();
+
+       
+        if (!$project) {
+            abort(404); 
+        }
+
+        $members = $project->members;
+       
+
+    
+        return view('pages.createTask', compact('project', 'members'));
+    }
+
+    public function store(Request $request, $title)
+    {
+      
         $validatedData = $request->validate([
             'title' => 'required|max:255',
             'content' => 'required',
             'priority' => 'required',
-            'deadLine'=>'required',
+            'deadline' => 'date',
+            'isCompleted' => 'boolean',
+            'assigned' => 'required' 
         ]);
-    
-        $project = Project::where('title', $title)->firstOrFail();
 
-        if(!$project){
-            abort(404);
-        }
-        // Crie o projeto com os dados do formulário
+        // Criar uma nova tarefa associada ao projeto
         $task = new Task();
-      
         $task->title = $request->input('title');
-        $task->content = $request->input('description');
-        $task->priority = $request->input('theme');
-        $task->deadLine=$request->input('deadLine');
-        $task->project()->attach($project);
-        $task->owner()->attach($project->id,Auth::user()->id);  
-             
+        $task->content = $request->input('content');
+        $task->priority = $request->input('priority');
+        $task->deadline = $request->input('deadline');
+
+       
+        $project = Project::where('title', $title)->first();
+        $task->project()->associate($project);
+
+        
+        $user = $request->input('assigned');
+        
+
+    
+        
+       
+
+        
         $task->save();
-           
+        $this->taskOwner($task->id, Auth::User()->id);
+        $this->assignedTask($task->id, $user);
+
+       
+
         
         return redirect()->route('project.show', ['title' => $title])->with('success', 'Tarefa criada com sucesso!');
-
     }
+
+public function taskOwner($taskId,$userId){
+    DB::table('taskowner')->insert([
+        'id_user' => $userId,
+        'id_task' => $taskId,
+    ]);
+}
+public function assignedTask($taskId,$userId){
+    DB::table('assigned')->insert([
+        'id_user' => $userId,
+        'id_task' => $taskId,
+    ]);
+}
+
 }

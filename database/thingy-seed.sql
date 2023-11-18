@@ -61,7 +61,7 @@ CREATE TABLE task (
   id SERIAL PRIMARY KEY,
   priority TEXT CHECK(priority IN ('Low', 'Medium', 'High')) NOT NULL,
   content TEXT, 
-  isCompleted BOOLEAN, 
+  isCompleted BOOLEAN Not NULL DEFAULT false, 
     dateCreation DATE DEFAULT CURRENT_TIMESTAMP, 
     deadLine DATE,
   title varchar(255) NOT null,

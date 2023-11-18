@@ -1,38 +1,45 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <h2>Criar Nova Tarefa</h2>
 
-        <form action="{{ route('task.store', ['title' => $project->title]) }}" method="POST">
-            @csrf
-            <div class="form-group">
-                <label for="title">Título:</label>
-                <input type="text" class="form-control" id="title" name="title" required>
-            </div>
+<form action="{{ route('task.store', ['title' => $project->title]) }}" method="POST">
+    @csrf
 
-            <div class="form-group">
-                <label for="content">Conteúdo:</label>
-                <textarea class="form-control" id="content" name="content" required></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="priority">Prioridade:</label>
-                <select class="form-control" id="priority" name="priority" required>
-                    <option value="high">Alta</option>
-                    <option value="medium">Média</option>
-                    <option value="low">Baixa</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="deadline">Prazo:</label>
-                <input type="date" class="form-control" id="deadline" name="deadline" required>
-            </div>
-
-            <button type="submit"href="{{ route('project.index') }}" class="btn btn-primary">Create Tarefa</button>
-        </form>
+    <div>
+        <label for="title">Título da Tarefa:</label>
+        <input type="text" id="title" name="title">
     </div>
+
+    <div>
+        <label for="content">Descrição da Tarefa:</label>
+        <textarea id="content" name="content"></textarea>
+    </div>
+
+    <div>
+        <label for="priority">Prioridade:</label>
+        <select name="priority" id="priority">
+            <option value="Low">Baixa</option>
+            <option value="Medium">Média</option>
+            <option value="High">Alta</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="deadline">Prazo:</label>
+        <input type="date" id="deadline" name="deadline">
+    </div>
+
+    <div>
+        <label for="assigned">Atribuir a:</label>
+        <select name="assigned" id="assigned">
+            @foreach($project->members as $member)
+                <option value="{{ $member->id }}">{{ $member->name }}</option>
+            @endforeach
+           
+        </select>
+    </div>
+
+
+    <button type="submit">Criar Tarefa</button>
+</form>
 @endsection
-
-

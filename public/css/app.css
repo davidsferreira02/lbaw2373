@@ -182,3 +182,29 @@ body {
     cursor: pointer;
   }
   
+
+  .card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+}
+
+.card-text {
+    color: #555;
+}
+
+/* Espaçamento entre os cartões */
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
+

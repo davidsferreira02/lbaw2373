@@ -52,7 +52,10 @@ class User extends Authenticatable
     ];
 
    
-
+    public function isLeaderOfProject($projectTitle)
+{
+    return $this->projects()->where('title', $projectTitle)->where('is_leader', true)->exists();
+}
    
 
 }

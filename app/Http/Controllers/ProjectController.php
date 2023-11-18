@@ -107,8 +107,10 @@ public function showaddLeaderForm($title)
         if (!$project->members->contains($user) && !$project->leaders->contains($user)) {
             abort(403); // Usuário não tem permissão para visualizar este projeto, retorne uma resposta 403 (Proibido)
         }
+        $user = Auth::user();
+        $isLeader = $project->leaders->contains($user);
     
-        return view('pages.project', compact('project'));
+        return view('pages.project', compact('project', 'isLeader'));
     }
     
 
