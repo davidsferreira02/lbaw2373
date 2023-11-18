@@ -15,14 +15,23 @@
                     <p><strong>content:</strong>{{ $task->content }}</p>
                     <p><strong>priority:</strong>{{ $task->priority }}</p>
                     <p><strong>deadline:</strong>{{ $task->deadline }}</p>
-                    <p><strong>dateCreation:</strong>{{ $task->dateCreation }}</p>
-                    <p><strong>isCompleted:</strong>{{ $task->isCompleted }}</p>
+                    <p><strong>dateCreation:</strong>{{ $task->datecreation }}</p>
+                    <p><strong>isCompleted:</strong>
+                        @if($task->iscompleted)
+                            true
+                        @else
+                            false
+                        @endif
+                    </p>
+                    
                     @foreach ($task->assigned as $user)
                         <p><strong>Assigned:</strong>{{ $user->name }}</p>
                     @endforeach
                     @foreach ($task->owners as $owner)
                         <p><strong>Owner:</strong>{{ $owner->name }}</p>
                     @endforeach
+
+
                 </div>
             @empty
                 <p>Nenhuma tarefa encontrada para este projeto.</p>

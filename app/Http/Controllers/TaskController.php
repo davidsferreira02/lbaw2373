@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\User;
@@ -72,6 +73,10 @@ class TaskController extends Controller
         
 
     
+        $task->iscompleted=false;
+
+        $currentDateTime=new DateTime();
+        $task->datecreation = $currentDateTime->format('Y-m-d');
         
        
 
@@ -99,4 +104,28 @@ public function assignedTask($taskId,$userId){
     ]);
 }
 
+public function isCompleted($taskId, $userId, $title) {
+  
+    $project = Project::where('title', $title)->first();
+
+    // Verifica se o projeto foi encontrado
+    if ($project) {
+        // Encontra a tarefa pelo ID da tarefa e pelo ID do projeto
+        $task = Task::where('id', $taskId)
+                    ->where('project_id', $project->id)
+                    ->first();
+
+        // Verifica se a tarefa foi encontrada
+        if ($task) {
+           
+            $task->isCompleted = true;
+            $task->save();
+
+            
+       
+}
+    }
+
+    return redirect()->route('task.show', ['title' => $title])->with('success', 'Tarefa criada com sucesso!');
+}
 }
