@@ -172,7 +172,6 @@ body {
   }
   
   #search button[type="submit"] {
-    
     background-color: #9b4dca;
     color: white;
     border: 1px solid #9b4dca;
@@ -180,8 +179,9 @@ body {
     font-size: 14px;
     border-radius: 0 4px 4px 0;
     cursor: pointer;
-  }
-  
+    line-height: 1.8; /* Ajuste este valor conforme necessário */
+}
+
 
   .card {
     border: 1px solid #ddd;

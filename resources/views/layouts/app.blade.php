@@ -27,8 +27,8 @@
                 @if (Auth::check())
                     <a class="button" href="{{ url('/logout') }}"> Logout </a> <span>{{ Auth::user()->name }}</span>
                     <form id="search" action="{{ route('search.users') }}" method="GET">
-                        <input type="text" name="search" placeholder="Pesquisar users ou projetos">
-                        <button type="submit">Pesquisar</button>
+                        <input type="text" name="search" placeholder="Search for users or projects">
+                        <button type="submit">Search</button>
                     </form>
                     
                 @endif
