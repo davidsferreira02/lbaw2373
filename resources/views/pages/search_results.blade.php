@@ -4,10 +4,10 @@
   
 
     @if($search)
-        <h1>Resultados da pesquisa: {{ $search }}</h1>
+        <h1>Search results: {{ $search }}</h1>
     @endif
 
-    <h2>Usuários:</h2>
+    <h2>Users:</h2>
     @if(count($users) > 0)
         <ul>
             @foreach($users as $user)
@@ -16,10 +16,10 @@
             @endforeach
         </ul>
     @else
-        <p>Nenhum usuário encontrado.</p>
+        <p>No users found.</p>
     @endif
 
-    <h2>Projetos:</h2>
+    <h2>Projects:</h2>
     @if(count($projects) > 0)
         <ul>
             @foreach($projects as $project)
@@ -30,8 +30,8 @@
             @endforeach
         </ul>
     @else
-        <p>Nenhum projeto encontrado.</p>
+        <p>No projects found.</p>
     @endif
 
-    <a href="{{ route('project.home') }}" class="btn btn-primary">Voltar para a Página Inicial</a>
+    <a href="{{ route('project.home') }}" class="btn btn-primary">Go Home</a>
 @endsection

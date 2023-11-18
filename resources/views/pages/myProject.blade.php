@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Lista de Projetos</h1>
+    <h1>Project List</h1>
     <ul>
         @foreach($projects as $project)
             <li>

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Adicionar Membro ao Projeto: {{ $project->title }}</h1>
+    <h1>Add Member to Project: {{ $project->title }}</h1>
 
     @if(session('success'))
         <div class="alert alert-success">
@@ -13,7 +13,7 @@
         @csrf
 
         <div class="form-group">
-            <label for="username">Username do membro</label>
+            <label for="username">Member username</label>
                 <input type="text" id="username" name="username" class="form-control">
         </div>
 

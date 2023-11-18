@@ -262,7 +262,20 @@ public function addOneLeader(Request $request,$title){
 
 }
 
+public function showMembers($title)
+{
+    $project = Project::where('title', $title)->first();
+    $members = $project->members;
 
+    return view('pages.members', compact('project', 'members'));
+}
+public function showLeaders($title)
+{
+    $project = Project::where('title', $title)->first();
+    $leaders = $project->leaders;
+
+    return view('pages.leaders', compact('project', 'leaders'));
+}
 
 
 }

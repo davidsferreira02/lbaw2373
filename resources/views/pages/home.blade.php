@@ -6,10 +6,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Página Inicial</title>
+    <title>Home</title>
 </head>
 <body>
-    <h1>Minha Página Inicial</h1>
+    <h1>Home</h1>
 
 
     <a href="{{ route('project.index') }}" class="btn btn-primary">My Projects</a>

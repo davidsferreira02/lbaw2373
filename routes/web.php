@@ -52,6 +52,9 @@ Route::controller(ProjectController::class)->group(function () {
     Route::get('/convites-pendentes', 'pendingInvite')->name('pending.invites');
     Route::post('/accept-invite/{id_user}/{id_project}', 'acceptInvite')->name('accept.invite');
     Route::post('/decline-invite/{id_user}/{id_project}', 'declineInvite')->name('decline.invite');
+    Route::get('/projects/{title}/members', 'showMembers')->name("project.showMember");
+    Route::get('/projects/{title}/leaders', 'showLeaders')->name("project.showLeader");
+
 
    
 

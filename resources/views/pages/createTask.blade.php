@@ -6,31 +6,31 @@
     @csrf
 
     <div>
-        <label for="title">Título da Tarefa:</label>
+        <label for="title">Title:</label>
         <input type="text" id="title" name="title">
     </div>
 
     <div>
-        <label for="content">Descrição da Tarefa:</label>
+        <label for="content">Description:</label>
         <textarea id="content" name="content"></textarea>
     </div>
 
     <div>
-        <label for="priority">Prioridade:</label>
+        <label for="priority">Priority</label>
         <select name="priority" id="priority">
-            <option value="Low">Baixa</option>
-            <option value="Medium">Média</option>
-            <option value="High">Alta</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
         </select>
     </div>
 
     <div>
-        <label for="deadline">Prazo:</label>
+        <label for="deadline">DeadLine:</label>
         <input type="date" id="deadline" name="deadline">
     </div>
 
     <div>
-        <label for="assigned">Atribuir a:</label>
+        <label for="assigned">Assigned to:</label>
         <select name="assigned" id="assigned">
             @foreach($project->members as $member)
                 <option value="{{ $member->id }}">{{ $member->name }}</option>
@@ -40,6 +40,6 @@
     </div>
 
 
-    <button type="submit">Criar Tarefa</button>
+    <button type="submit">Task Create</button>
 </form>
 @endsection
