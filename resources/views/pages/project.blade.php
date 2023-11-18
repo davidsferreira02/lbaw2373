@@ -16,9 +16,9 @@
    
         <a href="{{ route('project.addMember', ['title' => $project->title]) }}" class="btn btn-primary">Add Member</a>
         <a href="{{ route('project.addLeader', ['title' => $project->title]) }}" class="btn btn-primary">Add Leader</a>
+      
+        @endif
         <a href="{{ route('task.create', ['title' => $project->title]) }}" class="btn btn-primary">Create Task</a>
         <a href="{{ route('task.show', ['title' => $project->title]) }}" class="btn btn-primary">See Task</a>
-        @endif
-  
     </div>
 @endsection
