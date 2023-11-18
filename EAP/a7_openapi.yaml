@@ -307,7 +307,7 @@ paths:
                   value: '/profile/{username}/edit'
 
 
-  /search/{query}:
+  /api/search/{query}:
     parameters:
     - in: path
       name: query
@@ -466,7 +466,7 @@ paths:
                   value: '/project/{id}/edit'
         
               
-  /project/{project_id}/search/{query}:
+  /api/{project_id}/search/{query}:
     parameters:
     - in: path
       name: project_id
@@ -641,13 +641,8 @@ paths:
                     value: '/{project_id}/task/{task_id}/edit'
           
 
-  /{project_id}/task/{task_id}/comments:
+  /api/{task_id}/comments:
     parameters:
-    - in: path
-      name: project_id
-      schema:
-        type: integer
-      required: true
     - in: path
       name: task_id
       schema:
@@ -672,18 +667,8 @@ paths:
         '200':
           description: 'Comment created'
       
-  /{project_id}/task/{task_id}/comments/{comment_id}:
+  /api/{comment_id}:
     parameters:
-    - in: path
-      name: project_id
-      schema:
-        type: integer
-      required: true
-    - in: path
-      name: task_id
-      schema:
-        type: integer
-      required: true
     - in: path
       name: comment_id
       schema:
@@ -696,11 +681,6 @@ paths:
       tags:
         - 'M05: Task Area'
       parameters:
-        - in: path
-          name: task_id
-          schema:
-            type: integer
-          required: true
         - in: path
           name: comment_id
           schema:
@@ -725,11 +705,6 @@ paths:
       tags:
         - 'M05: Task Area'
       parameters:
-        - in: path
-          name: task_id
-          schema:
-            type: integer
-          required: true
         - in: path
           name: comment_id
           schema:
@@ -756,8 +731,41 @@ paths:
           description: "Ok. Show admin UI"
         "404": 
           description: "Page not available"
-
- 
+  
+  /admin/browse/users:
+    get:
+      operationId: R602
+      summary: 'R602: Browse Users API'
+      description: 'Show Browse Users page. Access: ADM.'
+      tags: 
+        - 'M06: Admin Pages'
+      responses:
+        '200':
+          description: 'Success'
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/User'
+  
+  /admin/browse/projects:
+    get:
+      operationId: R603
+      summary: 'R603: Browse Projects API'
+      description: 'Show Browse Projects page. Access: ADM.'
+      tags: 
+        - 'M06: Admin Pages'
+      responses:
+        '200':
+          description: 'Success'
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Project'
+  
       
 # -------------------- Components --------------------
   
