@@ -13,10 +13,10 @@
         @csrf
 
         <div class="form-group">
-            <label for="username">Username do possivel Leader</label>
+            <label for="username">Possible Leader's Username"</label>
                 <input type="text" id="username" name="username" class="form-control">
         </div>
 
-        <button type="submit"href="{{ route('project.index') }}" class="btn btn-primary">Adicionar Leader</button>
+        <button type="submit"href="{{ route('project.index') }}" class="btn btn-primary">Add Leader</button>
     </form>
 @endsection
