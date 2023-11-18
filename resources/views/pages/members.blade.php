@@ -3,7 +3,7 @@
 @extends('layouts.app') 
 
 @section('content')
-    <h1>Membros from {{ $project->title }}</h1>
+    <h1>Members from {{ $project->title }}</h1>
     <ul>
         @foreach ($members as $member)
             <li>{{ $member->name }}</li> 
