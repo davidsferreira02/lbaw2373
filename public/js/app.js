@@ -35,7 +35,25 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
         filterTasks(priority); 
     });
 });
-  
+
+
+$(document).ready(function() {
+  $('.complete-task-btn').click(function(e) {
+      e.preventDefault();
+      var taskId = $(this).data('task-id');
+      var projectTitle = $(this).data('project-title');
+      $.ajax({
+          type: 'PATCH',
+          url: '/project/' + projectTitle + '/task/' + taskId + '/complete',
+          success: function(response) {
+              location.reload();
+          },
+          error: function(err) {
+              console.error('Erro ao completar a tarefa:', err);
+          }
+      });
+  });
+});
 
   
 

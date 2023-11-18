@@ -69,7 +69,9 @@ Route::controller(TaskController::class)->group(function () {
      Route::get('/project/{title}/createTask', 'create')->name('task.create');
     Route::post('/project/{title}/storeTask', 'store')->name('task.store');
     Route::get('/project/{title}/task', 'show')->name('task.show');
-    Route::put('/project/{title}/task/{taskId}', 'isCompleted')->name('task.markCompleted');
+    Route::patch('/project/{title}/task/{taskId}/complete', 'isCompleted')->name('task.complete');
+
+
 
 
 });

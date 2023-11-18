@@ -104,16 +104,19 @@ public function assignedTask($taskId,$userId){
     ]);
 }
 
-public function isCompleted($title,$taskId) {
-  
+public function isCompleted($title, $taskId) {
     $project = Project::where('title', $title)->first();
+    $task = Task::where('id', $taskId)->where('id_project', $project->id)->first();
 
-    $tasks = Task::where('id', $taskId)->first();
-    if($tasks){
-        $tasks->iscompleted=true;
-        $tasks->save(); 
+    if($task){
+        $task->iscompleted = true;
+        $task->save();
+
+        return redirect()->route('project.show', ['title' => $title])->with('success', 'Tarefa marcada como concluída!');
     }
 
-    return view('pages.tasks', compact('tasks', 'project'));
+    abort(404); // Tarefa não encontrada ou não pertence ao projeto
 }
+
+
 }

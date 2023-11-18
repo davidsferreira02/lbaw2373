@@ -31,8 +31,19 @@
                     @foreach ($task->owners as $owner)
                         <p><strong>Owner:</strong>{{ $owner->name }}</p>
                     @endforeach
-
-
+                    @unless($task->iscompleted)
+                    <form method="POST" action="{{ route('task.complete', ['title' => $project->title, 'taskId' => $task->id]) }}">
+                        @csrf
+                        @method('PATCH') <!-- Ou use method('POST') se preferir POST -->
+                        
+                        <button type="submit" class="btn btn-success">
+                            Marcar como concluída
+                        </button>
+                    </form>
+                @endunless
+                    </form>
+                    
+            
 
                 </div>
             @empty
