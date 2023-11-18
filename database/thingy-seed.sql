@@ -188,19 +188,12 @@ Create Table inviteproject(
 );
 
 
--- Insert value.
---
 
-INSERT INTO users VALUES (
-  DEFAULT,
-  'David Ferreira',
-  'davidsferreira02@gmail.com',
-  '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W'
-); -- Password is 1234. Generated using Hash::make('1234')
 
 
 INSERT INTO users (name, password, email) VALUES
-  ('alice', 'P@ssw0rd1', 'alice@example.com'),
+('David Ferreira','$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W','davidsferreira02@gmail.com'),
+  ('alice', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'alice@example.com'),
   ('bob', 'Secur3P@ss', 'bob@example.com'),
   ('charlie', 'Str0ngP@ssw0rd', 'charlie@example.com'),
   ('diana', 'Pa$$w0rd123', 'diana@example.com'),
@@ -312,7 +305,9 @@ VALUES
   ('Humanitarian Aid Mission', 'Providing aid to those in need worldwide', 'Humanitarian', false),
   ('Sports and Fitness Initiative', 'Promoting sports and fitness in the community', 'Sports', false),
   ('Scientific Research Exploration', 'Exploring the frontiers of scientific knowledge', 'Science', false),
-  ('Culinary Delights Adventure', 'Discovering and savoring world cuisines', 'Food and Dining', true); -- Marked as archived
+  ('Culinary Delights Adventure', 'Discovering and savoring world cuisines', 'Food and Dining', true);
+
+   -- Marked as archived
 
 
   INSERT INTO task (priority, content, isCompleted, dateCreation, deadLine, title, id_project)
@@ -472,6 +467,7 @@ VALUES
   (38, 8),  -- User 38 is a member of Project 8
   (39, 9),  -- User 39 is a member of Project 9
   (40, 10); -- User 40 is a member of Project 10
+  
 
 
 -- Insert data into isLeader table with one leader per project
@@ -486,7 +482,8 @@ VALUES
   (17, 7),  -- User 17 is the leader of Project 7
   (18, 8),  -- User 18 is the leader of Project 8
   (19, 9),  -- User 19 is the leader of Project 9
-  (20, 15); -- User 20 is the leader of Project 15
+  (20, 15);
+   -- User 20 is the leader of Project 15
 
 
 -- Insert data into taskOwner table with task-owner associations

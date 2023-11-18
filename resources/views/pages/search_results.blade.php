@@ -23,7 +23,9 @@
     @if(count($projects) > 0)
         <ul>
             @foreach($projects as $project)
-                <li>{{ $project->title }}</li>
+            <button class="btn btn-primary" onclick="location.href='{{ route('project.show', ['title' => $project->title]) }}'">
+                {{ $project->title }}
+            </button>
                
             @endforeach
         </ul>

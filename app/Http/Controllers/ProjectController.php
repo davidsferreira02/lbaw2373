@@ -103,10 +103,7 @@ public function showaddLeaderForm($title)
         }
     
         // Verifique se o usuário autenticado é membro ou líder do projeto
-        $user = Auth::user();
-        if (!$project->members->contains($user) && !$project->leaders->contains($user)) {
-            abort(403); // Usuário não tem permissão para visualizar este projeto, retorne uma resposta 403 (Proibido)
-        }
+       
         $user = Auth::user();
         $isLeader = $project->leaders->contains($user);
     

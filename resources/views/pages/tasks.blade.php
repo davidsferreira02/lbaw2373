@@ -23,6 +23,7 @@
                             false
                         @endif
                     </p>
+                
                     
                     @foreach ($task->assigned as $user)
                         <p><strong>Assigned:</strong>{{ $user->name }}</p>
@@ -30,6 +31,7 @@
                     @foreach ($task->owners as $owner)
                         <p><strong>Owner:</strong>{{ $owner->name }}</p>
                     @endforeach
+
 
 
                 </div>
