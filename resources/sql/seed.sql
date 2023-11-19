@@ -192,7 +192,7 @@ Create Table inviteproject(
 
 
 INSERT INTO users (name, password, email) VALUES
-('David Ferreira','$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W','davidsferreira02@gmail.com'),
+('david','$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W','david@lbaw.com'),
   ('alice', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'alice@example.com'),
   ('bob', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'bob@example.com'),
   ('charlie', 'Str0ngP@ssw0rd', 'charlie@example.com'),
@@ -384,142 +384,140 @@ VALUES
   (5, 15); -- Like for the fifth comment from a different user
 
 
--- Insert data into isAdmin table with 15 different admin-user associations
 INSERT INTO isAdmin (user_id)
 VALUES
-  (3), -- User 40 is an admin
-  (41), -- User 41 is an admin
-  (42), -- User 42 is an admin
-  (43), -- User 43 is an admin
-  (44), -- User 44 is an admin
-  (45), -- User 45 is an admin
-  (46), -- User 46 is an admin
-  (47), -- User 47 is an admin
-  (48), -- User 48 is an admin
-  (49), -- User 49 is an admin
-  (50); -- User 50 is an admin
+  (3), 
+  (41), 
+  (42),
+  (43), 
+  (44), 
+  (45), 
+  (46), 
+  (47), 
+  (48),
+  (49), 
+  (50); 
 
 
 
--- Insert data into favorite table with 15 favorite project associations (generic_user_id, project_id)
+
 INSERT INTO favorite (generic_user_id, project_id)
 VALUES
-  (1, 1),   -- First user's favorite project
-  (2, 2),   -- Second user's favorite project
-  (3, 3),   -- Third user's favorite project
-  (4, 4),   -- Fourth user's favorite project
-  (5, 5),   -- Fifth user's favorite project
-  (6, 6),   -- Sixth user's favorite project
-  (7, 7),   -- Seventh user's favorite project
-  (8, 8),   -- Eighth user's favorite project
-  (9, 9),   -- Ninth user's favorite project
-  (10, 10), -- Tenth user's favorite project
-  (11, 1),  -- First user's another favorite project
-  (12, 2),  -- Second user's another favorite project
-  (13, 3),  -- Third user's another favorite project
-  (14, 4),  -- Fourth user's another favorite project
-  (15, 5);  -- Fifth user's another favorite project
+  (1, 1),   
+  (2, 2),
+  (3, 3),   
+  (4, 4),   
+  (5, 5), 
+  (6, 6),  
+  (7, 7),   
+  (8, 8),   
+  (9, 9),   
+  (10, 10), 
+  (11, 1), 
+  (12, 2),  
+  (13, 3),  
+  (14, 4),  
+  (15, 5);  
 
 
--- Insert data into the notification table with 10 notifications
+
 INSERT INTO notification (description)
 VALUES
-  ('New project leader assigned.'),                 -- 1 project
-  ('You have been expelled from the project.'),     -- 2 project
-  ('Project deleted by the administrator.'),        -- 3 project
-  ('New member joined the project.'),               -- 4 project
-  ('Task assigned to you.'),                        -- 5 task
-  ('Task completed successfully.'),                 -- 6 task
-  ('You received a like on your comment.'),         -- 7 comment
-  ('You received a response on your comment.');     -- 8 comment
+  ('New project leader assigned.'),               
+  ('You have been expelled from the project.'),    
+  ('Project deleted by the administrator.'),       
+  ('New member joined the project.'),               
+  ('Task assigned to you.'),                       
+  ('Task completed successfully.'),               
+  ('You received a like on your comment.'),         
+  ('You received a response on your comment.');     
 
 
--- Insert data into isMember table with 40 user-project associations (excluding leaders)
+
 INSERT INTO is_member (id_user, id_project)
 VALUES
-  (11, 1),  -- User 11 is a member of Project 1
-  (12, 2),  -- User 12 is a member of Project 2
-  (13, 3),  -- User 13 is a member of Project 3
-  (14, 4),  -- User 14 is a member of Project 4
-  (15, 5),  -- User 15 is a member of Project 5
-  (16, 6),  -- User 16 is a member of Project 6
-  (17, 7),  -- User 17 is a member of Project 7
-  (18, 8),  -- User 18 is a member of Project 8
-  (19, 9),  -- User 19 is a member of Project 9
-  (20, 10), -- User 20 is a member of Project 10
-  (21, 1),  -- User 21 is a member of Project 1
-  (22, 2),  -- User 22 is a member of Project 2
-  (23, 3),  -- User 23 is a member of Project 3
-  (24, 4),  -- User 24 is a member of Project 4
-  (25, 5),  -- User 25 is a member of Project 5
-  (26, 6),  -- User 26 is a member of Project 6
-  (27, 7),  -- User 27 is a member of Project 7
-  (28, 8),  -- User 28 is a member of Project 8
-  (29, 9),  -- User 29 is a member of Project 9
-  (30, 10), -- User 30 is a member of Project 10
-  (31, 1),  -- User 31 is a member of Project 1
-  (32, 2),  -- User 32 is a member of Project 2
-  (33, 3),  -- User 33 is a member of Project 3
-  (34, 4),  -- User 34 is a member of Project 4
-  (35, 5),  -- User 35 is a member of Project 5
-  (36, 6),  -- User 36 is a member of Project 6
-  (37, 7),  -- User 37 is a member of Project 7
-  (38, 8),  -- User 38 is a member of Project 8
-  (39, 9),  -- User 39 is a member of Project 9
-  (40, 10); -- User 40 is a member of Project 10
+  (11, 1),  
+  (12, 2),  
+  (13, 3),  
+  (14, 4),  
+  (15, 5),  
+  (16, 6), 
+  (17, 7), 
+  (18, 8),  
+  (19, 9), 
+  (20, 10), 
+  (21, 1),  
+  (22, 2),  
+  (23, 3), 
+  (24, 4),  
+  (25, 5),  
+  (26, 6),  
+  (27, 7),  
+  (28, 8),  
+  (29, 9), 
+  (30, 10), 
+  (31, 1), 
+  (32, 2),  
+  (33, 3),
+  (34, 4),  
+  (35, 5),  
+  (36, 6), 
+  (37, 7), 
+  (38, 8),
+  (39, 9),  
+  (40, 10); 
   
 
 
--- Insert data into isLeader table with one leader per project
+
 INSERT INTO is_leader (id_user, id_project)
 VALUES
-  (11, 1),  -- User 11 is the leader of Project 1
-  (12, 2),  -- User 12 is the leader of Project 2
-  (13, 3),  -- User 13 is the leader of Project 3
-  (14, 4),  -- User 14 is the leader of Project 4
-  (15, 5),  -- User 15 is the leader of Project 5
-  (16, 6),  -- User 16 is the leader of Project 6
-  (17, 7),  -- User 17 is the leader of Project 7
-  (18, 8),  -- User 18 is the leader of Project 8
-  (19, 9),  -- User 19 is the leader of Project 9
+  (11, 1),  
+  (12, 2), 
+  (13, 3),  
+  (14, 4),  
+  (15, 5),  
+  (16, 6), 
+  (17, 7),
+  (18, 8), 
+  (19, 9), 
   (20, 15);
-   -- User 20 is the leader of Project 15
+  
 
 
--- Insert data into taskOwner table with task-owner associations
 INSERT INTO taskowner (id_user, id_task)
 VALUES
-  (11, 1),  -- User 11 is the owner of Task 1
-  (12, 2),  -- User 12 is the owner of Task 2
-  (13, 3),  -- User 13 is the owner of Task 3
-  (14, 4),  -- User 14 is the owner of Task 4
-  (15, 5),  -- User 15 is the owner of Task 5
-  (16, 6),  -- User 16 is the owner of Task 6
-  (17, 7),  -- User 17 is the owner of Task 7
-  (18, 8),  -- User 18 is the owner of Task 8
-  (19, 9),  -- User 19 is the owner of Task 9
-  (20, 10), -- User 20 is the owner of Task 10
-  (11, 11), -- User 11 is the owner of Task 11
-  (12, 12), -- User 12 is the owner of Task 12
-  (13, 13), -- User 13 is the owner of Task 13
-  (14, 14), -- User 14 is the owner of Task 14
-  (15, 15), -- User 15 is the owner of Task 15
-  (16, 16), -- User 16 is the owner of Task 16
-  (17, 17), -- User 17 is the owner of Task 17
-  (18, 18), -- User 18 is the owner of Task 18
-  (19, 19), -- User 19 is the owner of Task 19
-  (20, 20), -- User 20 is the owner of Task 20
-  (11, 21); -- User 11 is the owner of Task 21
+  (11, 1),  
+  (12, 2), 
+  (13, 3),  
+  (14, 4),  
+  (15, 5), 
+  (16, 6),  
+  (17, 7),  
+  (18, 8),
+  (19, 9),
+  (20, 10), 
+  (11, 11),
+  (12, 12), 
+  (13, 13), 
+  (14, 14), 
+  (15, 15), 
+  (16, 16), 
+  (17, 17), 
+  (18, 18), 
+  (19, 19),
+  (20, 20), 
+  (11, 21); 
 
 
--- Insert data into assigned table with assigned-user associations
+
 INSERT INTO assigned (id_user, id_task)
 VALUES
-  (11, 1),  -- User 11 is assigned to Task 1
-  (12, 2),  -- User 12 is assigned to Task 2
-  (13, 3),  -- User 13 is assigned to Task 3
-  (14, 4),  -- User 14 is assigned to Task 4
-  (15, 5),  -- User 15 is assigned to Task 5
+  (11, 1),  
+  (12, 2), 
+  (13, 3),  
+  (14, 4),  
+  (15, 5),  
   (16, 6),  -- User 16 is assigned to Task 6
   (17, 7),  -- User 17 is assigned to Task 7
   (18, 8),  -- User 18 is assigned to Task 8
