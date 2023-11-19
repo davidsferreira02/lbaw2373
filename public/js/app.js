@@ -1,62 +1,46 @@
-
-  function encodeForAjax(data) {
-    if (data == null) return null;
-    return Object.keys(data).map(function(k){
+function encodeForAjax(data) {
+  if (data == null) return null;
+  return Object.keys(data).map(function(k){
       return encodeURIComponent(k) + '=' + encodeURIComponent(data[k])
-    }).join('&');
-  }
-  
-  function sendAjaxRequest(method, url, data, handler) {
-    let request = new XMLHttpRequest();
-  
-    request.open(method, url, true);
-    request.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').content);
-    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    request.addEventListener('load', handler);
-    request.send(encodeForAjax(data));
-  }
-  
-  function filterTasks(priority) {
-    const taskCards = document.querySelectorAll('.task-card');
-    
-    taskCards.forEach(card => {
-        if (card.dataset.priority === priority || priority === 'all') {
-            card.style.display = 'block';
-        } else {
-            card.style.display = 'none'; 
-        }
-    });
+  }).join('&');
 }
 
+function sendAjaxRequest(method, url, data, handler) {
+  let request = new XMLHttpRequest();
 
-document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        const priority = this.dataset.priority;
-        filterTasks(priority); 
-    });
-});
+  request.open(method, url, true);
+  request.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').content);
+  request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  request.addEventListener('load', handler);
+  request.send(encodeForAjax(data));
+}
+
+function filterTasks() {
+  const searchValue = document.getElementById('searchInput').value.toLowerCase();
+  const priority = document.getElementById('priorityFilter').value;
 
 
-$(document).ready(function() {
-  $('.complete-task-btn').click(function(e) {
-      e.preventDefault();
-      var taskId = $(this).data('task-id');
-      var projectTitle = $(this).data('project-title');
-      $.ajax({
-          type: 'PATCH',
-          url: '/project/' + projectTitle + '/task/' + taskId + '/complete',
-          success: function(response) {
-              location.reload();
-          },
-          error: function(err) {
-              console.error('Erro ao completar a tarefa:', err);
-          }
-      });
+  const tasks = document.querySelectorAll('.task-card');
+
+  tasks.forEach(task => {
+      const title = task.querySelector('h3').innerText.toLowerCase();
+      const taskPriority = task.dataset.priority;
+    
+
+      const titleMatch = title.includes(searchValue) || searchValue === '';
+      const priorityMatch = taskPriority === priority || priority === 'all';
+
+    
+    
+
+      if (titleMatch && priorityMatch ) {
+          task.style.display = 'block';
+      } else {
+          task.style.display = 'none';
+      }
   });
-});
+}
 
-  
+document.getElementById('priorityFilter').addEventListener('change', filterTasks);
 
-  
-
-  
+document.getElementById('searchInput').addEventListener('input', filterTasks);

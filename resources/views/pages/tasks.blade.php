@@ -2,10 +2,23 @@
 
 @section('content')
     <h2>Tarefas do Projeto: {{ $project->title }}</h2>
+    <input type="text" id="searchInput" placeholder="Pesquisar por título...">
 
-    <button class="btn btn-primary filter-btn" data-priority="Low">Low Priority</button>
-    <button class="btn btn-primary filter-btn" data-priority="Medium">Medium Priority</button>
-    <button class="btn btn-primary filter-btn" data-priority="High">High Priority</button>
+    <select id="priorityFilter">
+        <option value="all">All Priorities</option>
+        <option value="Low">Low Priority</option>
+        <option value="Medium">Medium Priority</option>
+        <option value="High">High Priority</option>
+    </select>
+    
+    <select id="completedFilter">
+        <option value="all">All Tasks</option>
+        
+    </select>
+    
+    
+
+
 
     <div id="tasksContainer">
         @if($tasks)
@@ -34,10 +47,10 @@
                     @unless($task->iscompleted)
                     <form method="POST" action="{{ route('task.complete', ['title' => $project->title, 'taskId' => $task->id]) }}">
                         @csrf
-                        @method('PATCH') <!-- Ou use method('POST') se preferir POST -->
+                        @method('PATCH') 
                         
                         <button type="submit" class="btn btn-success">
-                            Marcar como concluída
+                            Mark as completed
                         </button>
                     </form>
                 @endunless
@@ -47,10 +60,11 @@
 
                 </div>
             @empty
-                <p>Nenhuma tarefa encontrada para este projeto.</p>
+                <p>No tasks found for this project.</p>
             @endforelse
         @else
-            <p>Nenhuma tarefa encontrada para este projeto.</p>
+            <p>No tasks found for this project</p>
         @endif
     </div>
+    <a href="{{ route('project.show', ['title' => $project->title]) }}" class="btn btn-primary">Go back</a>
 @endsection

@@ -188,10 +188,7 @@ public function pendingInvite()
         ->with('project') 
         ->get();
 
-        if ($pendingInvites->isEmpty()) {
-            // Não há convites pendentes, redirecionar ou retornar uma mensagem
-           abort(404);
-        }
+        
         
 
         return view('pages.pedingInvites', compact('pendingInvites'));

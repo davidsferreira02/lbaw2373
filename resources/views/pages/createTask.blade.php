@@ -42,4 +42,5 @@
 
     <button type="submit">Task Create</button>
 </form>
+<a href="{{ route('project.show', ['title' => $project->title]) }}" class="btn btn-primary">Go back</a>
 @endsection

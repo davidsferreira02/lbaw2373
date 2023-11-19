@@ -8,8 +8,6 @@
         <p><strong>Theme:</strong> {{ $project->theme }}</p>
         <a href="{{ route('project.showMember', ['title' => $project->title]) }}" class="btn btn-primary"><strong> Members</strong> {{ count($project->members) }}</a>
         <a href="{{ route('project.showLeader', ['title' => $project->title]) }}" class="btn btn-primary"><strong> Leaders</strong> {{ count($project->leaders) }}</a>
-      
-       
     @endisset
     
         <!-- Adicione mais informações conforme necessário -->
@@ -24,4 +22,5 @@
         <a href="{{ route('task.show', ['title' => $project->title]) }}" class="btn btn-primary">See Task</a>
         @endif
     </div>
+    <a href="{{ route('project.home') }}" class="btn btn-primary">Go back</a>
 @endsection
