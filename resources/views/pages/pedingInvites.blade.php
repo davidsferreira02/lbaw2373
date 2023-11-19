@@ -22,5 +22,5 @@
             @endforeach
         </ul>
     @endif
-    <a href="{{ route('project.show', ['title' => $project->title]) }}" class="btn btn-primary">Go back</a>
+    <a href="{{ route('project.home') }}" class="btn btn-primary">Go back</a>
 @endsection

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use App\Models\IsAdmin;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,7 +38,15 @@ class LoginController extends Controller
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
  
-            return redirect()->intended('/home');
+            //return redirect()->intended('/home');
+            $isAdmin = IsAdmin::where('user_id', auth()->id())->exists();
+
+            // Redirecionar com base no status de administrador
+            if ($isAdmin) {
+                return redirect('/admin');
+            } else {
+                return redirect('/home');
+            }
         }
  
         return back()->withErrors([

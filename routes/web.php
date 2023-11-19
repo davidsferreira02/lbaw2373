@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\AdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -78,3 +79,9 @@ Route::controller(TaskController::class)->group(function () {
 
 
 });
+
+Route::controller(AdminController::class)->group(function () {
+    Route::get('/admin', 'index')->name('admin.dashboard');
+});
+
+
