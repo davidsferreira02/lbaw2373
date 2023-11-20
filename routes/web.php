@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProfileController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -85,3 +86,10 @@ Route::controller(AdminController::class)->group(function () {
 });
 
 
+Route::controller(ProfileController::class)->group(function(){
+    Route::get('/profile/{id}', 'show')->name('profile');
+    Route::get('/profile/{id}/edit', 'edit')->name('profile.edit');
+   Route::put('/profile/{id}/update', 'update')->name('profile.update');
+  
+
+});

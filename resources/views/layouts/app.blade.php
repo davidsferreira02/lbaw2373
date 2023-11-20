@@ -25,7 +25,10 @@
             <header>
                 <h1><a href="{{ url('/home') }}">TaskSquad</a></h1>
                 @if (Auth::check())
-                    <a class="button" href="{{ url('/logout') }}"> Logout </a> <span>{{ Auth::user()->name }}</span>
+                    <a class="button" href="{{ url('/logout') }}"> Logout </a> <a href="{{ route('profile', ['id' => Auth::user()->id]) }}" class="btn btn-primary">
+                        {{ Auth::user()->name }}
+                    </a>
+                    
                     <form id="search" action="{{ route('search.users') }}" method="GET">
                         <input type="text" name="search" placeholder="Search for users or projects">
                         <button type="submit">Search</button>

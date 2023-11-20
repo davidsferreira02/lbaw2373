@@ -11,8 +11,10 @@
     @if(count($users) > 0)
         <ul>
             @foreach($users as $user)
-                <li>{{ $user->name }}</li>
-               
+
+                <button class="btn btn-primary" onclick="location.href='{{ route('profile', ['id' => $user->id,'project' => $user->member()]) }}'">
+                    {{ $user->name }}
+                </button>
             @endforeach
         </ul>
     @else

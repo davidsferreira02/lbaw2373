@@ -51,7 +51,13 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-   
+    public function member()
+    {
+        return Project::whereHas('members', function ($query) {
+            $query->where('id_user', $this->id);
+        })->get();
+    }
+    
   
    
 
