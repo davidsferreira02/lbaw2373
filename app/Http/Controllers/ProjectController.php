@@ -28,6 +28,7 @@ class ProjectController extends Controller
 }
 
 public function home(){
+   
     return view('pages.home');
 }
 
@@ -38,6 +39,7 @@ public function home(){
 
     public function showCreateProjectForm()
     {
+        $this->authorize('create', Project::class);
         return view('pages.createProject');
     }
 
@@ -45,12 +47,14 @@ public function home(){
 public function showaddMemberForm($title)
 {
     $project = Project::where('title', $title)->first();
+    $this->authorize('addMemberorLeader',$project);
     return view('pages.addMember', compact('project'));
 }
 
 public function showaddLeaderForm($title)
 {
     $project = Project::where('title', $title)->first();
+    $this->authorize('addMemberorLeader',$project);
     return view('pages.addLeader', compact('project'));
 }
 
@@ -72,7 +76,7 @@ public function showaddLeaderForm($title)
         $project->description = $request->input('description');
         $project->theme = $request->input('theme');
         $project->archived = false;
-       
+        $this->authorize('create', Project::class);
         $project->save();
        
         
@@ -96,10 +100,10 @@ public function showaddLeaderForm($title)
     {
         // Supondo que 'title' seja um campo único na tabela de projetos
         $project = Project::where('title', $title)->first();
-    
+     
         // Verifique se o projeto foi encontrado
         if (!$project) {
-            abort(404); // Projeto não encontrado, retorne uma resposta 404
+            return redirect()->back()->withErrors('Project not found');
         }
     
         // Verifique se o usuário autenticado é membro ou líder do projeto
@@ -146,6 +150,7 @@ public function addOneMember(Request $request,$title){
         'username' => 'required|max:255'
     ]);
     
+    
     $username = $request->input('username');
     $user = User::where('name', $username)->first();
     if (!$user) {
@@ -154,12 +159,7 @@ public function addOneMember(Request $request,$title){
 
 
     $project = Project::where('title', $title)->first();
-    $isMember = $project->members()->where('id_user', $user->id)->exists();
-$isLeader = $project->leaders()->where('id_user', $user->id)->exists();
-
-    if (!$project || $isMember || $isLeader) {
-        abort(404); 
-    }
+    $this->authorize('addMemberorLeader',$project);
    
 
    $this->sendInvite($user->id, $project->id);
@@ -182,7 +182,7 @@ public function pendingInvite()
     $userId = auth()->user()->id; 
 
     
-    
+
     $pendingInvites = Invite::where('id_user', $userId)
         ->where('acceptance_status', 'Pendent')
         ->with('project') 
@@ -241,7 +241,9 @@ public function addOneLeader(Request $request,$title){
     if (!$user) {
         abort(404); 
     }
+    
     $project = Project::where('title', $title)->first();
+    
     if (!$project) {
         abort(404); 
     }
@@ -263,13 +265,14 @@ public function showMembers($title)
 {
     $project = Project::where('title', $title)->first();
     $members = $project->members;
-
+    
     return view('pages.members', compact('project', 'members'));
 }
 public function showLeaders($title)
 {
     $project = Project::where('title', $title)->first();
     $leaders = $project->leaders;
+    
 
     return view('pages.leaders', compact('project', 'leaders'));
 }

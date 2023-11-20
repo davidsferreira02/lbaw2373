@@ -24,6 +24,8 @@ class TaskController extends Controller
 
        
         $tasks = Task::where('id_project', $project->id)->get();
+        $this->authorize('view', $project);
+        
 
         return view('pages.tasks', compact('tasks', 'project'));
     }
@@ -79,7 +81,7 @@ class TaskController extends Controller
         $task->datecreation = $currentDateTime->format('Y-m-d');
         
        
-
+        $this->authorize('create', $project);
         
         $task->save();
         $this->taskOwner($task->id, Auth::User()->id);
@@ -107,7 +109,7 @@ public function assignedTask($taskId,$userId){
 public function isCompleted($title, $taskId) {
     $project = Project::where('title', $title)->first();
     $task = Task::where('id', $taskId)->where('id_project', $project->id)->first();
-
+    $this->authorize('view', $project);
     if($task){
         $task->iscompleted = true;
         $task->save();

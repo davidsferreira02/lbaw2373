@@ -21,7 +21,11 @@ class TaskPolicy
 
 
         public function create(User $user, Project $project){
-            return true;
+            return $project->leaders->contains($user) || $project->members->contains($user);
             
+}
+public function view(User $user, Project $project)
+{
+    return $project->leaders->contains($user) || $project->members->contains($user);
 }
 }
