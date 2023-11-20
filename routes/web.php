@@ -51,7 +51,7 @@ Route::controller(ProjectController::class)->group(function () {
     Route::post('/project/{title}/addMember/store', 'addOneMember')->name('project.Memberstore');
     Route::get('/project/{title}/addLeader', 'showaddLeaderForm')->name('project.addLeader');
     Route::post('/project/{title}/addLeader/store', 'addOneLeader')->name('project.Leaderstore');
-    Route::get('/convites-pendentes', 'pendingInvite')->name('pending.invites');
+    Route::get('/pending-invites', 'pendingInvite')->name('pending.invites');
     Route::post('/accept-invite/{id_user}/{id_project}', 'acceptInvite')->name('accept.invite');
     Route::post('/decline-invite/{id_user}/{id_project}', 'declineInvite')->name('decline.invite');
     Route::get('/projects/{title}/members', 'showMembers')->name("project.showMember");
