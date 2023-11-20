@@ -8,6 +8,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProfileController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,7 +29,6 @@ Route::controller(CardController::class)->group(function () {
     Route::get('/cards/{id}', 'show');
 });
 
-
 // API
 Route::controller(CardController::class)->group(function () {
     Route::put('/api/cards', 'create');
@@ -40,7 +40,6 @@ Route::controller(ItemController::class)->group(function () {
     Route::post('/api/item/{id}', 'update');
     Route::delete('/api/item/{id}', 'delete');
 });
-
 
 // Authentication
 Route::controller(LoginController::class)->group(function () {
@@ -54,21 +53,17 @@ Route::controller(RegisterController::class)->group(function () {
     Route::post('/register', 'register');
 });
 
-
 Route::controller(ProjectController::class)->group(function () {
-    
     Route::get('/create-project', 'showCreateProjectForm')->name('project.create');
     Route::post('/projects', 'store')->name('project.store');
     Route::get('/home', 'home')->name('project.home');
     Route::get('/projects/{title}', 'show')->name('project.show');
     Route::get('/myprojects', 'index')->name('project.index');
-
-
-    
-
-
-
 });
 
-
-
+Route::controller(ProfileController::class)->group(function () {    
+    Route::get('/profile/{username}', 'App\Http\Controllers\ProfileController@showProfileForm')->name('profile.show');
+    Route::delete('/profile/{username}', 'deleteProfile')->name('profile.delete');
+    Route::get('/profile/{username}/edit', 'editProfileForm')->name('profile.show');
+    Route::put('/profile/{username}/edit', 'editProfile')->name('profile.store');
+});

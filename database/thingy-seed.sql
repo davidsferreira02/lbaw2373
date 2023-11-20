@@ -19,6 +19,9 @@ DROP TABLE IF EXISTS isLeader CASCADE;
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   name VARCHAR NOT NULL,
+  username VARCHAR,
+  birthdate DATE,
+  profile_pic VARCHAR,
   email VARCHAR UNIQUE NOT NULL,
   password VARCHAR NOT NULL,
   remember_token VARCHAR

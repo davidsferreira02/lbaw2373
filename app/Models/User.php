@@ -26,6 +26,9 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
+        'birthdate',
+        'profile_pic',
         'email',
         'password',
     ];
@@ -57,7 +60,5 @@ class User extends Authenticatable
     {
         return $this->hasMany(Card::class);
     }
-
-  
 
 }
