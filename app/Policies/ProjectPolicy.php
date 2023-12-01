@@ -31,5 +31,10 @@ class ProjectPolicy
     {
         return $project->leaders->contains($user) ;
     }
+
+    public function deleteTask(User $user, Project $project)
+    {
+        return  $project->leaders->contains($user);
+    }
    
 }

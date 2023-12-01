@@ -55,7 +55,15 @@
                     </form>
                 @endunless
                     </form>
-                    
+
+
+                    @if(Auth::user()->id === $task->owners()->first()->id)
+                      <form action="{{ route('task.delete', ['taskId' => $task->id, 'title' => $project->title]) }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit">Apagar Task</button>
+        </form>
+        @endif
             
 
                 </div>
