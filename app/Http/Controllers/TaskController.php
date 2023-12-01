@@ -15,13 +15,13 @@ class TaskController extends Controller
 
     public function show($title)
     {
-      
         $project = Project::where('title', $title)->first();
-
+    
         if (!$project) {
             abort(404); 
         }
-
+    
+        $this->authorize('create', $project);
        
         $tasks = Task::where('id_project', $project->id)->get();
         //$this->authorize('view', $project);
@@ -29,7 +29,7 @@ class TaskController extends Controller
 
         return view('pages.tasks', compact('tasks', 'project'));
     }
-
+    
     public function create($title)
     {
         
@@ -109,7 +109,7 @@ public function assignedTask($taskId,$userId){
 public function isCompleted($title, $taskId) {
     $project = Project::where('title', $title)->first();
     $task = Task::where('id', $taskId)->where('id_project', $project->id)->first();
-    //$this->authorize('view', $project);
+    $this->authorize('view', $project);
     if($task){
         $task->iscompleted = true;
         $task->save();
