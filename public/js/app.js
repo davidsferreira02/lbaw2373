@@ -30,7 +30,7 @@ function filterTasks() {
       const titleMatch = title.includes(searchValue) || searchValue === '';
       const priorityMatch = taskPriority === priority || priority === 'all';
 
-    
+    //na database
     
 
       if (titleMatch && priorityMatch ) {
