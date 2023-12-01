@@ -158,7 +158,7 @@ CREATE TABLE taskowner(
   id_task int not null,
   primary key (id_user, id_task),
   foreign key(id_user) references users(id),
-  foreign key(id_task) references task(id)
+  foreign key(id_task) references task(id) ON DELETE CASCADE
 );
 
 CREATE TABLE assigned(
@@ -166,7 +166,7 @@ CREATE TABLE assigned(
   id_task INT not null,
   primary key (id_user, id_task),
   foreign key(id_user) references users(id),
-  foreign key(id_task) references task(id)
+  foreign key(id_task) references task(id) ON DELETE CASCADE
 );
 
 CREATE TABLE commentowner(

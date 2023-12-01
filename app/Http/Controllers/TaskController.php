@@ -121,4 +121,17 @@ public function isCompleted($title, $taskId) {
 }
 
 
+public function delete($title,$idTask){
+    $project = Project::where('title', $title)->first();
+    $task = Task::where('id', $idTask)->where('id_project', $project->id)->first();
+    if($task){
+   
+    $task->delete();
+    return redirect()->route('project.show', ['title' => $project->title])->with('success', 'Tarefa apagada com sucesso!');
+    }
+
+
+}
+
+
 }

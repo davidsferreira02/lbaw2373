@@ -75,6 +75,7 @@ Route::controller(TaskController::class)->group(function () {
     Route::post('/project/{title}/storeTask', 'store')->name('task.store');
     Route::get('/project/{title}/task', 'show')->name('task.show');
     Route::patch('/project/{title}/task/{taskId}/complete', 'isCompleted')->name('task.complete');
+    Route::delete('/project/{title}/task/{taskId}/delete', 'delete')->name('task.delete');
 
 
 
