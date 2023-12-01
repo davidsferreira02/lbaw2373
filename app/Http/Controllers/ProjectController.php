@@ -208,6 +208,11 @@ public function acceptInvite($userId,$projectId)
 
     $this->addProjectMember($userId, $projectId);
 
+    Invite::where('id_user', $userId)
+    ->where('id_project', $projectId)
+    ->delete();
+
+
     // Lógica adicional para adicionar o usuário ao projeto (se necessário)
     return redirect()->route('project.show', ['title' => $project->title])->with('success', 'Convite aceito com sucesso!');
 
@@ -222,6 +227,9 @@ public function declineInvite($userId,$projectId)
 
 $invite->acceptance_status = 'Declined';
 $invite->save();
+Invite::where('id_user', $userId)
+    ->where('id_project', $projectId)
+    ->delete();
 
     // Lógica adicional para adicionar o usuário ao projeto (se necessário)
     return redirect()->route('pages.home', compact('project'))->with('success', 'Convite recusado com sucesso!');

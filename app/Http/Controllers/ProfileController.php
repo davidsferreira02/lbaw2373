@@ -56,6 +56,40 @@ public function show($id)
         $user->save();
 
         return redirect()->route('profile', $user->id)->with('success', 'Perfil atualizado com sucesso!');
-    }   
+    }
+    
+    public function delete($userId) {
+        $user = User::find($userId);
+    
+        if ($user) {
+            // Encontra todos os projetos onde o usuário é membro
+            $memberProjects = $user->projectMember;
+    
+            // Encontra todos os projetos onde o usuário é líder
+            $leaderProjects = $user->projectLeader;
+            $allProjects = [];
+
+            if ($memberProjects) {
+                $allProjects = $memberProjects;
+            }
+    
+            if ($leaderProjects) {
+                $allProjects = $allProjects->merge($leaderProjects);
+            }
+    
+            // Itera sobre todos os projetos para remover associações do usuário
+            foreach ($allProjects as $project) {
+                $project->members()->detach($user->id);
+                $project->leaders()->detach($user->id);
+            }
+    
+            // Depois de remover associações, você pode excluir o usuário se necessário
+            $user->delete();
+    
+            return redirect()->route('login')->with('success', 'Usuário e associações de projeto removidos com sucesso.');
+        } else {
+            return redirect()->route('login')->with('error', 'Usuário não encontrado.');
+        }
+    }
 
 }

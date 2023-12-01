@@ -90,6 +90,7 @@ Route::controller(ProfileController::class)->group(function(){
     Route::get('/profile/{id}', 'show')->name('profile');
     Route::get('/profile/{id}/edit', 'edit')->name('profile.edit');
    Route::put('/profile/{id}/update', 'update')->name('profile.update');
+   Route::delete('/profile/{id}/delete', 'delete')->name('profile.delete');
   
 
 });

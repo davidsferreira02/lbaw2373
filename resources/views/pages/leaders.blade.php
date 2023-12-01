@@ -7,7 +7,7 @@
     <ul>
         @foreach ($leaders as $leader)
          
-            <button class="btn btn-primary" onclick="location.href='{{ route('profile', ['id' => $leader->id,'project' => $leader->member()]) }}'">
+            <button class="btn btn-primary" onclick="location.href='{{ route('profile', ['id' => $leader->id,'project' => $leader->projectLeader()]) }}'">
                 {{ $leader->name }}
             </button>
         @endforeach

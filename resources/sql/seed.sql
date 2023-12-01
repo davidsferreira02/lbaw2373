@@ -177,15 +177,16 @@ CREATE TABLE commentowner(
   foreign key(id_comment) references comment(id)
 );
 
-Create Table inviteproject(
-	id_user Int not null,
-	id_project Int not null,
-	 "date" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+CREATE TABLE inviteproject (
+    id_user INT NOT NULL, 
+    id_project INT NOT NULL,
+    date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     acceptance_status accept_st NOT NULL DEFAULT 'Pendent',
-	PRIMARY KEY (id_user, id_project),
-   foreign key(id_user) references users(id),
-  foreign key(id_project) references project(id)
+    PRIMARY KEY (id_user, id_project),
+    FOREIGN KEY (id_user) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_project) REFERENCES project(id) ON DELETE CASCADE
 );
+
 
 
 

@@ -31,6 +31,15 @@
                 Edit Profile
             </a>
         @endif
+
+
+        <form action="{{ route('profile.delete', ['id' => $user->id]) }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit">Excluir Perfil</button>
+        </form>
+        
+
     </div>
     <a href="{{ route('project.home') }}" class="btn btn-primary">Go back</a>
 @endsection
