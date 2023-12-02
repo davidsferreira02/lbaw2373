@@ -8,7 +8,6 @@ SET search_path TO lbaw2373;
 -- Drop any existing tables.
 --
 DROP TABLE IF EXISTS users CASCADE;
-DROP TABLE IF EXISTS generic_user CASCADE;
 DROP TABLE IF EXISTS project CASCADE;
 DROP TABLE IF EXISTS task CASCADE;
 DROP TABLE IF EXISTS comment CASCADE;
@@ -34,19 +33,13 @@ CREATE TABLE users (
   name VARCHAR NOT NULL,
   email VARCHAR UNIQUE NOT NULL,
   password VARCHAR NOT NULL,
-  remember_token VARCHAR
-);
-
-
-
-CREATE TABLE generic_user(
-  id SERIAL PRIMARY KEY,
-  name varchar(255) NOT NULL,
-  birthdate DATE NOT NULL,
-  profilePic TEXT NOT NULL,
-  isBanned boolean NOT NULL,
+  remember_token VARCHAR,
   search TSVECTOR
 );
+
+
+
+
 
 CREATE TABLE project(
   id SERIAL PRIMARY KEY,
@@ -78,9 +71,9 @@ CREATE TABLE comment(
 CREATE TABLE likes(
   id SERIAL PRIMARY KEY,
   comment_id INT NOT NULL,
-  generic_user_id INT NOT NULL,
+  user_id INT NOT NULL,
   FOREIGN KEY (comment_id) REFERENCES comment (id),
-  FOREIGN KEY (generic_user_id) REFERENCES generic_user (id)
+  FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
 CREATE TABLE isadmin(
@@ -92,9 +85,9 @@ CREATE TABLE isadmin(
 CREATE TABLE favorite(
   id SERIAL primary key,
   project_id INT NOT NULL,
-  generic_user_id INT NOT NULL,
+  users_id INT NOT NULL,
   FOREIGN KEY (project_id) REFERENCES project (id),
-  FOREIGN KEY (generic_user_id) REFERENCES generic_user (id)
+  FOREIGN KEY (users_id) REFERENCES users (id)
 );
 
 Create TABLE notification(
@@ -246,49 +239,8 @@ INSERT INTO users (name, password, email) VALUES
   ('yara', 'Secure12345!$', 'yara@example.com');
 
 
--- Insert data into generic_user table with auto-incremented IDs
-INSERT INTO generic_user (name, birthdate, profilePic, isBanned)
-VALUES
-  ('Alice Smith', '1990-05-15', 'profile1.jpg', false),
-  ('Bob Johnson', '1985-09-23', 'profile2.jpg', false),
-  ('Charlie Brown', '1988-11-30', 'profile3.jpg', false),
-  ('Diana Davis', '1992-03-18', 'profile4.jpg', false),
-  ('Edward Wilson', '1991-07-07', 'profile5.jpg', false),
-  ('Frank Martin', '1987-12-02', 'profile6.jpg', false),
-  ('Grace Taylor', '1989-02-14', 'profile7.jpg', false),
-  ('Henry Anderson', '1993-06-20', 'profile8.jpg', false),
-  ('Isabel White', '1986-10-10', 'profile9.jpg', false),
-  ('Jack Harris', '1990-04-03', 'profile10.jpg', false),
-  ('Kate Wilson', '1985-08-29', 'profile11.jpg', false),
-  ('Liam Brown', '1988-05-16', 'profile12.jpg', false),
-  ('Mary Jackson', '1992-11-08', 'profile13.jpg', false),
-  ('Nathan Davis', '1991-09-07', 'profile14.jpg', false),
-  ('Olivia Taylor', '1987-03-21', 'profile15.jpg', false),
-  ('Peter Martinez', '1994-07-15', 'profile16.jpg', false),
-  ('Quinn Rodriguez', '1986-12-10', 'profile17.jpg', false),
-  ('Ryan Lee', '1990-01-25', 'profile18.jpg', false),
-  ('Sophia Johnson', '1989-04-13', 'profile19.jpg', false),
-  ('Thomas Smith', '1988-08-07', 'profile20.jpg', false),
-  ('Violet Wilson', '1993-05-12', 'profile21.jpg', false),
-  ('William Brown', '1992-09-28', 'profile22.jpg', false),
-  ('Xander Lee', '1987-07-04', 'profile23.jpg', false),
-  ('Yasmine Davis', '1991-06-09', 'profile24.jpg', false),
-  ('Zane Martin', '1985-12-30', 'profile25.jpg', false),
-  ('Aurora Jackson', '1990-10-18', 'profile26.jpg', false),
-  ('Beckett Taylor', '1986-04-27', 'profile27.jpg', false),
-  ('Clara Anderson', '1993-02-03', 'profile28.jpg', false),
-  ('Dexter Smith', '1988-11-01', 'profile29.jpg', false),
-  ('Ella Wilson', '1989-07-22', 'profile30.jpg', false),
-  ('Finn Brown', '1992-03-29', 'profile31.jpg', false),
-  ('Gabriella Harris', '1994-06-05', 'profile32.jpg', true), -- Marked as banned
-  ('Hudson Johnson', '1987-08-14', 'profile33.jpg', false),
-  ('Isla Taylor', '1990-11-26', 'profile34.jpg', false),
-  ('Jaxon Davis', '1988-09-16', 'profile35.jpg', false),
-  ('Kayla Lee', '1986-05-08', 'profile36.jpg', false),
-  ('Luca Martin', '1991-02-27', 'profile37.jpg', false),
-  ('Mia Rodriguez', '1989-04-19', 'profile38.jpg', false),
-  ('Noah Smith', '1985-06-28', 'profile39.jpg', false),
-  ('Oliver Johnson', '1992-08-11', 'profile40.jpg', false);
+
+
 
 INSERT INTO project (title, description, theme, archived)
 VALUES
@@ -366,7 +318,7 @@ VALUES
 
 
 -- Insert data into likes table with 15 likes for selected comments
-INSERT INTO likes (comment_id, generic_user_id)
+INSERT INTO likes (comment_id, user_id)
 VALUES
   (1, 1), -- Like for the first comment
   (2, 2), -- Like for the second comment
@@ -402,7 +354,7 @@ VALUES
 
 
 
-INSERT INTO favorite (generic_user_id, project_id)
+INSERT INTO favorite (users_id, project_id)
 VALUES
   (1, 1),   
   (2, 2),
@@ -566,7 +518,7 @@ DROP INDEX IF EXISTS searchUser;
 DROP INDEX IF EXISTS searchProject;
 
 -- IDX01
-CREATE INDEX searchGenericUserName ON generic_user USING HASH (name);
+CREATE INDEX searchGenericUserName ON users USING HASH (name);
 
 -- IDX02
 CREATE INDEX searchProjectTitle ON project USING HASH (title);
@@ -595,26 +547,25 @@ CREATE INDEX searchAssigned ON assigned USING BTREE (id_task);
 -- IDX10
 CREATE INDEX searchCommentOwner ON commentOwner USING HASH (id_comment);
 
-
 -- IDX11
-CREATE INDEX searchUser ON generic_user USING GIN (search);
+CREATE INDEX searchUser ON users USING GIN (search);
 CREATE OR REPLACE FUNCTION user_search_update() RETURNS TRIGGER AS
 $BODY$
 BEGIN
     IF TG_OP = 'INSERT' THEN
-        NEW.search = (SELECT setweight(to_tsvector(generic_user.name), 'A') FROM generic_user WHERE NEW.id=generic_user.id);
+        NEW.search = (SELECT setweight(to_tsvector(users.name), 'A') FROM users WHERE NEW.id=users.id);
     ELSIF TG_OP = 'UPDATE' AND (NEW.username <> OLD.username) THEN
-        NEW.search = (SELECT setweight(to_tsvector(generic_user.name), 'A') FROM generic_user WHERE NEW.id=generic_user.id);
+        NEW.search = (SELECT setweight(to_tsvector(users.name), 'A') FROM users WHERE NEW.id=users.id);
 END IF;
 RETURN NEW;
 END;
 $BODY$
     LANGUAGE 'plpgsql';
 
-DROP TRIGGER IF EXISTS update_user_search ON generic_user;
+DROP TRIGGER IF EXISTS update_user_search ON users;
 
 CREATE TRIGGER update_user_search
-    BEFORE INSERT OR UPDATE ON generic_user
+    BEFORE INSERT OR UPDATE ON users
     FOR EACH ROW
 EXECUTE PROCEDURE user_search_update();
 
@@ -662,7 +613,7 @@ $BODY$
 BEGIN
     IF ((SELECT COUNT(*)
         FROM favorite
-        WHERE NEW.generic_user_id = generic_user_id)>=5)
+        WHERE NEW.users_id = users_id)>=5)
         THEN
             RAISE EXCEPTION 'A user cant have more than 5 favorite projects';
     END IF;
@@ -825,4 +776,6 @@ CREATE TRIGGER add_comment_like_notification
     AFTER INSERT ON comment_notification
     FOR EACH ROW
 EXECUTE PROCEDURE add_comment_like_notification();
+
+
 

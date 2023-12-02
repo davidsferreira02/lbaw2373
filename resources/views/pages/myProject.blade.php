@@ -8,6 +8,7 @@
                 <a href="{{ route('project.show', ['title' => $project->title]) }}">
                     {{ $project->title }}
                 </a>
+                
             </li>
         @endforeach
     </ul>

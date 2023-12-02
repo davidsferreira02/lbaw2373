@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Favorite;
 use App\Models\Project;
 use App\Models\Invite;
 use App\Models\User;
@@ -110,8 +111,11 @@ public function showaddLeaderForm($title)
        
         $user = Auth::user();
         $isLeader = $project->leaders->contains($user);
+        $isFavorite = Favorite::where('project_id', $project->id)
+        ->where('users_id', $user->id)
+        ->exists();
     
-        return view('pages.project', compact('project', 'isLeader'));
+        return view('pages.project', compact('project', 'isLeader','isFavorite'));
     }
     
 
@@ -263,8 +267,12 @@ public function addOneLeader(Request $request,$title){
         $this->addProjectLeader($user->id,$project->id);
     }
 
+    $isFavorite = Favorite::where('project_id', $project->id)
+    ->where('user_id', $user->id)
+    ->exists();
+
     
-    return view('pages.project', compact('project'));
+    return view('pages.project', compact('project','isFavorite'));
 
 
 }
@@ -286,4 +294,55 @@ public function showLeaders($title)
 }
 
 
+
+public function edit($title)
+{
+
+    $project = Project::where('title', $title)->first();
+    $this->authorize('edit', $project);
+
+    return view('pages.editProject', compact('project'));
+}
+
+public function update(Request $request,$title)
+{
+
+    $project = Project::where('title', $title)->first();
+    $this->authorize('update', $project);
+    
+    $validatedData = $request->validate([
+        'title' => 'required|string|max:255|unique:project,title,' . $project->id,
+        'description' => 'required|string|max:255',
+        'theme' => 'required|string|max:255'
+        
+    ]);
+
+
+    $project->title=$request->input('title');
+    $project->description=$request->input('description');
+    $project->theme=$request->input('theme');
+   
+    
+
+
+
+   
+
+    $project->save();
+
+    return redirect()->route('project.show', $project->title)->with('success', 'Projeto atualizado com sucesso!');
+}
+
+
+public function favorite($title){
+    $user=Auth::user()->id;
+    $project = Project::where('title', $title)->first();
+    $favorite = new Favorite();
+    $favorite->users_id=$user;
+    $favorite->project_id=$project->id;
+    $favorite->save();
+
+    return redirect()->route('project.show', $project->title)->with('success', 'Projeto atualizado com sucesso!');
+
+}
 }
