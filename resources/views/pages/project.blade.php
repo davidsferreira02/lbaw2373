@@ -27,11 +27,13 @@
         <a href="{{ route('task.create', ['title' => $project->title]) }}" class="btn btn-primary">Create Task</a>
         <a href="{{ route('task.show', ['title' => $project->title]) }}" class="btn btn-primary">See Task</a>
         @if(!$isFavorite)
-        <a href="{{ route('project.favorite', ['title' => $project->title]) }}" class="btn btn-primary">Favorite</a>
+        
+<a href="{{ route('project.favorite', ['title' => $project->title]) }}" class="btn btn-primary"><i class="fa-regular fa-star"></i></a>
+@endif
 @endif
 @if($isFavorite)
-@endif
-<i class="fa-solid fa-star"></i>
+
+<a href="{{ route('project.favorite', ['title' => $project->title]) }}" class="btn btn-primary"><i class="fa-solid fa-star"></i></a>
         @endif
     </div>
     <a href="{{ route('project.home') }}" class="btn btn-primary">Go back</a>
