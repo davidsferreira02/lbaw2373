@@ -65,6 +65,8 @@ CREATE TABLE task (
 CREATE TABLE comment(
   id SERIAL PRIMARY KEY,
   content varchar(255) NOT NULL,
+  id_task int not null,
+  foreign key (id_task) references task(id),
   date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -303,39 +305,10 @@ VALUES
 
 
 -- Insert data into comment table with 10 comments for selected tasks
-INSERT INTO comment (content, date)
-VALUES
-  ('Great progress on the market research!', '2023-10-20 09:15:00'),
-  ('Looking forward to the prototype development.', '2023-10-22 14:30:00'),
-  ('The volunteer engagement is going well.', '2023-10-25 16:45:00'),
-  ('Awesome work on the eco-friendly products!', '2023-10-26 11:20:00'),
-  ('Can we schedule a meeting for the project?', '2023-10-27 09:30:00'),
-  ('The environmental audit results are promising.', '2023-10-28 12:00:00'),
-  ('This art exhibition curation is fantastic!', '2023-10-30 15:55:00'),
-  ('We need to finalize the artist coordination.', '2023-10-31 10:10:00'),
-  ('The fitness class organization is a hit!', '2023-11-01 14:15:00'),
-  ('Looking forward to the learning platform launch.', '2023-11-02 16:40:00');
+
 
 
 -- Insert data into likes table with 15 likes for selected comments
-INSERT INTO likes (comment_id, user_id)
-VALUES
-  (1, 1), -- Like for the first comment
-  (2, 2), -- Like for the second comment
-  (3, 3), -- Like for the third comment
-  (4, 4), -- Like for the fourth comment
-  (5, 5), -- Like for the fifth comment
-  (6, 6), -- Like for the sixth comment
-  (7, 7), -- Like for the seventh comment
-  (8, 8), -- Like for the eighth comment
-  (9, 9), -- Like for the ninth comment
-  (10, 10), -- Like for the tenth comment
-  (1, 11), -- Like for the first comment from a different user
-  (2, 12), -- Like for the second comment from a different user
-  (3, 13), -- Like for the third comment from a different user
-  (4, 14), -- Like for the fourth comment from a different user
-  (5, 15); -- Like for the fifth comment from a different user
-
 
 INSERT INTO isAdmin (user_id)
 VALUES
@@ -473,18 +446,7 @@ VALUES
 
 
 -- Insert data into commentOwner table with comment-owner associations
-INSERT INTO commentowner (id_user, id_comment)
-VALUES
-  (11, 1),  -- User 11 is the owner of Comment 1
-  (12, 2),  -- User 12 is the owner of Comment 2
-  (13, 3),  -- User 13 is the owner of Comment 3
-  (14, 4),  -- User 14 is the owner of Comment 4
-  (15, 5),  -- User 15 is the owner of Comment 5
-  (16, 6),  -- User 16 is the owner of Comment 6
-  (17, 7),  -- User 17 is the owner of Comment 7
-  (18, 8),  -- User 18 is the owner of Comment 8
-  (19, 9),  -- User 19 is the owner of Comment 9
-  (20, 10); -- User 20 is the owner of Comment 10
+
   
   
   DROP INDEX IF EXISTS searchGenericUserName;

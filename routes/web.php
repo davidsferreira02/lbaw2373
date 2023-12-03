@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -101,5 +102,11 @@ Route::controller(ProfileController::class)->group(function(){
    Route::put('/profile/{id}/update', 'update')->name('profile.update');
    Route::delete('/profile/{id}/delete', 'delete')->name('profile.delete');
   
+
+});
+
+Route::controller(CommentController::class)->group(function(){
+    Route::get('/project/{title}/task/{taskId}/comments','show')->name('task.comment');
+    Route::post('/project/{title}/task/{taskId}/comments/store', [CommentController::class, 'store'])->name('comments.store');
 
 });

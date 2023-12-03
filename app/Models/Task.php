@@ -37,4 +37,9 @@ class Task extends Model
     public function owners() {
         return $this->belongsToMany(User::class, 'taskowner', 'id_task', 'id_user');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'id_task'); // Defina o nome correto da chave estrangeira aqui
+    }
 }

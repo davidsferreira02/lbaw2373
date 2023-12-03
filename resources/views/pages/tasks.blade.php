@@ -24,7 +24,9 @@
         @if($tasks)
             @forelse ($tasks as $task)
                 <div class="task-card" data-priority="{{ $task->priority }}">
-                    <h3><strong>title:</strong>{{ $task->title }}</h3>
+                    <a href="{{ route('task.comment', ['taskId' => $task->id,'title'=>$project->title]) }}">
+                        <h3><strong>title:</strong> {{ $task->title }}</h3>
+                    </a>
                     <p><strong>content:</strong>{{ $task->content }}</p>
                     <p><strong>priority:</strong>{{ $task->priority }}</p>
                     <p><strong>deadline:</strong>{{ $task->deadline }}</p>
