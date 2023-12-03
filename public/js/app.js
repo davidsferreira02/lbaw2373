@@ -44,3 +44,22 @@ function filterTasks() {
 document.getElementById('priorityFilter').addEventListener('change', filterTasks);
 
 document.getElementById('searchInput').addEventListener('input', filterTasks);
+
+
+
+document.getElementById('projectFilter').addEventListener('change', function() {
+    var filter = this.value;
+
+    if (filter === 'favorites') {
+        document.getElementById('favoriteProjects').style.display = 'block';
+        document.getElementById('notFavoriteProjects').style.display = 'none';
+    } else if (filter === 'notFavorites') {
+        document.getElementById('favoriteProjects').style.display = 'none';
+        document.getElementById('notFavoriteProjects').style.display = 'block';
+    } else {
+        document.getElementById('favoriteProjects').style.display = 'none';
+        document.getElementById('notFavoriteProjects').style.display = 'none';
+    }
+});
+
+

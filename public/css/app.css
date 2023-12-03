@@ -208,3 +208,12 @@ body {
     margin-bottom: 1.5rem;
 }
 
+.star{
+
+  margin-left: 10px; /* Move para a direita */
+}
+
+.project-header{
+  display:flex;
+ align-items:center;
+}

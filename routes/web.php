@@ -32,6 +32,7 @@ Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'showLoginForm')->name('login');
     Route::post('/login', 'authenticate');
     Route::get('/logout', 'logout')->name('logout');
+    Route::get('/forgotPassword','forgotPassword')->name('password');
 });
 
 Route::controller(RegisterController::class)->group(function () {
@@ -56,6 +57,12 @@ Route::controller(ProjectController::class)->group(function () {
     Route::post('/decline-invite/{id_user}/{id_project}', 'declineInvite')->name('decline.invite');
     Route::get('/projects/{title}/members', 'showMembers')->name("project.showMember");
     Route::get('/projects/{title}/leaders', 'showLeaders')->name("project.showLeader");
+    Route::get('/project/{title}/edit', 'edit')->name('project.editProject');
+   Route::put('/project/{title}/update', 'update')->name('project.update');
+   Route::get('/project/{title}/favorite', 'favorite')->name('project.favorite');
+   Route::get('/project/{title}/notFavorite', 'notFavorite')->name('project.notFavorite');
+
+
 
 
    

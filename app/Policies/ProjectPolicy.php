@@ -36,5 +36,12 @@ class ProjectPolicy
     {
         return  $project->leaders->contains($user);
     }
+
+    public function edit(User $user,Project $project){
+        return $project->leaders->contains($user);
+    }
+    public function update(User $user,Project $project){
+        return $project->leaders->contains($user);
+    }
    
 }
