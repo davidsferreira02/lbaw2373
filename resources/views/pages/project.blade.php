@@ -33,7 +33,7 @@
 @endif
 @if($isFavorite)
 
-<a href="{{ route('project.favorite', ['title' => $project->title]) }}" class="btn btn-primary"><i class="fa-solid fa-star"></i></a>
+<a href="{{ route('project.notFavorite', ['title' => $project->title]) }}" class="btn btn-primary"><i class="fa-solid fa-star"></i></a>
         @endif
     </div>
     <a href="{{ route('project.home') }}" class="btn btn-primary">Go back</a>

@@ -14,20 +14,24 @@ use Illuminate\Support\Facades\Auth;
 class ProjectController extends Controller
 {
 
-
     public function index()
-{
-    $user = Auth::user();
+    {
+        $user = Auth::user();
+        
+        // Obter todos os projetos do usuário
+        $projects = Project::whereHas('members', function ($query) use ($user) {
+            $query->where('id_user', $user->id);
+        })->orWhereHas('leaders', function ($query) use ($user) {
+            $query->where('id_user', $user->id);
+        })->get();
     
-    $projects = Project::whereHas('members', function ($query) use ($user) {
-        $query->where('id_user', $user->id);
-    })->orWhereHas('leaders', function ($query) use ($user) {
-        $query->where('id_user', $user->id);
-    })->get();
-
-    return view('pages.myProject', compact('projects'));
-}
-
+        // Obter apenas os projetos favoritos do usuário
+        $favoriteProjects = $user->favoriteProjects()->get();
+    
+        return view('pages.myProject', compact('projects', 'favoriteProjects'));
+    }
+    
+    
 public function home(){
    
     return view('pages.home');
@@ -335,14 +339,31 @@ public function update(Request $request,$title)
 
 
 public function favorite($title){
-    $user=Auth::user()->id;
+    $user=Auth::user();
     $project = Project::where('title', $title)->first();
     $favorite = new Favorite();
-    $favorite->users_id=$user;
+    $favorite->users_id=$user->id;
     $favorite->project_id=$project->id;
+   // $user->favoriteProjects()->attach($project->id);
     $favorite->save();
 
     return redirect()->route('project.show', $project->title)->with('success', 'Projeto atualizado com sucesso!');
 
 }
+
+public function notFavorite($title){
+    $user=Auth::user();
+    $project = Project::where('title', $title)->first();
+    $favorite = Favorite::where('project_id', $project->id)
+    ->where('users_id', $user->id)
+    ->first();
+    $user->favoriteProjects()->detach($project->id);
+if ($favorite) {
+$favorite->delete();
+return redirect()->route('project.show', $project->title)->with('success', 'Projeto atualizado com sucesso!');            
+
+}
+}
+
+
 }
