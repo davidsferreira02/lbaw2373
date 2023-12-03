@@ -33,6 +33,7 @@
         @endif
 
 
+        
         <form action="{{ route('profile.delete', ['id' => $user->id]) }}" method="POST">
             @csrf
             @method('DELETE')
