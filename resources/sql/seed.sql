@@ -46,7 +46,7 @@ CREATE TABLE project(
   title varchar(255) NOT NULL,
   description varchar(255) NOT NULL,
   theme varchar(255) NOT NULL,
-  archived boolean NOT NULL,
+  archived boolean  DEFAULT FALSE,
   search TSVECTOR
 );
 

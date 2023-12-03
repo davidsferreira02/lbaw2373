@@ -217,3 +217,9 @@ body {
   display:flex;
  align-items:center;
 }
+
+.btn.no-border {
+  background-color: transparent;
+  border: none;
+  padding: 0; /* Remove o espaçamento interno */
+}

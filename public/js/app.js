@@ -44,3 +44,5 @@ function filterTasks() {
 document.getElementById('priorityFilter').addEventListener('change', filterTasks);
 
 document.getElementById('searchInput').addEventListener('input', filterTasks);
+
+

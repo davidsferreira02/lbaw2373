@@ -30,11 +30,58 @@
         
 <a href="{{ route('project.favorite', ['title' => $project->title]) }}" class="btn btn-primary"><i class="fa-regular fa-star"></i></a>
 @endif
-@endif
 @if($isFavorite)
 
-<a href="{{ route('project.favorite', ['title' => $project->title]) }}" class="btn btn-primary"><i class="fa-solid fa-star"></i></a>
+<a href="{{ route('project.noFavorite', ['title' => $project->title]) }}" class="btn btn-primary"><i class="fa-solid fa-star"></i></a>
+        @endif
+
+        @if(!$project->archived)
+        <button id="archiveButton" data-title="{{ $project->title }}" class="btn btn-primary ">
+            <i class="fa-regular fa-bookmark"></i>
+        </button>
+    @endif
+    
+    @if($project->archived)
+        <button id="unarchiveButton" data-title="{{ $project->title }}" class="btn btn-primary ">
+            <i class="fa-solid fa-bookmark"></i> 
+        </button>
+    @endif
+
+
         @endif
     </div>
     <a href="{{ route('project.home') }}" class="btn btn-primary">Go back</a>
 @endsection
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#archiveButton').click(function() {
+            let title = $(this).data('title');
+            toggleArchived(title);
+        });
+
+        $('#unarchiveButton').click(function() {
+            let title = $(this).data('title');
+            toggleArchived(title);
+        });
+
+        function toggleArchived(title) {
+            $.ajax({
+                url: '/project/' + title + '/archived', 
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    
+                    window.location.reload(); 
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+    });
+</script>

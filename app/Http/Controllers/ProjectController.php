@@ -335,14 +335,49 @@ public function update(Request $request,$title)
 
 
 public function favorite($title){
-    $user=Auth::user()->id;
+    $user=Auth::user();
     $project = Project::where('title', $title)->first();
     $favorite = new Favorite();
-    $favorite->users_id=$user;
+    $favorite->users_id=$user->id;
     $favorite->project_id=$project->id;
     $favorite->save();
 
     return redirect()->route('project.show', $project->title)->with('success', 'Projeto atualizado com sucesso!');
 
 }
+
+
+
+public function noFavorite($title){
+    $user = Auth::user();
+    $project = Project::where('title', $title)->first();
+
+    $favorite = Favorite::where('users_id', $user->id)
+        ->where('project_id', $project->id)
+        ->first();
+
+    if ($favorite) {
+        $favorite->delete();
+    }
+
+    return redirect()->route('project.show', $project->title)->with('success', 'Projeto desfavoritado com sucesso!');
+}
+
+
+
+
+
+public function archived($title)
+{
+    $project = Project::where('title', $title)->first();
+
+    if ($project) {
+        $project->archived = !$project->archived; // Inverte o valor de archived
+        $project->save();
+        return redirect()->route('project.show', $project->title)->with('success', 'Projeto atualizado com sucesso!');
+    }
+
+    return redirect()->back()->with('error', 'Projeto não encontrado');
+}
+
 }

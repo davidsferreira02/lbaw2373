@@ -60,6 +60,9 @@ Route::controller(ProjectController::class)->group(function () {
     Route::get('/project/{title}/edit', 'edit')->name('project.editProject');
    Route::put('/project/{title}/update', 'update')->name('project.update');
    Route::get('/project/{title}/favorite', 'favorite')->name('project.favorite');
+   Route::get('/project/{title}/noFavorite', 'noFavorite')->name('project.noFavorite');
+   Route::post('project/{title}/archived','archived')->name('project.archived');
+   
 
 
 
