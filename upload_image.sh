@@ -3,8 +3,8 @@
 # Stop execution if a step fails
 set -e
 
-IMAGE_NAME=git.fe.up.pt:5050/lbaw/lbaw2324/lbaw2373 # Replace with your group's image name
 
+IMAGE_NAME=git.fe.up.pt:5050/lbaw/lbaw2324/lbaw2373
 # Ensure that dependencies are available
 composer install
 php artisan config:clear

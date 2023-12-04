@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Http\Controllers\FileController;
 
 
 // Added to define Eloquent relationships.
@@ -65,5 +66,6 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Project::class, 'favorite', 'users_id', 'project_id');
     }
+
 
 }

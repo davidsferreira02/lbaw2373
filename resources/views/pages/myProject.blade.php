@@ -44,8 +44,10 @@
                 </a>
             </li>
             @endif
+            @endforeach
         </ul>
-        @endforeach
+    </div>
+        
 
     <!-- Botão para voltar para a página inicial (home) -->
     <a href="{{ route('project.home') }}" class="btn btn-primary">Go back</a>

@@ -24,6 +24,8 @@ class UsersController extends Controller
         if ($search) {
             $users = User::where(DB::raw('LOWER(name)'), 'LIKE', '%' . strtolower($search) . '%')->get();
             $projects = Project::where(DB::raw('LOWER(title)'), 'LIKE', '%' . strtolower($search) . '%')->get();
+            //  $users = User::whereRaw("search @@ to_tsquery('simple', ?)", [strtolower($search)])->get();
+            //  $projects = Project::whereRaw("search @@ to_tsquery('simple', ?)", [strtolower($search)])->get();
         } else {
             $users = User::all();
             $projects=Project::all();

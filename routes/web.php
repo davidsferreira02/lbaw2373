@@ -12,6 +12,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\MailController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,7 +27,17 @@ use App\Http\Controllers\LikeController;
 // Home
 Route::redirect('/', '/login');
 
+Route::get('/features', function () {
+    return view('pages.features');
+})->name('features');
 
+Route::get('/about', function () {
+    return view('pages.about');
+})->name('about');
+
+Route::get('/contacts', function () {
+    return view('pages.contacts');
+})->name('contacts');
 
 
 // Authentication
@@ -117,3 +128,4 @@ Route::post('/api/like/store', 'store')->name('like.store');
 Route::delete('/api/like/{id}', 'destroy')->name('like.destroy');
 
 });
+

@@ -33,13 +33,14 @@
         @endif
 
 
-        
+        @if(Auth::check() && Auth::user()->id === $user->id)
         <form action="{{ route('profile.delete', ['id' => $user->id]) }}" method="POST">
             @csrf
             @method('DELETE')
             <button type="submit">Excluir Perfil</button>
         </form>
-        
+    @endif
+    
 
     </div>
     <a href="{{ route('project.home') }}" class="btn btn-primary">Go back</a>
