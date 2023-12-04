@@ -1,37 +1,33 @@
 <?php
 
-
-
-
 namespace App\Policies;
 
-use App\Http\Controllers\TaskController;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use App\Models\Task;
 use App\Models\Project;
-use Illuminate\Http\Request;
-use Illuminate\Auth\Access\HandlesAuthorization;
-
+use App\Models\Task;
+use Illuminate\Support\Facades\Log;
 class TaskPolicy
 {
-    use HandlesAuthorization;
+    /**
+     * Create a new policy instance.
+     */
+ 
+
 
  
-        use HandlesAuthorization;
 
+     public function delete(User $user, Task $task)
+     {
 
-        public function create(User $user, Project $project){
-            return $project->leaders->contains($user) || $project->members->contains($user);
-            
-}
-public function view(User $user, Project $project)
-{
-    return $project->leaders->contains($user) || $project->members->contains($user);
-}
+        return $task->owners->contains($user);
+     }
+   
+     public function edit(User $user,Task $task){
+        return $task->owners->contains($user);
+     }
 
-public function delete(Task $task)
-{
-    return $task->owners->contains(Auth::user()->id);
-}
+     public function show(User $user, Project $project, Task $task){
+        return $project->members()->where('id_user', $user->id)->count() > 0;
+     }
+
 }

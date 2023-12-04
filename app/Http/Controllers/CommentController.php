@@ -11,8 +11,11 @@ class CommentController extends Controller
 {
     
     public function show($title,$taskId){
+        
         $project = Project::where('title', $title)->first();
+     
         $task=Task::find($taskId);
+        $this->authorize('create', [Comment::class, $project, $task]);
         $comments = $task->comments()->get();
         return view('pages.comment', compact('task','project','comments'));
 
@@ -20,10 +23,12 @@ class CommentController extends Controller
 
     public function store(Request $request,$title,$taskId){
 
-
+        $project = Project::where('title', $title)->first();
+        $this->authorize('createComment',$project);
         $comment = new Comment();
         $comment->content = $request->input('content');
         $task=Task::find($taskId);
+        $this->authorize('create', [Comment::class, $project, $task]);
         $comment->id_task=$task->id;
         $currentDateTime = Carbon::now();
 

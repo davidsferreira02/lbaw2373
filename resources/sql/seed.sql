@@ -62,13 +62,14 @@ CREATE TABLE task (
   foreign key (id_project) references project(id)
 );
 
-CREATE TABLE comment(
+CREATE TABLE comment (
   id SERIAL PRIMARY KEY,
-  content varchar(255) NOT NULL,
-  id_task int not null,
-  foreign key (id_task) references task(id),
+  content VARCHAR(255) NOT NULL,
+  id_task INT NOT NULL,
+  FOREIGN KEY (id_task) REFERENCES task(id) ON DELETE CASCADE,
   date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
 
 CREATE TABLE likes(
   id SERIAL PRIMARY KEY,

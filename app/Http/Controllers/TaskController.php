@@ -21,10 +21,10 @@ class TaskController extends Controller
             abort(404); 
         }
     
-        $this->authorize('create', $project);
+      
        
         $tasks = Task::where('id_project', $project->id)->get();
-        //$this->authorize('view', $project);
+       // $this->authorize('show', [Project::class, Task::class]);
         
 
         return view('pages.tasks', compact('tasks', 'project'));
@@ -41,6 +41,7 @@ class TaskController extends Controller
         }
 
         $members = $project->members;
+   
        
 
     
@@ -69,7 +70,6 @@ class TaskController extends Controller
        
         $project = Project::where('title', $title)->first();
         $task->project()->associate($project);
-
         
         $user = $request->input('assigned');
         
@@ -81,7 +81,7 @@ class TaskController extends Controller
         $task->datecreation = $currentDateTime->format('Y-m-d');
         
        
-        $this->authorize('create', $project);
+      
         
         $task->save();
         $this->taskOwner($task->id, Auth::User()->id);
@@ -109,7 +109,7 @@ public function assignedTask($taskId,$userId){
 public function isCompleted($title, $taskId) {
     $project = Project::where('title', $title)->first();
     $task = Task::where('id', $taskId)->where('id_project', $project->id)->first();
-    $this->authorize('view', $project);
+
     if($task){
         $task->iscompleted = true;
         $task->save();
@@ -124,6 +124,7 @@ public function isCompleted($title, $taskId) {
 public function delete($title,$idTask){
     $project = Project::where('title', $title)->first();
     $task = Task::where('id', $idTask)->where('id_project', $project->id)->first();
+    $this->authorize('delete', $task);
     if($task){
    
     $task->delete();
