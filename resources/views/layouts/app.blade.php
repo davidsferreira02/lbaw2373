@@ -31,9 +31,11 @@
                     </a>
                     
                     <form id="search" action="{{ route('search.users') }}" method="GET">
-                        <input type="text" name="search" placeholder="Search for users or projects">
-                        <button type="submit">Search</button>
+                        <label for="searchInput" style="display: none;">Search for users or projects</label>
+                        <input type="text" id="searchInput" name="search" placeholder="Search for users or projects">
+                        <i class="fas fa-search" id="searchIcon" style="cursor: pointer;"></i> <!-- Ícone de lupa -->
                     </form>
+                    
                     
                 @endif
             </header>
@@ -59,3 +61,10 @@
 
 
 </html>
+
+
+<script>
+    document.getElementById('searchIcon').addEventListener('click', function() {
+        document.getElementById('search').submit();
+    });
+</script>

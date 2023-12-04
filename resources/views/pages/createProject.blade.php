@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+<a href="{{ route('project.home') }}" class="btn btn-primary">
+    <i class="fas fa-arrow-left"></i> <!-- Use "fas" para ícones sólidos -->
+    
+</a>
+
     <div class="container">
         <h1>Create a New Project</h1>
 
@@ -30,5 +35,5 @@
             <button type="submit"href="{{ route('project.index') }}" class="btn btn-primary">Create Project</button>
         </form>
     </div>
-    <a href="{{ route('project.home') }}" class="btn btn-primary">Go back</a>
+
 @endsection

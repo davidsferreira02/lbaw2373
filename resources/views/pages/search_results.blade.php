@@ -3,6 +3,12 @@
 @section('content')
   
 
+<a href="{{ route('project.home') }}" class="btn btn-primary">
+    <i class="fas fa-arrow-left"></i> <!-- Use "fas" para ícones sólidos -->
+    
+</a>
+
+
     @if($search)
         <h1>Search results: {{ $search }}</h1>
     @endif

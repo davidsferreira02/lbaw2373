@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+
+<a href="{{ route('project.home') }}" class="btn btn-primary">
+    <i class="fas fa-arrow-left"></i> <!-- Use "fas" para ícones sólidos -->
+    
+</a>
+
     <select id="projectFilter">
         <option value="all">All Projects</option>
         <option value="favorites">Favorite Projects</option>
@@ -50,7 +56,6 @@
         
 
     <!-- Botão para voltar para a página inicial (home) -->
-    <a href="{{ route('project.home') }}" class="btn btn-primary">Go back</a>
 
     <script>
         document.getElementById('projectFilter').addEventListener('change', function() {
