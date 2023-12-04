@@ -11,6 +11,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LikeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -108,5 +109,11 @@ Route::controller(ProfileController::class)->group(function(){
 Route::controller(CommentController::class)->group(function(){
     Route::get('/project/{title}/task/{taskId}/comments','show')->name('task.comment');
     Route::post('/project/{title}/task/{taskId}/comments/store', [CommentController::class, 'store'])->name('comments.store');
+
+});
+
+Route::controller(LikeController::class)->group(function(){
+Route::post('/api/like/store', 'store')->name('like.store');
+Route::delete('/api/like/{id}', 'destroy')->name('like.destroy');
 
 });

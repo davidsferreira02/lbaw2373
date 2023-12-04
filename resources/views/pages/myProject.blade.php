@@ -4,10 +4,11 @@
     <select id="projectFilter">
         <option value="all">All Projects</option>
         <option value="favorites">Favorite Projects</option>
+        <option value=archived> Archived</option>
     </select>
 
     <div id="allProjects">
-        <h1>All Projects</h1>
+        <h1>All My Projects</h1>
         <ul>
             @foreach($projects as $project)
                 <li>
@@ -32,6 +33,20 @@
         </ul>
     </div>
 
+    <div id="archived" style="display: none;">
+        <h1> Archived Projects </h1>
+        <ul>
+            @foreach($projects as $projects)
+            @if($project->archived)
+            <li>
+                <a href="{{ route('project.show', ['title' => $project->title]) }}">
+                    {{ $project->title }}
+                </a>
+            </li>
+            @endif
+        </ul>
+        @endforeach
+
     <!-- Botão para voltar para a página inicial (home) -->
     <a href="{{ route('project.home') }}" class="btn btn-primary">Go back</a>
 
@@ -42,9 +57,17 @@
             if (filter === 'favorites') {
                 document.getElementById('allProjects').style.display = 'none';
                 document.getElementById('favoriteProjects').style.display = 'block';
+                document.getElementById('archived').style.display='none';
+            }
+            else if(filter==='archived'){
+                document.getElementById('allProjects').style.display = 'none';
+                document.getElementById('favoriteProjects').style.display = 'none';
+                document.getElementById('archived').style.display='block';
+                
             } else {
                 document.getElementById('allProjects').style.display = 'block';
                 document.getElementById('favoriteProjects').style.display = 'none';
+                document.getElementById('archived').style.display='none';
             }
         });
     </script>
