@@ -1,9 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2>Tarefas do Projeto: {{ $project->title }}</h2>
-    <input type="text" id="searchInput" placeholder="Pesquisar por título...">
-
     <select id="priorityFilter">
         <option value="all">All Priorities</option>
         <option value="Low">Low Priority</option>
@@ -16,86 +13,96 @@
         
     </select>
     
-    
-
-
-
     <div id="tasksContainer">
-        @if($tasks)
-            @forelse ($tasks as $task)
-                <div class="task-card" data-priority="{{ $task->priority }}">
-                    <a href="{{ route('task.comment', ['taskId' => $task->id,'title'=>$project->title]) }}">
-                        <h3><strong>title:</strong> {{ $task->title }}</h3>
-                    </a>
-                    <p><strong>content:</strong>{{ $task->content }}</p>
-                    <p><strong>priority:</strong>{{ $task->priority }}</p>
-                    <p><strong>deadline:</strong>{{ $task->deadline }}</p>
-                    <p><strong>dateCreation:</strong>{{ $task->datecreation }}</p>
-                    <p><strong>isCompleted:</strong>
-                        @if($task->iscompleted)
-                            true
-                        @else
-                            false
-                        @endif
-                    </p>
+        @forelse ($tasks as $task)
+            <div class="task-card" data-priority="{{ $task->priority }}">
+                <!-- Detalhes da tarefa -->
+                <h3><strong>title:</strong>{{ $task->title }}</h3>
+                <p><strong>content:</strong>{{ $task->content }}</p>
+                <p><strong>priority:</strong>{{ $task->priority }}</p>
+                <p><strong>deadline:</strong>{{ $task->deadline }}</p>
+                <p><strong>dateCreation:</strong>{{ $task->datecreation }}</p>
+                <p><strong>isCompleted: </strong>
+                    @if($task->iscompleted)
+                        true
+                    @else
+                        false
+                    @endif
+                </p>
                 
                     
-                    @foreach ($task->assigned as $user)
-                        <p><strong>Assigned:</strong>{{ $user->name }}</p>
-                    @endforeach
-                    @foreach ($task->owners as $owner)
-                        <p><strong>Owner:</strong>{{ $owner->name }}</p>
-                    @endforeach
-                    @unless($task->iscompleted)
-                    <form method="POST" action="{{ route('task.complete', ['title' => $project->title, 'taskId' => $task->id]) }}">
-                        @csrf
-                        @method('PATCH') 
-                        
+                  
+                  
+                
+                
+
+    
+                <form method="POST" action="{{ route('task.complete', ['title' => $project->title, 'taskId' => $task->id]) }}" class="complete-form">
+                    @csrf
+                    @method('PATCH') 
+    
+                    <!-- Verificação e renderização do botão -->
+                    @if($task->iscompleted)
+                        <input type="hidden" name="iscompleted" value="false">
+                        <button type="submit" class="btn btn-warning">
+                            Uncomplete
+                        </button>
+                    @else
+                        <input type="hidden" name="iscompleted" value="true">
                         <button type="submit" class="btn btn-success">
                             Mark as completed
                         </button>
-                    </form>
-                @endunless
-                    </form>
-
-
-                    @if(Auth::user()->id === $task->owners()->first()->id)
-                      <form action="{{ route('task.delete', ['taskId' => $task->id, 'title' => $project->title]) }}" method="POST">
-            @csrf
-            @method('DELETE')
-            <button type="submit">Apagar Task</button>
-        </form>
-        @endif
-            
-
-                </div>
-            @empty
-                <p>No tasks found for this project.</p>
-            @endforelse
-        @else
-            <p>No tasks found for this project</p>
-        @endif
+                    @endif
+                </form>
+            </div>
+        @empty
+            <!-- Se não houver tarefas -->
+            <p>No tasks found for this project.</p>
+        @endforelse
     </div>
+    
+    
+
+
     <a href="{{ route('project.show', ['title' => $project->title]) }}" class="btn btn-primary">Go back</a>
 
+   
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const searchInput = document.getElementById('searchInput');
-            const taskCards = document.querySelectorAll('.task-card');
+    $(document).ready(function() {
+    $('.complete-form').on('submit', function(e) {
+        e.preventDefault();
+        var form = $(this);
+        var url = form.attr('action');
+        var taskCard = form.closest('.task-card');
+        
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: form.serialize(),
+            success: function(response) {
+                var button = form.find('button');
+                if (response.iscompleted) {
+                    button.text('Uncomplete').removeClass('btn-success').addClass('btn-warning');
+                } else {
+                    button.text('Mark as completed').removeClass('btn-warning').addClass('btn-success');
+                }
 
-            searchInput.addEventListener('input', function () {
-                const searchText = this.value.toLowerCase();
-
-                taskCards.forEach(function (taskCard) {
-                    const title = taskCard.querySelector('h3').innerText.toLowerCase();
-
-                    if (title.includes(searchText)) {
-                        taskCard.style.display = 'block';
-                    } else {
-                        taskCard.style.display = 'none';
-                    }
-                });
-            });
+                var isCompletedElement = taskCard.find('p strong:contains("isCompleted:")');
+                if (isCompletedElement.length > 0) {
+                    isCompletedElement.text('isCompleted: ' + response.iscompleted);
+                } else {
+                    taskCard.append('<p><strong>isCompleted:</strong> ' + response.iscompleted + '</p>');
+                }
+            },
+            error: function(error) {
+                console.error('Erro ao completar a tarefa:', error);
+            }
         });
-    </script>
+    });
+});
+
+</script>
+    
+
 @endsection

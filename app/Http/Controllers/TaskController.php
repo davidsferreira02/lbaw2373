@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Project;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 class TaskController extends Controller
 {
    
@@ -106,19 +107,23 @@ public function assignedTask($taskId,$userId){
     ]);
 }
 
-public function isCompleted($title, $taskId) {
+
+
+public function isCompleted($title, $taskId)
+{
     $project = Project::where('title', $title)->first();
     $task = Task::where('id', $taskId)->where('id_project', $project->id)->first();
 
-    if($task){
-        $task->iscompleted = true;
+    if ($task) {
+        $task->iscompleted = !$task->iscompleted;
         $task->save();
 
-        return redirect()->route('project.show', ['title' => $title])->with('success', 'Tarefa marcada como concluída!');
+        return Response::json(['iscompleted' => $task->iscompleted], 200);
     }
 
-    abort(404); // Tarefa não encontrada ou não pertence ao projeto
+    return Response::json(['error' => 'Tarefa não encontrada.'], 404);
 }
+
 
 
 public function delete($title,$idTask){
