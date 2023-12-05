@@ -76,13 +76,13 @@
    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-    $(document).ready(function() {
+ $(document).ready(function() {
     $('.complete-form').on('submit', function(e) {
         e.preventDefault();
         var form = $(this);
         var url = form.attr('action');
         var taskCard = form.closest('.task-card');
-        
+
         $.ajax({
             type: 'POST',
             url: url,
@@ -95,12 +95,9 @@
                     button.text('Mark as completed').removeClass('btn-warning').addClass('btn-success');
                 }
 
-                var isCompletedElement = taskCard.find('p strong:contains("isCompleted:")');
-                if (isCompletedElement.length > 0) {
-                    isCompletedElement.text('isCompleted: ' + response.iscompleted);
-                } else {
-                    taskCard.append('<p><strong>isCompleted:</strong> ' + response.iscompleted + '</p>');
-                }
+                // Encontra o parágrafo 'isCompleted' específico e atualiza seu conteúdo
+                var isCompletedParagraph = taskCard.find('p strong:contains("isCompleted:")').parent();
+                isCompletedParagraph.html('<strong>isCompleted:</strong> ' + response.iscompleted);
             },
             error: function(error) {
                 console.error('Erro ao completar a tarefa:', error);
