@@ -499,14 +499,15 @@ CREATE OR REPLACE FUNCTION user_search_update() RETURNS TRIGGER AS
 $BODY$
 BEGIN
     IF TG_OP = 'INSERT' THEN
-        NEW.search = (SELECT setweight(to_tsvector(users.name), 'A') FROM users WHERE NEW.id=users.id);
-    ELSIF TG_OP = 'UPDATE' AND (NEW.username <> OLD.username) THEN
-        NEW.search = (SELECT setweight(to_tsvector(users.name), 'A') FROM users WHERE NEW.id=users.id);
-END IF;
-RETURN NEW;
+        NEW.search = (SELECT setweight(to_tsvector(users.name), 'A') FROM users WHERE NEW.id = users.id);
+    ELSIF TG_OP = 'UPDATE' AND (NEW.name <> OLD.name) THEN
+        NEW.search = (SELECT setweight(to_tsvector(users.name), 'A') FROM users WHERE NEW.id = users.id);
+    END IF;
+    RETURN NEW;
 END;
 $BODY$
-    LANGUAGE 'plpgsql';
+LANGUAGE 'plpgsql';
+
 
 DROP TRIGGER IF EXISTS update_user_search ON users;
 
@@ -724,6 +725,7 @@ CREATE TRIGGER add_comment_like_notification
 EXECUTE PROCEDURE add_comment_like_notification();
 
 
-
+UPDATE users SET search = to_tsvector('english', name);
+UPDATE project SET search = to_tsvector('english', title);
 
 

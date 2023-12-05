@@ -26,8 +26,6 @@ class TaskPolicy
         return $task->owners->contains($user);
      }
 
-     public function show(User $user, Project $project, Task $task){
-        return $project->members()->where('id_user', $user->id)->count() > 0;
-     }
+    
 
 }

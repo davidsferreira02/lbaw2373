@@ -22,19 +22,25 @@ class UsersController extends Controller
         $search = $request->input('search');
     
         if ($search) {
-            $users = User::where(DB::raw('LOWER(name)'), 'LIKE', '%' . strtolower($search) . '%')->get();
-            $projects = Project::where(DB::raw('LOWER(title)'), 'LIKE', '%' . strtolower($search) . '%')->get();
-            //  $users = User::whereRaw("search @@ to_tsquery('simple', ?)", [strtolower($search)])->get();
-            //  $projects = Project::whereRaw("search @@ to_tsquery('simple', ?)", [strtolower($search)])->get();
+            $users = User::whereRaw('search @@ plainto_tsquery(\'english\', ?)', [$search])
+                ->orWhere('name', 'ILIKE', '%' . $search . '%')
+                ->orderByRaw('ts_rank(search, plainto_tsquery(\'english\', ?)) DESC', [$search])
+                ->limit(40)
+                ->get();
+    
+            $projects = Project::whereRaw('search @@ plainto_tsquery(\'english\', ?)', [$search])
+                ->orWhere('title', 'ILIKE', '%' . $search . '%')
+                ->orderByRaw('ts_rank(search, plainto_tsquery(\'english\', ?)) DESC', [$search])
+                ->limit(40)
+                ->get();
         } else {
             $users = User::all();
-            $projects=Project::all();
-
+            $projects = Project::all();
         }
     
-        return view('pages.search_results', ['users' => $users,'projects'=>$projects, 'search' => $search]);
+        return view('pages.search_results', ['users' => $users, 'projects' => $projects, 'search' => $search]);
     }
-
+    
 
 
 
