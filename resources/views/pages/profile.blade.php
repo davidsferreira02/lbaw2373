@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+<a href="{{ route('project.home') }}" class="btn btn-primary">
+    <i class="fas fa-arrow-left"></i> <!-- Use "fas" para ícones sólidos -->
+    
+</a>
     <div class="profile">
          <h1>
             @if($user->id === Auth::user()->id)
@@ -43,5 +47,5 @@
     
 
     </div>
-    <a href="{{ route('project.home') }}" class="btn btn-primary">Go back</a>
+    
 @endsection

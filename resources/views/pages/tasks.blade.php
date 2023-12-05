@@ -77,4 +77,25 @@
         @endif
     </div>
     <a href="{{ route('project.show', ['title' => $project->title]) }}" class="btn btn-primary">Go back</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('searchInput');
+            const taskCards = document.querySelectorAll('.task-card');
+
+            searchInput.addEventListener('input', function () {
+                const searchText = this.value.toLowerCase();
+
+                taskCards.forEach(function (taskCard) {
+                    const title = taskCard.querySelector('h3').innerText.toLowerCase();
+
+                    if (title.includes(searchText)) {
+                        taskCard.style.display = 'block';
+                    } else {
+                        taskCard.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

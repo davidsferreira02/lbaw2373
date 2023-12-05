@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+<a href="{{ route('project.home') }}" class="btn btn-primary">
+    <i class="fas fa-arrow-left"></i> <!-- Use "fas" para ícones sólidos -->
+    
+</a>
     <h1>Pending invitations</h1>
 
     @if ($pendingInvites->isEmpty())
@@ -22,5 +26,4 @@
             @endforeach
         </ul>
     @endif
-    <a href="{{ route('project.home') }}" class="btn btn-primary">Go back</a>
 @endsection
