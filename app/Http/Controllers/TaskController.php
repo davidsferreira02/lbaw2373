@@ -10,6 +10,7 @@ use App\Models\Project;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
+use Carbon\Carbon;
 class TaskController extends Controller
 {
    
@@ -34,8 +35,9 @@ class TaskController extends Controller
     public function create($title)
     {
         
-        $project = Project::where('title', $title)->first();
 
+        $project = Project::where('title', $title)->first();
+        $this->authorize('create', [Task::class, $project]);
        
         if (!$project) {
             abort(404); 
@@ -82,13 +84,15 @@ class TaskController extends Controller
         $task->datecreation = $currentDateTime->format('Y-m-d');
         
        
-      
+        $deadline = Carbon::parse($request->input('deadline'));
         
         $task->save();
         $this->taskOwner($task->id, Auth::User()->id);
         $this->assignedTask($task->id, $user);
 
-       
+        if ($deadline->isPast()) {
+            return redirect()->back()->withInput()->withErrors(['deadline' => 'The deadline must be after today']);
+        }
 
         
         return redirect()->route('project.show', ['title' => $title])->with('success', 'Tarefa criada com sucesso!');

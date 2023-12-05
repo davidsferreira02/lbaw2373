@@ -15,7 +15,7 @@ class CommentController extends Controller
         $project = Project::where('title', $title)->first();
      
         $task=Task::find($taskId);
-        $this->authorize('create', [Comment::class, $project, $task]);
+     $this->authorize('create', [Comment::class, $project, $task]);
         $comments = $task->comments()->get();
         return view('pages.comment', compact('task','project','comments'));
 
@@ -24,7 +24,7 @@ class CommentController extends Controller
     public function store(Request $request,$title,$taskId){
 
         $project = Project::where('title', $title)->first();
-        $this->authorize('createComment',$project);
+       
         $comment = new Comment();
         $comment->content = $request->input('content');
         $task=Task::find($taskId);
@@ -32,8 +32,7 @@ class CommentController extends Controller
         $comment->id_task=$task->id;
         $currentDateTime = Carbon::now();
 
-    // Formatando a data para exibir até os segundos
-        // Formatando a data para exibir até os segundos
+    
         $formattedDateTime = $currentDateTime->format('Y-m-d H:i:s');
 
         // Se quiseres remover a fração de milissegundos (até os segundos)

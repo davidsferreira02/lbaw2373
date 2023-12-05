@@ -14,7 +14,13 @@ class TaskPolicy
  
 
 
- 
+
+
+    public function create(User $user, Project $project)
+    {
+      
+        return $user->projectLeader->contains($project) || $user->projectMember->contains($project);
+    }
 
      public function delete(User $user, Task $task)
      {

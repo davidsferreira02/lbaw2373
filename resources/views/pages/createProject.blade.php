@@ -21,16 +21,25 @@
             <div class="form-group">
                 <label for="title">Project Title</label>
                 <input type="text" id="title" name="title" class="form-control">
+                <span class="error">
+                    {{ $errors->first('title') }}
+                  </span>
             </div>
 
             <div class="form-group">
                 <label for="description">Project Description</label>
                 <textarea id="description" name="description" class="form-control"></textarea>
+                <span class="error">
+                    {{ $errors->first('description') }}
+                  </span>
             </div>
 
             <div class="form-group">
                 <label for="theme">Project Theme</label>
                 <textarea id="theme" name="theme" class="form-control"></textarea>
+                <span class="error">
+                    {{ $errors->first('theme') }}
+                  </span>
             </div>
             <button type="submit"href="{{ route('project.index') }}" class="btn btn-primary">Create Project</button>
         </form>

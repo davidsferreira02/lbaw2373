@@ -8,11 +8,17 @@
     <div>
         <label for="title">Title:</label>
         <input type="text" id="title" name="title">
+        <span class="error">
+            {{ $errors->first('title') }}
+          </span>
     </div>
 
     <div>
         <label for="content">Description:</label>
         <textarea id="content" name="content"></textarea>
+        <span class="error">
+            {{ $errors->first('content') }}
+          </span>
     </div>
 
     <div>
@@ -27,6 +33,9 @@
     <div>
         <label for="deadline">DeadLine:</label>
         <input type="date" id="deadline" name="deadline">
+        <span class="error">
+            {{ $errors->first('deadline') }}
+          </span>
     </div>
 
     <div>

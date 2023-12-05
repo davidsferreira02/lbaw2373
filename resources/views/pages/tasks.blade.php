@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+
+<a href="{{ route('project.show', ['title'=>$project->title]) }}" class="btn btn-primary">
+    <i class="fas fa-arrow-left"></i>
+</a>
     <select id="priorityFilter">
         <option value="all">All Priorities</option>
         <option value="Low">Low Priority</option>
@@ -17,7 +21,10 @@
         @forelse ($tasks as $task)
             <div class="task-card" data-priority="{{ $task->priority }}">
                 <!-- Detalhes da tarefa -->
-                <h3><strong>title:</strong>{{ $task->title }}</h3>
+                <a href="{{ route('task.comment', ['taskId' => $task->id,'title'=>$project->title]) }}">
+                    <h3><strong>title:</strong> {{ $task->title }}</h3>
+                </a>
+
                 <p><strong>content:</strong>{{ $task->content }}</p>
                 <p><strong>priority:</strong>{{ $task->priority }}</p>
                 <p><strong>deadline:</strong>{{ $task->deadline }}</p>
@@ -64,7 +71,7 @@
     
 
 
-    <a href="{{ route('project.show', ['title' => $project->title]) }}" class="btn btn-primary">Go back</a>
+    
 
    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
