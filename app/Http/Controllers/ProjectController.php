@@ -178,6 +178,24 @@ public function addOneMember(Request $request,$title){
 
 }
 
+
+public function deleteMember($title,$id){
+    $project = Project::where('title', $title)->first();
+    $user = User::findOrFail($id);
+    $isLeader = $project->leaders()->where('id', $user->id)->exists();
+    if(!$isLeader){
+    DB::table('is_member')
+    ->where('id_user', $user->id)
+    ->where('id_project', $project->id)
+    ->delete();
+    return redirect()->route('project.showMember', ['title' => $project->title])->with('success', 'Membro apagado!');
+    }
+    abort(404);
+    
+  
+
+}
+
 public function sendInvite($userId,$projectId){
     DB::table('inviteproject')->insert([
         'id_user' => $userId,

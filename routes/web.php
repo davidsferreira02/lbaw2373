@@ -82,6 +82,8 @@ Route::controller(ProjectController::class)->group(function () {
    Route::get('/project/{title}/favorite', 'favorite')->name('project.favorite')->middleware('auth');
    Route::get('/project/{title}/noFavorite', 'noFavorite')->name('project.noFavorite')->middleware('auth');
    Route::post('project/{title}/archived','archived')->name('project.archived')->middleware('auth');
+   Route::delete('/project/{title}/member/{id}/delete', 'deleteMember')->name('project.deleteMember');
+
    
 
 
