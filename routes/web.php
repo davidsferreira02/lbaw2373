@@ -48,7 +48,7 @@ Route::controller(LoginController::class)->group(function () {
     Route::post('/login', 'authenticate');
     Route::get('/logout', 'logout')->name('logout');
     Route::get('/forgotPassword','forgotPassword')->name('password');
-    Route::get('/blocked', function () {
+    Route::get('/block', function () {
         return view('pages.block');
     })->name('blocked');
     
