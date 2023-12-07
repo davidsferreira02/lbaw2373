@@ -33,6 +33,7 @@ CREATE TABLE users (
   name VARCHAR NOT NULL,
   email VARCHAR UNIQUE NOT NULL,
   password VARCHAR NOT NULL,
+  isblocked BOOLEAN NOT NULL DEFAULT false,
   remember_token VARCHAR,
   search TSVECTOR
 );

@@ -18,4 +18,20 @@ class AdminController extends Controller
 
         return view('pages.admin', compact('users', 'projects'));
     }
+
+
+    public function block($id)
+    {
+        $user = User::findOrFail($id);
+
+
+
+
+        if ($user) {
+            $user->isblocked = !$user->isblocked;
+            $user->save();
+
+        }
+        return redirect()->route('profile', $user->id)->with('success', 'Projeto desfavoritado com sucesso!');
+    }
 }
