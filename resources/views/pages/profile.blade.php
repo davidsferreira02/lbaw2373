@@ -35,6 +35,21 @@
                 Edit Profile
             </a>
         @endif
+        @if(Auth::check() && Auth::user()->isAdmin() && Auth::user()->id !== $user->id && !$user->isAdmin())
+    @if($user->isblocked)
+        <form action="{{ route('admin.block', ['id' => $user->id]) }}" method="POST">
+            @csrf
+            @method('PATCH')
+            <button type="submit">Desbloquear Usuário</button>
+        </form>
+    @else
+        <form action="{{ route('admin.block', ['id' => $user->id]) }}" method="POST">
+            @csrf
+            @method('PATCH')
+            <button type="submit">Bloquear Usuário</button>
+        </form>
+    @endif
+@endif
 
 
         @if(Auth::check() && Auth::user()->id === $user->id)

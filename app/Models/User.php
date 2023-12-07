@@ -67,5 +67,15 @@ class User extends Authenticatable
         return $this->belongsToMany(Project::class, 'favorite', 'users_id', 'project_id');
     }
 
+    public function isAdmin()
+    {
+        return $this->isAdminRelation()->exists();
+    }
+
+  
+    public function isAdminRelation()
+    {
+        return $this->hasOne(IsAdmin::class);
+    }
 
 }

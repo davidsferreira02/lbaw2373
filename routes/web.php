@@ -40,12 +40,19 @@ Route::get('/contacts', function () {
 })->name('contacts');
 
 
+
+
 // Authentication
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'showLoginForm')->name('login');
     Route::post('/login', 'authenticate');
     Route::get('/logout', 'logout')->name('logout');
     Route::get('/forgotPassword','forgotPassword')->name('password');
+    Route::get('/blocked', function () {
+        return view('pages.block');
+    })->name('blocked');
+    
+   
 });
 
 Route::controller(RegisterController::class)->group(function () {
@@ -105,6 +112,7 @@ Route::controller(TaskController::class)->group(function () {
 
 Route::controller(AdminController::class)->group(function () {
     Route::get('/admin', 'index')->name('admin.dashboard');
+    Route::patch('/block/{id}','block')->name('admin.block');
 });
 
 
