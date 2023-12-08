@@ -84,6 +84,8 @@ Route::controller(ProjectController::class)->group(function () {
    Route::post('project/{title}/archived','archived')->name('project.archived')->middleware('auth');
    Route::delete('/project/{title}/member/{id}/delete', 'deleteMember')->name('project.deleteMember');
    Route::get('/project/{title}/addMember/search-username', 'searchByUsername')->name('search.username');
+   Route::delete('/project/{title}/leave', 'leaveProject')->name('project.leave');
+
 
    
 
@@ -137,7 +139,7 @@ Route::controller(CommentController::class)->group(function(){
 });
 
 Route::controller(LikeController::class)->group(function(){
-Route::post('/api/like/store', 'store')->name('like.store')->middleware('auth');
+Route::post('/project/{title}/task/{titleTask}/comment/{commentId}/like/store', 'store')->name('like.store')->middleware('auth');
 Route::delete('/api/like/{id}', 'destroy')->name('like.destroy')->middleware('auth');
 
 });

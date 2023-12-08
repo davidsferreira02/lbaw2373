@@ -1,18 +1,21 @@
-@extends('layouts.app') 
+@extends('layouts.app')
 
 @section('content')
     <h1>Members from {{ $project->title }}</h1>
     <ul>
         @foreach ($members as $member)
-            <form action="{{ route('project.deleteMember', ['id' => $member->id,'title'=>$project->title]) }}" method="POST">
-                @csrf
-                @method('DELETE')
-                <li>
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir este membro?')">
-                        {{ $member->name }} - Delete Member
-                    </button>
-                </li>
-            </form>
+            <li>
+                <div>
+                    <a href="{{ route('profile', ['id' => $member->id]) }}" class="btn btn-primary">{{ $member->name }}</a>
+                    @if (!$project->leaders()->where('id_user', $member->id)->exists())
+                        <form action="{{ route('project.deleteMember', ['id' => $member->id, 'title' => $project->title]) }}" method="POST" style="display: inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir este membro?')">Delete Member</button>
+                        </form>
+                    @endif
+                </div>
+            </li>
         @endforeach
     </ul>
 

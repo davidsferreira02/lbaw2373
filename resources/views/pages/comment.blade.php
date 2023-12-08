@@ -24,11 +24,17 @@
 
     <h2>Comentários:</h2>
     @foreach($comments as $comment)
-        <div class="comment">
-            <p>{{ $comment->content }}</p>
-            <p> {{$comment->date}}</p>
-        </div>
-    @endforeach
+    <div class="comment">
+        @foreach($comment->owner as $user)
+            <h3>{{ $user->username }}</h3>
+        @endforeach
+        <p>{{ $comment->content }}</p>
+        <p>{{ $comment->date }}</p>
+        <!-- Botão de Like -->
+     
+    </div>
+@endforeach
+
     <!-- HTML da Página -->
     <form method="POST" action="{{ route('comments.store', ['title' => $project->title, 'taskId' => $task->id]) }}">
         @csrf
@@ -37,7 +43,7 @@
     </form>
     
     <div id="commentsContainer">
-        <!-- Aqui serão exibidos os comentários -->
+        
     </div>
 
     @endsection

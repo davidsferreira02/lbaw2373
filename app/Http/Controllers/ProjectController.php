@@ -432,6 +432,31 @@ public function searchByUsername(Request $request, $title) {
     // Retorne a view com os resultados da busca
     return view('pages.user_search_results', compact('users', 'project'));
 }
+public function leaveProject($title)
+{
+    $project = Project::where('title', $title)->first();
+
+    // Verifica se o usuário autenticado é um membro do projeto
+    if ($project->members->contains(Auth::user())) {
+        // Verifica se há mais de um membro e um líder no projeto
+        if ($project->members()->count() > 1 && $project->leaders()->count() > 1) {
+            $project->members()->detach(Auth::user()->id);
+            $project->leaders()->detach(Auth::user()->id);
+            return redirect()->route('project.home')->with('success', 'Você saiu do projeto com sucesso.');
+        } else {
+            if($project->members()->count()==1){
+                $project->delete();
+                return redirect()->route('project.home')->with('success', 'Você saiu do projeto com sucesso.');
+                
+            }
+            else if($project->leaders()->count()==1){
+                return redirect()->route('project.show', ['title' => $project->title])->with('error', 'Adiciona um leader ao projeto.');
+            }
+        }
+    }
+
+    return redirect()->route('project.show', ['title' => $project->title])->with('error', 'Você não é um membro deste projeto.');
+}
 
 
 

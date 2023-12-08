@@ -30,6 +30,11 @@
         @if($project->members->contains(Auth::user()))
         <a href="{{ route('task.create', ['title' => $project->title]) }}" class="btn btn-primary">Create Task</a>
         <a href="{{ route('task.show', ['title' => $project->title]) }}" class="btn btn-primary">See Task</a>
+           <form action="{{ route('project.leave', ['title' => $project->title]) }}" method="POST" class="my-3">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja sair do projeto?')">Leave Project</button>
+    </form>
         @if(!$isFavorite)
         
 <a href="{{ route('project.favorite', ['title' => $project->title]) }}" class="btn btn-primary"><i class="fa-regular fa-star"></i></a>
@@ -54,10 +59,38 @@
 
         @endif
     </div>
-   
-@endsection
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    
+
+    <!-- Modal de erro -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                </div>
+                <div class="modal-body">
+                    <p id="errorModalMessage"></p>
+                </div>
+                <div class="modal-footer">
+               
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JavaScript (inclua esta biblioteca) -->
+   
+    
+    <script>
+        // Exibe o modal de erro e define a mensagem
+        $('#errorModal').modal('show');
+        $('#errorModalMessage').text('Aqui vai a mensagem de erro específica que você deseja exibir.');
+    </script>
+
+
+   
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
     $(document).ready(function() {
@@ -89,3 +122,16 @@
         }
     });
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        @if(session('error'))
+            // Exibe o modal de erro
+            $('#errorModalMessage').text('{{ session('error') }}');
+            $('#errorModal').modal('show');
+        @endif
+    });
+</script>
+
+@endsection
+

@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Models\Project;
 use App\Models\Comment;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 class CommentController extends Controller
 {
     
@@ -40,8 +43,11 @@ class CommentController extends Controller
     
         // Salvar o comentário com a data formatada
         $comment->date = $formattedDateTime;
-    
+
+
+        $user = User::where('username', Auth::user()->username)->first();
         $comment->save();
+        $this->addCommentOwner($user->username,$comment->id);
 
         
         return redirect()->back();
@@ -52,6 +58,19 @@ class CommentController extends Controller
     }
 
     public function delete(){
+
+    }
+
+    public function addCommentOwner($username,$idcomment){
+        $user = User::where('username', $username)->first();
+        $comment = Comment::findOrFail($idcomment);
+        DB::table('commentowner')->insert([
+            'id_comment' => $comment->id,
+            'id_user' => $user->id,
+        ]);
+       
+
+
 
     }
 

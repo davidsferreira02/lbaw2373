@@ -95,7 +95,7 @@ class TaskController extends Controller
         }
 
         
-        return redirect()->route('project.show', ['title' => $title])->with('success', 'Tarefa criada com sucesso!');
+        return redirect()->route('task.show', ['title' => $title])->with('success', 'Tarefa criada com sucesso!');
     }
 
 public function taskOwner($taskId,$userId){

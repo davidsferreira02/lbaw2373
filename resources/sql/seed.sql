@@ -61,7 +61,7 @@ CREATE TABLE task (
     deadLine DATE,
   title varchar(255) NOT null,
   id_project int not null,
-  foreign key (id_project) references project(id)
+  foreign key (id_project) references project(id) ON DELETE CASCADE
 );
 
 CREATE TABLE comment (
@@ -77,7 +77,7 @@ CREATE TABLE likes(
   id SERIAL PRIMARY KEY,
   comment_id INT NOT NULL,
   user_id INT NOT NULL,
-  FOREIGN KEY (comment_id) REFERENCES comment (id),
+  FOREIGN KEY (comment_id) REFERENCES comment (id) ON DELETE CASCADE,
   FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
@@ -91,7 +91,7 @@ CREATE TABLE favorite(
   id SERIAL primary key,
   project_id INT NOT NULL,
   users_id INT NOT NULL,
-  FOREIGN KEY (project_id) REFERENCES project (id),
+  FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE,
   FOREIGN KEY (users_id) REFERENCES users (id)
 );
 
@@ -139,7 +139,7 @@ CREATE TABLE is_leader(
   id_project int not null,
   primary key (id_user, id_project),
   foreign key(id_user) references users(id),
-  foreign key(id_project) references project(id)
+  foreign key(id_project) references project(id) on DELETE CASCADE
 );
 
 CREATE TABLE is_member(
@@ -147,7 +147,7 @@ CREATE TABLE is_member(
   id_project int not null,
   primary key (id_user, id_project),
   foreign key(id_user) references users(id),
-  foreign key(id_project) references project(id)
+  foreign key(id_project) references project(id) on DELETE CASCADE
 );
 
 
@@ -172,7 +172,7 @@ CREATE TABLE commentowner(
   id_comment int not null,
   primary key (id_user, id_comment),
   foreign key(id_user) references users(id),
-  foreign key(id_comment) references comment(id)
+  foreign key(id_comment) references comment(id) ON DELETE CASCADE
 );
 
 CREATE TABLE inviteproject (
