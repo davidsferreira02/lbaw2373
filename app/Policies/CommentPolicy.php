@@ -18,15 +18,15 @@ class CommentPolicy
    
     public function create(User $user, Project $project, Task $task)
     {
-        return $project->members()->where('id_user', $user->id)->count() > 0;
+        return !$user->isblocked && $project->members()->where('id_user', $user->id)->count() > 0 ;
     }
 
     public function edit(User $user, Project $project, Task $task){
-        return $project->members()->where('id_user', $user->id)->count() > 0;
+        return !$user->isblocked && $project->members()->where('id_user', $user->id)->count() > 0;
 
     }
     public function delete(User $user, Project $project, Task $task){
-        return $project->members()->where('id_user', $user->id)->count() > 0;
+        return !$user->isblocked && $project->members()->where('id_user', $user->id)->count() > 0;
 
     }
 }

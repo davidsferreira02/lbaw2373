@@ -17,7 +17,7 @@ class ProjectController extends Controller
     public function index()
     {
         $user = Auth::user();
-        
+        $this->authorize('create', Project::class);
         // Obter todos os projetos do usuário
         $projects = Project::whereHas('members', function ($query) use ($user) {
             $query->where('id_user', $user->id);
@@ -33,7 +33,7 @@ class ProjectController extends Controller
     
     
 public function home(){
-   
+    $this->authorize('create', Project::class);
     return view('pages.home');
 }
 
@@ -105,6 +105,7 @@ public function showaddLeaderForm($title)
     {
         // Supondo que 'title' seja um campo único na tabela de projetos
         $project = Project::where('title', $title)->first();
+        $this->authorize('create', Project::class);
      
         // Verifique se o projeto foi encontrado
         if (!$project) {
@@ -153,20 +154,13 @@ public function addProjectMember($userId,$projectId){
     ]);
 }
 
-public function addOneMember(Request $request,$title){
-    $validatedData = $request->validate([
-        'username' => 'required|max:255'
-    ]);
-    
-    
-    $username = $request->input('username');
-    $user = User::where('name', $username)->first();
-    if (!$user) {
-        abort(404); 
-    }
-
-
+public function addOneMember($title,$username)
+{
+   
     $project = Project::where('title', $title)->first();
+
+    $user = User::where('username', $username)->first();
+    if ($user) {
     $this->authorize('addMemberorLeader',$project);
    
 
@@ -174,14 +168,16 @@ public function addOneMember(Request $request,$title){
 
   
    return redirect()->route('project.show', ['title' => $project->title])->with('success', 'Convite enviado com sucesso!');
-
+    }
 
 }
+
 
 
 public function deleteMember($title,$id){
     $project = Project::where('title', $title)->first();
     $user = User::findOrFail($id);
+    $this->authorize('addMemberorLeader',$project);
     $isLeader = $project->leaders()->where('id', $user->id)->exists();
     if(!$isLeader){
     DB::table('is_member')
@@ -303,6 +299,7 @@ public function showMembers($title)
 {
     $project = Project::where('title', $title)->first();
     $members = $project->members;
+    $this->authorize('create', Project::class);
     
     return view('pages.members', compact('project', 'members'));
 }
@@ -310,6 +307,7 @@ public function showLeaders($title)
 {
     $project = Project::where('title', $title)->first();
     $leaders = $project->leaders;
+    $this->authorize('create', Project::class);
     
 
     return view('pages.leaders', compact('project', 'leaders'));
@@ -402,5 +400,39 @@ public function archived($title)
 
     return redirect()->back()->with('error', 'Projeto não encontrado');
 }
+
+
+public function searchByUsername(Request $request, $title) {
+    $validatedData = $request->validate([
+        'username' => 'required|max:255'
+    ]);
+
+    $project = Project::where('title', $title)->first();
+    $username = $request->input('username');
+
+    if (!$username) {
+        return redirect()->back()->withErrors('Enter a username.');
+    }
+
+    $userId = Auth::id(); // Obtém o ID do usuário autenticado
+
+    // Busca usuários que correspondam ao username fornecido e não são membros deste projeto
+    $users = User::where('id', '!=', $userId)
+        ->whereDoesntHave('projectMember', function ($query) use ($project) {
+            $query->where('id_project', $project->id);
+        })
+        ->where(function ($query) use ($username) {
+            $query->where('username', 'ILIKE', '%' . $username . '%')
+                ->orWhereRaw('search @@ plainto_tsquery(\'english\', ?)', [$username]);
+        })
+        ->orderByRaw('ts_rank(search, plainto_tsquery(\'english\', ?)) DESC', [$username])
+        ->limit(40)
+        ->get();
+
+    // Retorne a view com os resultados da busca
+    return view('pages.user_search_results', compact('users', 'project'));
+}
+
+
 
 }

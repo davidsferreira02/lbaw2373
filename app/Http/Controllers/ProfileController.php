@@ -15,7 +15,10 @@ class ProfileController extends Controller
 
 public function show($id)
     {
+
+       
         $user = User::findOrFail($id);
+        $this->authorize('see', User::class);
         $project = Project::whereHas('members', function ($query) use ($user) {
             $query->where('id_user', $user->id);
         })->orWhereHas('leaders', function ($query) use ($user) {
@@ -27,12 +30,14 @@ public function show($id)
 
     public function edit()
     {
+       
         $user = Auth::user();
         return view('pages.editProfile', compact('user'));
     }
 
     public function update(Request $request)
     {
+        
         $user = Auth::user();
         
         $validatedData = $request->validate([

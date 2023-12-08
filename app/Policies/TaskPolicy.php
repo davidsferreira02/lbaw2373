@@ -19,17 +19,17 @@ class TaskPolicy
     public function create(User $user, Project $project)
     {
       
-        return $user->projectLeader->contains($project) || $user->projectMember->contains($project);
+        return !$user->isblocked && $user->projectLeader->contains($project) || $user->projectMember->contains($project);
     }
 
      public function delete(User $user, Task $task)
      {
 
-        return $task->owners->contains($user);
+        return !$user->isblocked && $task->owners->contains($user);
      }
    
      public function edit(User $user,Task $task){
-        return $task->owners->contains($user);
+        return !$user->isblocked && $task->owners->contains($user);
      }
 
     

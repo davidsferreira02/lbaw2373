@@ -18,26 +18,27 @@ class ProjectPolicy
 
   
 
-    public function create()
+    public function create(User $user)
     {
-        return Auth::check(); // Retorna true se o usuário estiver autenticado
+        return !$user->isblocked &&Auth::check() ; // Retorna true se o usuário estiver autenticado
     }
     public function show(User $user, Project $project)
     {
-        return $project->leaders->contains($user) || $project->members->contains($user);
+        return  !$user->isblocked && ($project->leaders->contains($user) || $project->members->contains($user));
     }
    
     public function addMemberorLeader(User $user, Project $project)
     {
-        return $project->leaders->contains($user) ;
+        return !$user->isblocked && $project->leaders->contains($user) ;
     }
 
 
     public function edit(User $user,Project $project){
-        return $project->leaders->contains($user);
+        return  !$user->isblocked && $project->leaders->contains($user);
     }
     public function update(User $user,Project $project){
-        return $project->leaders->contains($user);
+        return !$user->isblocked && $project->leaders->contains($user);
     }
+    
    
 }

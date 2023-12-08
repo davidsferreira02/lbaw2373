@@ -25,6 +25,10 @@
             @foreach ($users as $user)
                 <!-- Exemplo simples de exibição dos usuários encontrados -->
                 <p>{{ $user->username }}</p>
+                 <form method="post" action="{{ route('project.Memberstore', ['title'=>$project->title,'username' => $user->username]) }}">
+                    @csrf
+                    <button type="submit" class="btn btn-success">Add</button>
+                </form>
             @endforeach
         @else
             <p>No users found.</p>

@@ -69,7 +69,7 @@ Route::controller(ProjectController::class)->group(function () {
     Route::get('/project/{title}', 'show')->name('project.show')->middleware('auth');
     Route::get('/myprojects', 'index')->name('project.index')->middleware('auth');
     Route::get('/project/{title}/addMember', 'showaddMemberForm')->name('project.addMember')->middleware('auth');
-    Route::post('/project/{title}/addMember/store', 'addOneMember')->name('project.Memberstore')->middleware('auth');
+    Route::post('/project/{title}/addMember/{username}', 'addOneMember')->name('project.Memberstore')->middleware('auth');
     Route::get('/project/{title}/addLeader', 'showaddLeaderForm')->name('project.addLeader')->middleware('auth');
     Route::post('/project/{title}/addLeader/store', 'addOneLeader')->name('project.Leaderstore')->middleware('auth');
     Route::get('/pending-invites', 'pendingInvite')->name('pending.invites')->middleware('auth');
@@ -83,6 +83,9 @@ Route::controller(ProjectController::class)->group(function () {
    Route::get('/project/{title}/noFavorite', 'noFavorite')->name('project.noFavorite')->middleware('auth');
    Route::post('project/{title}/archived','archived')->name('project.archived')->middleware('auth');
    Route::delete('/project/{title}/member/{id}/delete', 'deleteMember')->name('project.deleteMember');
+   Route::get('/project/{title}/addMember/search-username', 'searchByUsername')->name('search.username');
+
+   
 
    
 

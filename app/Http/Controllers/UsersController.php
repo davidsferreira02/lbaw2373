@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Project;
 use App\Models\Invite;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class UsersController extends Controller
@@ -20,7 +20,7 @@ class UsersController extends Controller
     public function search(Request $request)
     {
         $search = $request->input('search');
-    
+        $this->authorize('search', User::class);
         if ($search) {
             $users = User::whereRaw('search @@ plainto_tsquery(\'english\', ?)', [$search])
                 ->orWhere('name', 'ILIKE', '%' . $search . '%')
