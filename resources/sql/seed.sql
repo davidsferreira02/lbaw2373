@@ -194,6 +194,12 @@ INSERT INTO users (name,username, password, email) VALUES
 ('david','davidsferreira02','$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W','david@lbaw.com'),
   ('alice','alice02', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'alice@example.com'),
   ('bob', 'bob02' ,'$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'bob@example.com');
+
+
+
+
+INSERT into isadmin(user_id) VALUES
+(3);
  
   
   
@@ -471,6 +477,24 @@ CREATE TRIGGER add_comment_like_notification
     FOR EACH ROW
 EXECUTE PROCEDURE add_comment_like_notification();
 
+
+CREATE OR REPLACE FUNCTION anonymize_user_comments()
+RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    UPDATE comment
+    SET content = REPLACE(content, OLD.name, 'Anônimo' || NEW.id)
+    WHERE id_user = OLD.id;
+    
+    RETURN NEW;
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+CREATE TRIGGER after_delete_user_anonymize_comments
+AFTER DELETE ON users
+FOR EACH ROW
+EXECUTE FUNCTION anonymize_user_comments();
 
 UPDATE users SET search = to_tsvector('english', name);
 UPDATE project SET search = to_tsvector('english', title);

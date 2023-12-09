@@ -16,34 +16,33 @@ function sendAjaxRequest(method, url, data, handler) {
 }
 
 function filterTasks() {
-  const searchValue = document.getElementById('searchInput').value.toLowerCase();
   const priority = document.getElementById('priorityFilter').value;
-
-
   const tasks = document.querySelectorAll('.task-card');
 
   tasks.forEach(task => {
-      const title = task.querySelector('h3').innerText.toLowerCase();
-      const taskPriority = task.dataset.priority;
-    
+    const taskPriority = task.dataset.priority;
+    const priorityMatch = taskPriority === priority || priority === 'all';
 
-      const titleMatch = title.includes(searchValue) || searchValue === '';
-      const priorityMatch = taskPriority === priority || priority === 'all';
-
-    //na database
-    
-
-      if (titleMatch && priorityMatch ) {
-          task.style.display = 'block';
-      } else {
-          task.style.display = 'none';
-      }
+    if (priorityMatch) {
+      task.style.display = 'block';
+    } else {
+      task.style.display = 'none';
+    }
   });
 }
 
+
+
+
 document.getElementById('priorityFilter').addEventListener('change', filterTasks);
 
-document.getElementById('searchInput').addEventListener('input', filterTasks);
+// Adicionando filtro de busca
+
+
+
+
+// Initial call to filterTasks to display tasks based on the initial filter values
+
 
 
 
@@ -63,6 +62,8 @@ document.getElementById('projectFilter').addEventListener('change', function() {
         document.getElementById('notFavoriteProjects').style.display = 'none';
     }
 });
+
+
 
 
 
