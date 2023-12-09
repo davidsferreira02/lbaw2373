@@ -26,7 +26,7 @@ class TaskController extends Controller
       
        
         $tasks = Task::where('id_project', $project->id)->get();
-       // $this->authorize('show', [Project::class, Task::class]);
+    $this->authorize('show', [Project::class, Task::class]);
         
 
         return view('pages.tasks', compact('tasks', 'project'));
@@ -76,7 +76,7 @@ class TaskController extends Controller
         
         $user = $request->input('assigned');
         
-
+        $this->authorize('store', [Task::class, $project]);
     
         $task->iscompleted=false;
 
@@ -132,12 +132,16 @@ public function isCompleted($title, $taskId)
     return Response::json(['error' => 'Tarefa não encontrada.'], 404);
 }
 
+//falta editar task
 
 
+//falta meter botao para delete
 public function delete($title,$idTask){
     $project = Project::where('title', $title)->first();
     $task = Task::where('id', $idTask)->where('id_project', $project->id)->first();
-    $this->authorize('delete', $task);
+    
+
+    $this->authorize('delete', [ $task, $project]);
     if($task){
    
     $task->delete();
