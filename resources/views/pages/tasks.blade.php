@@ -12,8 +12,7 @@
         <option value="High">High Priority</option>
     </select>
 
-    <input type="text" id="searchInput" placeholder="Search by title">
-  
+ 
 
     
     <div id="tasksContainer">

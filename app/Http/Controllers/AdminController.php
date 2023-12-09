@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\IsAdmin;
 use App\Models\Project;
 
 use App\Models\User;
@@ -13,6 +14,8 @@ class AdminController extends Controller
 {
     public function index()
     {
+
+        $this->authorize('index',IsAdmin::class);
         $users = User::all();
         $projects = Project::all();
 
@@ -24,7 +27,7 @@ class AdminController extends Controller
     {
         $user = User::findOrFail($id);
 
-
+        $this->authorize('block',IsAdmin::class);
 
 
         if ($user) {

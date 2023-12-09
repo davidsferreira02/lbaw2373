@@ -1,9 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
+@if(Auth::user()->isAdmin())
+<a href="{{ route('admin.dashboard') }}" class="btn btn-primary">
+    <i class="fas fa-arrow-left"></i> <!-- Use "fas" para ícones sólidos -->
+@endif
+
+@if(!Auth::user()->isAdmin())
 <a href="{{ route('project.home') }}" class="btn btn-primary">
     <i class="fas fa-arrow-left"></i> <!-- Use "fas" para ícones sólidos -->
-    
+@endif
 </a>
     <div class="container">
         @isset($project)
@@ -24,12 +30,22 @@
    
         <a href="{{ route('project.addMember', ['title' => $project->title]) }}" class="btn btn-primary">Add Member</a>
         <a href="{{ route('project.addLeader', ['title' => $project->title]) }}" class="btn btn-primary">Add Leader</a>
-        <a href="{{ route('project.editProject', ['title' => $project->title]) }}" class="btn btn-primary">Edit Project</a>
       
+        @endif
+
+        @if($project->leaders->contains(Auth::user()) || Auth::user()->isAdmin() )
+        <a href="{{ route('project.editProject', ['title' => $project->title]) }}" class="btn btn-primary">Edit Project</a>
+        
         @endif
         @if($project->members->contains(Auth::user()))
         <a href="{{ route('task.create', ['title' => $project->title]) }}" class="btn btn-primary">Create Task</a>
+        @endif
+        @if($project->members->contains(Auth::user()) || Auth::user()->isAdmin() )
+
         <a href="{{ route('task.show', ['title' => $project->title]) }}" class="btn btn-primary">See Task</a>
+        @endif
+        @if($project->members->contains(Auth::user()))
+        
            <form action="{{ route('project.leave', ['title' => $project->title]) }}" method="POST" class="my-3">
         @csrf
         @method('DELETE')
