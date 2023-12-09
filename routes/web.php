@@ -71,7 +71,7 @@ Route::controller(ProjectController::class)->group(function () {
     Route::get('/project/{title}/addMember', 'showaddMemberForm')->name('project.addMember')->middleware('auth');
     Route::post('/project/{title}/addMember/{username}', 'addOneMember')->name('project.Memberstore')->middleware('auth');
     Route::get('/project/{title}/addLeader', 'showaddLeaderForm')->name('project.addLeader')->middleware('auth');
-    Route::post('/project/{title}/addLeader/store', 'addOneLeader')->name('project.Leaderstore')->middleware('auth');
+    Route::post('/project/{title}/addLeader/{username}', 'addOneLeader')->name('project.Leaderstore')->middleware('auth');
     Route::get('/pending-invites', 'pendingInvite')->name('pending.invites')->middleware('auth');
     Route::post('/accept-invite/{id_user}/{id_project}', 'acceptInvite')->name('accept.invite')->middleware('auth');
     Route::post('/decline-invite/{id_user}/{id_project}', 'declineInvite')->name('decline.invite')->middleware('auth');
@@ -83,7 +83,8 @@ Route::controller(ProjectController::class)->group(function () {
    Route::get('/project/{title}/noFavorite', 'noFavorite')->name('project.noFavorite')->middleware('auth');
    Route::post('project/{title}/archived','archived')->name('project.archived')->middleware('auth');
    Route::delete('/project/{title}/member/{id}/delete', 'deleteMember')->name('project.deleteMember');
-   Route::get('/project/{title}/addMember/search-username', 'searchByUsername')->name('search.username');
+   Route::get('/project/{title}/addMember/search-username', 'searchByUsernameAddMember')->name('search.username');
+   Route::get('/project/{title}/addLeader/search-username', 'searchByUsernameAddLeader')->name('search.usernameLeader');
    Route::delete('/project/{title}/leave', 'leaveProject')->name('project.leave');
 
 
@@ -139,8 +140,8 @@ Route::controller(CommentController::class)->group(function(){
 });
 
 Route::controller(LikeController::class)->group(function(){
-Route::post('/project/{title}/task/{titleTask}/comment/{commentId}/like/store', 'store')->name('like.store')->middleware('auth');
-Route::delete('/api/like/{id}', 'destroy')->name('like.destroy')->middleware('auth');
+Route::patch('/project/{title}/task/{titleTask}/comment/{commentId}/like/store', 'store')->name('like.store')->middleware('auth');
+
 
 });
 

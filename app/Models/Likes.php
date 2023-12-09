@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class Likes extends Model
 {
     protected $fillable = ['comment_id', 'user_id'];
+    public $timestamps = false; // Desabilita timestamps
 
     public function comment()
     {

@@ -85,17 +85,21 @@ class TaskController extends Controller
         
        
         $deadline = Carbon::parse($request->input('deadline'));
-        
-        $task->save();
-        $this->taskOwner($task->id, Auth::User()->id);
-        $this->assignedTask($task->id, $user);
-
         if ($deadline->isPast()) {
             return redirect()->back()->withInput()->withErrors(['deadline' => 'The deadline must be after today']);
         }
 
         
+        $task->save();
+        $this->taskOwner($task->id, Auth::User()->id);
+        $this->assignedTask($task->id, $user);
+
+      
+        
+
+        
         return redirect()->route('task.show', ['title' => $title])->with('success', 'Tarefa criada com sucesso!');
+    
     }
 
 public function taskOwner($taskId,$userId){

@@ -261,37 +261,19 @@ Invite::where('id_user', $userId)
 
 
 
-public function addOneLeader(Request $request,$title){
-    $validatedData = $request->validate([
-        'username' => 'required|max:255'
-    ]);
-    
-    $username = $request->input('username');
-    $user = User::where('name', $username)->first();
-    if (!$user) {
-        abort(404); 
-    }
-    
+public function addOneLeader($title,$username){
     $project = Project::where('title', $title)->first();
-    
-    if (!$project) {
-        abort(404); 
-    }
+
+    $user = User::where('username', $username)->first();
+    if ($user) {
+    $this->authorize('addMemberorLeader',$project);
    
-    if (!$project->members()->where('id_user', $user->id)->exists()) {
-        abort(403, 'Usuário não é um membro do projeto.'); 
+
+    $this->addProjectLeader($user->id,$project->id);
+
+  
+   return redirect()->route('project.show', ['title' => $project->title])->with('success', 'Convite enviado com sucesso!');
     }
-    else{
-        $this->addProjectLeader($user->id,$project->id);
-    }
-
-    $isFavorite = Favorite::where('project_id', $project->id)
-    ->where('user_id', $user->id)
-    ->exists();
-
-    
-    return view('pages.project', compact('project','isFavorite'));
-
 
 }
 
@@ -402,7 +384,7 @@ public function archived($title)
 }
 
 
-public function searchByUsername(Request $request, $title) {
+public function searchByUsernameAddMember(Request $request, $title) {
     $validatedData = $request->validate([
         'username' => 'required|max:255'
     ]);
@@ -432,6 +414,40 @@ public function searchByUsername(Request $request, $title) {
     // Retorne a view com os resultados da busca
     return view('pages.user_search_results', compact('users', 'project'));
 }
+
+public function searchByUsernameAddLeader(Request $request, $title) {
+    $validatedData = $request->validate([
+        'username' => 'required|max:255'
+    ]);
+
+    $project = Project::where('title', $title)->first();
+    $username = $request->input('username');
+
+    if (!$username) {
+        return redirect()->back()->withErrors('Enter a username.');
+    }
+
+    $userId = Auth::id(); // Obtém o ID do usuário autenticado
+
+    // Busca usuários que correspondam ao username fornecido e são membros deste projeto
+    $users = User::whereHas('projectMember', function ($query) use ($project) {
+        $query->where('id_project', $project->id);
+    })
+    ->whereDoesntHave('projectLeader', function ($query) use ($project) {
+        $query->where('id_project', $project->id);
+    })
+    ->where(function ($query) use ($username) {
+        $query->where('username', 'ILIKE', '%' . $username . '%')
+            ->orWhereRaw('search @@ plainto_tsquery(\'english\', ?)', [$username]);
+    })
+    ->orderByRaw('ts_rank(search, plainto_tsquery(\'english\', ?)) DESC', [$username])
+    ->limit(40)
+    ->get();
+
+    // Retorne a view com os resultados da busca
+    return view('pages.user_search_leader', compact('users', 'project'));
+}
+
 public function leaveProject($title)
 {
     $project = Project::where('title', $title)->first();
