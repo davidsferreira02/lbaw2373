@@ -5,6 +5,7 @@ namespace App\Providers;
 // use Illuminate\Support\Facades\Gate;
 
 use App\Models\Comment;
+use App\Models\IsAdmin;
 use App\Policies\CommentPolicy;
 use App\Models\Task;
 use App\Policies\TaskPolicy;
@@ -12,6 +13,7 @@ use App\Models\Project;
 use App\Policies\ProjectPolicy;
 use App\Models\User;
 use App\Policies\UserPolicy;
+use App\Policies\AdminPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -27,6 +29,7 @@ class AuthServiceProvider extends ServiceProvider
         Project::class=>ProjectPolicy::class,
         Comment::class=>CommentPolicy::class,
         User::class=>UserPolicy::class,
+        IsAdmin::class=>AdminPolicy::class,
         
 
 
