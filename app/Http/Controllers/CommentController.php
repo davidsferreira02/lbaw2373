@@ -18,7 +18,7 @@ class CommentController extends Controller
         $project = Project::where('title', $title)->first();
      
         $task=Task::find($taskId);
-     $this->authorize('create', [Comment::class, $project, $task]);
+     $this->authorize('show', [Comment::class, $project, $task]);
         $comments = $task->comments()->get();
         return view('pages.comment', compact('task','project','comments'));
 

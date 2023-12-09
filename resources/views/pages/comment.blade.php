@@ -44,6 +44,7 @@
         </div>
     @endforeach
 
+    @if(!Auth::user()->isAdmin())
     <!-- Formulário para adicionar comentários -->
     <form method="POST" action="{{ route('comments.store', ['title' => $project->title, 'taskId' => $task->id]) }}">
         @csrf
@@ -52,7 +53,7 @@
     </form>
     
     <div id="commentsContainer"></div>
-
+@endif
     
     <script>
         function handleLike(action, commentId, projectId, taskId, titleTask, button) {

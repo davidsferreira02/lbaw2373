@@ -12,11 +12,7 @@ use Illuminate\Support\Facades\DB;
 class UsersController extends Controller
 {
    
-    public function index()
-    {
-        return view('users.index');
-    }
-
+   
     public function search(Request $request)
     {
         $search = $request->input('search');

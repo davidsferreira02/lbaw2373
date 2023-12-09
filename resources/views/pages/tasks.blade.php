@@ -40,7 +40,9 @@
                   
                 
                 
+  
 
+                @if(!Auth::user()->isAdmin())
     
                 <form method="POST" action="{{ route('task.complete', ['title' => $project->title, 'taskId' => $task->id]) }}" class="complete-form">
                     @csrf
@@ -59,6 +61,7 @@
                         </button>
                     @endif
                 </form>
+                @endif
             </div>
         @empty
             <!-- Se não houver tarefas -->

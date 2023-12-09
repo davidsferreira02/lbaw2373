@@ -29,6 +29,10 @@ class CommentPolicy
         return !$user->isblocked && $project->members()->where('id_user', $user->id)->count() > 0;
 
     }
+
+    public function show (User $user, Project $project, Task $task){
+        return !$user->isblocked && $project->members()->where('id_user', $user->id)->count() > 0 || $user->isAdmin(); 
+    }
 }
         
     
