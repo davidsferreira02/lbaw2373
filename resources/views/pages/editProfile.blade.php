@@ -16,12 +16,12 @@
 
             <img src="{{ $user->getProfileImage() }}">
 
-            <label for="photo">Change Photo:</label>
-            <input name="photo" type="file">
+            <label for="profile_image">Change Photo:</label>
+            <input name="profile_image" type="file">
 
-            @if ($errors->has('photo'))
+            @if ($errors->has('profile_image'))
                 <span class="invalid-feedback" role="alert">
-                    <strong>{{ $errors->first('photo') }}</strong>
+                    <strong>{{ $errors->first('profile_image') }}</strong>
                 </span>
             @endif
 

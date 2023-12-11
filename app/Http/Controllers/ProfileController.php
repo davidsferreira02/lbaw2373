@@ -45,15 +45,15 @@ public function show($id)
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
-            'photo' => 'image|mimes:jpg,jpeg,png|max:2048'
+            'profile_image' => 'image|mimes:jpg,jpeg,png|max:2048'
             
         ]);
     
         // Atualização dos campos nome e email
         $user->name = $request->input('name');
         $user->email = $request->input('email');
-        if ($request->hasFile('photo')) {
-            $file = $request->file('photo');
+        if ($request->hasFile('profile_image')) {
+            $file = $request->file('profile_image');
     
             // Generate a unique filename for the image
             $fileName = time() . '_' . $file->getClientOriginalName();
@@ -64,7 +64,7 @@ public function show($id)
             $user->photo = $filePath; // Save the file path in the database
         }
         // Verificação e processamento da imagem, se houver
-      
+    
         // Salva as alterações no usuário
         $user->save();
     
