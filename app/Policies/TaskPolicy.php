@@ -39,11 +39,6 @@ class TaskPolicy
      }
 
 
-     public function isCompleted(User $user,Project $project){
-
-      return !$user->isblocked && $user->projectMember->contains($project)&& Auth::check() && !$user->idAmin();
-
-     }
 
 public function show(User $user,Project $project){
    return (!$user->isblocked && $user->projectMember->contains($project)&& Auth::check() )|| ($user->isAdmin() && Auth::check());
