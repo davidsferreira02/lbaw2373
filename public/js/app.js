@@ -64,9 +64,6 @@ document.getElementById('projectFilter').addEventListener('change', function() {
 });
 
 
-
-
-
-
-
-
+function reloadPage() {
+  location.reload();
+}

@@ -78,5 +78,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(IsAdmin::class);
     }
-
+    public function getProfileImage() {
+        return FileController::get('profile', $this->id);
+    }
+    
 }

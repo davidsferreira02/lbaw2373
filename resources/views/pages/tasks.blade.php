@@ -11,22 +11,15 @@
         <option value="Medium">Medium Priority</option>
         <option value="High">High Priority</option>
     </select>
-
- 
-
-    
-    <div id="tasksContainer">
+<div id="tasksContainer">
         @forelse ($tasks as $task)
             <div class="task-card" data-priority="{{ $task->priority }}">
                 <!-- Detalhes da tarefa -->
                 <a href="{{ route('task.comment', ['taskId' => $task->id,'title'=>$project->title]) }}">
                     <h3><strong>title:</strong> {{ $task->title }}</h3>
                 </a>
-
-                <p><strong>content:</strong>{{ $task->content }}</p>
                 <p><strong>priority:</strong>{{ $task->priority }}</p>
                 <p><strong>deadline:</strong>{{ $task->deadline }}</p>
-                <p><strong>dateCreation:</strong>{{ $task->datecreation }}</p>
                 <p><strong>isCompleted: </strong>
                     @if($task->iscompleted)
                         true
@@ -34,13 +27,15 @@
                         false
                     @endif
                 </p>
+                @foreach ($task->owners as $owner)
+                <p><strong>Owner:</strong> {{ $owner->name }}</p>
+                @if ($owner->id === Auth::id()) <!-- Verifica se o usuário é o proprietário -->
+                <button class="btn btn-primary edit-comment-btn" data-task-id="{{ $task->id }}">
+                    Edit Comment
+                </button>
+            @endif
                 
-                    
-                  
-                  
-                
-                
-  
+            @endforeach
 
                 @if(!Auth::user()->isAdmin())
     
@@ -67,6 +62,17 @@
             <!-- Se não houver tarefas -->
             <p>No tasks found for this project.</p>
         @endforelse
+    </div>
+
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form id="editTaskForm" action="{{ route('task.update',['title' => $project->title, 'taskId' => $task->id]) }}" method="POST">
+                <!-- Campos do formulário para editar a tarefa -->
+                <!-- ... -->
+                <button type="submit">Salvar Alterações</button>
+            </form>
+        </div>
     </div>
     
     
@@ -123,5 +129,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </script>
 
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Listener para o botão de edição
+    document.querySelectorAll('.edit-comment-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(event) {
+            event.preventDefault();
+            var taskId = btn.getAttribute('data-task-id');
+            var task = getTaskInfo(taskId); // Implemente a função para obter informações da tarefa com AJAX
+            fillEditForm(task); // Implemente a função para preencher o formulário com as informações da tarefa
+            openModal('editModal'); // Implemente a função para exibir o modal
+        });
+    });
+
+    // Listener para fechar o modal
+    document.querySelector('.close').addEventListener('click', function() {
+        closeModal('editModal'); // Implemente a função para fechar o modal
+    });
+});
+</script>
 
 @endsection

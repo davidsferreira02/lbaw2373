@@ -62,5 +62,10 @@
     
 
     </div>
+
+    <img src="{{ $user->getProfileImage() }}">
+          
+
+
     
 @endsection
