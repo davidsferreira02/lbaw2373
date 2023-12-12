@@ -13,6 +13,10 @@
     <p><strong>deadline:</strong>{{ $task->deadline }}</p>
     <p><strong>dateCreation:</strong>{{ $task->datecreation }}</p>
     <p><strong>isCompleted:</strong>{{ $task->iscompleted == 1 ? 'True' : 'False' }}</p>
+    @foreach ($task->owners as $owner)
+    <p><strong>Owner:</strong> {{ $owner->name }}</p>
+    
+@endforeach
 
 
 

@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Exception;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -37,31 +39,39 @@ public function show($id)
 
     public function update(Request $request)
     {
-        
         $user = Auth::user();
         
+        // Validação dos campos nome e email
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
+          //  'profile_image' => 'image|mimes:jpg,jpeg,png|max:2048'
             
         ]);
-
+    
+        // Atualização dos campos nome e email
         $user->name = $request->input('name');
         $user->email = $request->input('email');
-        
-    if (!empty($name)) {
-        $user->name = $name;
-    }
-
-    if (!empty($email)) {
-        $user->email = $email;
-    }
-       
-
+        if ($request->hasFile('profile_image')) {
+            $file = $request->file('profile_image');
+    
+            // Generate a unique filename for the image
+            $fileName = time() . '_' . $file->getClientOriginalName();
+    
+            // Store the file in the public/profile directory (adjust the storage path as needed)
+            $filePath = $file->storeAs('profile', $fileName, 'public');
+    
+            $user->photo = $filePath; // Save the file path in the database
+        }
+        // Verificação e processamento da imagem, se houver
+    
+        // Salva as alterações no usuário
         $user->save();
-
-        return redirect()->route('profile', $user->id)->with('success', 'Perfil atualizado com sucesso!');
+        return redirect()->route('profile', $user->id)
+        ->withErrors($validatedData)
+        ->withInput();
     }
+    
     
     public function delete($userId) {
         $user = User::find($userId);

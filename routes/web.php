@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\FileController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -111,7 +112,10 @@ Route::controller(TaskController::class)->group(function () {
     Route::post('/project/{title}/storeTask', 'store')->name('task.store')->middleware('auth');
     Route::get('/project/{title}/task', 'show')->name('task.show')->middleware('auth');
     Route::patch('/project/{title}/task/{taskId}/complete', 'isCompleted')->name('task.complete')->middleware('auth');
-    Route::delete('/project/{title}/task/{taskId}/delete', 'delete')->name('task.delete')->middleware('auth');
+    Route::get('/project/{title}/task/{taskTitle}/edit', 'edit')->name('task.edit')->middleware('auth');
+   Route::put('/project/{title}/task/{taskTitle}/update', 'update')->name('task.update')->middleware('auth');
+   Route::delete('/project/{title}/task/{taskTitle}/delete', 'delete')->name('task.delete')->middleware('auth');
+  
 
 
 
@@ -135,7 +139,7 @@ Route::controller(ProfileController::class)->group(function(){
 
 Route::controller(CommentController::class)->group(function(){
     Route::get('/project/{title}/task/{taskId}/comments','show')->name('task.comment')->middleware('auth');
-    Route::post('/project/{title}/task/{taskId}/comments/store', [CommentController::class, 'store'])->name('comments.store')->middleware('auth');
+    Route::post('/project/{title}/task/{taskId}/comments/store', 'store')->name('comments.store')->middleware('auth');
 
 });
 
@@ -143,5 +147,11 @@ Route::controller(LikeController::class)->group(function(){
 Route::patch('/project/{title}/task/{titleTask}/comment/{commentId}/like/store', 'store')->name('like.store')->middleware('auth');
 
 
+});
+
+
+
+Route::controller(FileController::class)->group(function(){
+Route::post('/file/upload',  'upload')->name('file.upload');
 });
 

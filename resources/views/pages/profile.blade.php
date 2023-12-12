@@ -1,10 +1,16 @@
 @extends('layouts.app')
-
 @section('content')
+@if(Auth::user()->isAdmin())
+<a href="{{ route('admin.dashboard') }}" class="btn btn-primary">
+    <i class="fas fa-arrow-left"></i> <!-- Use "fas" para ícones sólidos -->
+@endif
+
+@if(!Auth::user()->isAdmin())
 <a href="{{ route('project.home') }}" class="btn btn-primary">
     <i class="fas fa-arrow-left"></i> <!-- Use "fas" para ícones sólidos -->
-    
-</a>
+@endif
+
+
     <div class="profile">
          <h1>
             @if($user->id === Auth::user()->id)
@@ -62,5 +68,10 @@
     
 
     </div>
+
+    <img src="{{ $user->getProfileImage() }}">
+          
+
+
     
 @endsection

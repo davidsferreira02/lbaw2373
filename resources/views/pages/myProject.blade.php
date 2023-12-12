@@ -6,9 +6,12 @@
     <i class="fas fa-arrow-left"></i> <!-- Use "fas" para ícones sólidos -->
 </a>
 
-<button onclick="filterProjects('all')">All Projects</button>
-<button onclick="filterProjects('favorites')">Favorite Projects</button>
-<button onclick="filterProjects('archived')">Archived</button>
+<p class="d-inline-flex gap-1">
+    <button type="button" class="btn btn-primary" onclick="filterProjects('all')">All Projects</button>
+    <button type="button" class="btn btn-primary" onclick="filterProjects('favorites')">Favorite Projects</button>
+    <button type="button" class="btn btn-primary" onclick="filterProjects('archived')">Archived</button>
+  </p>
+  
 
 <div id="allProjects">
     <h1>All My Projects</h1>

@@ -11,22 +11,15 @@
         <option value="Medium">Medium Priority</option>
         <option value="High">High Priority</option>
     </select>
-
- 
-
-    
-    <div id="tasksContainer">
+<div id="tasksContainer">
         @forelse ($tasks as $task)
             <div class="task-card" data-priority="{{ $task->priority }}">
                 <!-- Detalhes da tarefa -->
                 <a href="{{ route('task.comment', ['taskId' => $task->id,'title'=>$project->title]) }}">
                     <h3><strong>title:</strong> {{ $task->title }}</h3>
                 </a>
-
-                <p><strong>content:</strong>{{ $task->content }}</p>
                 <p><strong>priority:</strong>{{ $task->priority }}</p>
                 <p><strong>deadline:</strong>{{ $task->deadline }}</p>
-                <p><strong>dateCreation:</strong>{{ $task->datecreation }}</p>
                 <p><strong>isCompleted: </strong>
                     @if($task->iscompleted)
                         true
@@ -34,13 +27,24 @@
                         false
                     @endif
                 </p>
+                @foreach ($task->owners as $owner)
+                <p><strong>Owner:</strong> {{ $owner->name }}</p>
+                @if ($owner->id === Auth::id()) <!-- Verifica se o usuário é o proprietário -->
+                <a href="{{ route('task.edit', ['title' => $task->project->title, 'taskTitle' => $task->title, 'task' => $task->id]) }}" class="btn btn-primary edit-comment-btn">
+                    Edit Task
+                </a>
+                <form method="POST" action="{{ route('task.delete', ['title' => $task->project->title, 'taskTitle' => $task->title, 'task' => $task->id]) }}" class="delete-form">
+                    @csrf
+                    @method('DELETE')
+            
+                    <button type="submit" class="btn btn-danger delete-task-btn">
+                        Delete Task
+                    </button>
+                </form>   
                 
-                    
-                  
-                  
+            @endif
                 
-                
-  
+            @endforeach
 
                 @if(!Auth::user()->isAdmin())
     
@@ -68,6 +72,8 @@
             <p>No tasks found for this project.</p>
         @endforelse
     </div>
+
+  
     
     
 
@@ -122,6 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 </script>
+
 
 
 @endsection

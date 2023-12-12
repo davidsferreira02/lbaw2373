@@ -36,6 +36,7 @@ CREATE TABLE users (
   password VARCHAR NOT NULL,
   remember_token VARCHAR,
   isblocked Boolean NOT NULL DEFAULT false,
+  photo TEXT NOT NULL DEFAULT 'profile/default.jpg',
   search TSVECTOR
 );
 
@@ -61,7 +62,8 @@ CREATE TABLE task (
     deadLine DATE,
   title varchar(255) NOT null,
   id_project int not null,
-  foreign key (id_project) references project(id) ON DELETE CASCADE
+  foreign key (id_project) references project(id) ON DELETE CASCADE,
+  CONSTRAINT unique_task_title_per_project UNIQUE (title, id_project)
 );
 
 CREATE TABLE comment (

@@ -53,9 +53,10 @@ class TaskController extends Controller
 
     public function store(Request $request, $title)
     {
+        $project = Project::where('title', $title)->first();
       
         $validatedData = $request->validate([
-            'title' => 'required|max:255',
+            'title' => 'required|unique:task,title,NULL,id,id_project,' . $project->id,
             'content' => 'required',
             'priority' => 'required',
             'deadline' => 'date',
@@ -134,11 +135,32 @@ public function isCompleted($title, $taskId)
 
 //falta editar task
 
+public function edit($title,$titleTask)
+{
+
+    $project = Project::where('title', $title)->first();
+
+    $task = Task::whereHas('project', function ($query) use ($title) {
+        $query->where('title', $title);
+    })
+    ->where('title', $titleTask)
+    ->first();
+   
+
+    return view('pages.editTask', compact('project','task'));
+}
+
+
 
 //falta meter botao para delete
-public function delete($title,$idTask){
+public function delete($title,$titleTask){
     $project = Project::where('title', $title)->first();
-    $task = Task::where('id', $idTask)->where('id_project', $project->id)->first();
+
+    $task = Task::whereHas('project', function ($query) use ($title) {
+        $query->where('title', $title);
+    })
+    ->where('title', $titleTask)
+    ->first();
     
 
     $this->authorize('delete', [ $task, $project]);
@@ -151,5 +173,35 @@ public function delete($title,$idTask){
 
 }
 
+
+public function update(Request $request, $title,$taskTitle)
+{
+   
+    $project = Project::where('title', $title)->first();
+    $task = Task::where('title', $taskTitle)->first();
+   
+
+    // Validação dos dados recebidos do formulário
+    $validatedData = $request->validate([
+        'title' => 'required|max:255',
+        'content' => 'required',
+        'priority' => 'required',
+        'deadline' => 'date',
+        // Adicione outras regras de validação conforme necessário
+    ]);
+
+    // Atualize os campos da tarefa com base nos dados recebidos do formulário
+    $task->title = $validatedData['title'];
+    $task->content = $validatedData['content'];
+    $task->priority = $validatedData['priority'];
+    $task->deadline = $validatedData['deadline'];
+    // Adicione outros campos que você deseja atualizar
+
+    // Salve as alterações na tarefa
+    $task->save();
+
+    // Redirecione para onde você precisa após a atualização
+    return redirect()->route('task.show', ['title' => $task->project->title])->with('success', 'Tarefa atualizada com sucesso!');
+}
 
 }

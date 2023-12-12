@@ -30,9 +30,8 @@
                         {{ Auth::user()->name }}
                     </a>
                     
-                    <form id="search" action="{{ route('search.users') }}" method="GET">
-                        <label for="searchInput" style="display: none;">Search for users or projects</label>
-                        <input type="text" id="searchInput" name="search" placeholder="Search for users or projects">
+                    <form class="form-inline my-2 my-lg-0 ml-auto" id="search" action="{{ route('search.users') }}" method="GET">
+                        <input class="form-control mr-sm-2" type="search" id="searchInput" name="search" placeholder="Search for users or projects">
                         <i class="fas fa-search" id="searchIcon" style="cursor: pointer;"></i> <!-- Ícone de lupa -->
                     </form>
                     

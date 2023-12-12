@@ -55,6 +55,16 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
         ],
+        
+            
+        'Tutorial02' => [
+            'driver' => 'local',                       // O driver de armazenamento sendo usado (neste caso, armazenamento local).
+            'root' => public_path('profile'),          // O diretório raiz para o armazenamento, o caminho público 'public/profile' da sua aplicação.
+            'url' => env('APP_URL') . '/profile',      // O URL base para acessar arquivos armazenados neste disco.
+            'visibility' => 'public',                  // A configuração padrão de visibilidade para arquivos armazenados neste disco, frequentemente configurado como 'public'.
+        ],
+        
+        
 
     ],
 
