@@ -115,6 +115,7 @@ Route::controller(TaskController::class)->group(function () {
     Route::get('/project/{title}/task/{taskTitle}/edit', 'edit')->name('task.edit')->middleware('auth');
    Route::put('/project/{title}/task/{taskTitle}/update', 'update')->name('task.update')->middleware('auth');
    Route::delete('/project/{title}/task/{taskTitle}/delete', 'delete')->name('task.delete')->middleware('auth');
+   Route::get('/project/{title}/task/search','search')->name('task.search');
   
 
 

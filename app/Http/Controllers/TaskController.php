@@ -204,4 +204,26 @@ public function update(Request $request, $title,$taskTitle)
     return redirect()->route('task.show', ['title' => $task->project->title])->with('success', 'Tarefa atualizada com sucesso!');
 }
 
+public function search(Request $request,$title)
+{
+
+    $project = Project::where('title', $title)->first();
+    $search = $request->input('search');
+    $search= implode(' & ', explode(' ', $search));
+$tasks = Task::where('id_project', $project->id)
+    ->whereRaw("to_tsvector('english', title) @@ to_tsquery('english', ?)", [$search])
+    ->orderByRaw("ts_rank(to_tsvector('english', title), to_tsquery('english', ?)) DESC", [$search])
+    ->limit(40)
+    ->get();
+    if ($search ) {
+        $tasks = Task::where('id_project', $project->id)
+        ->whereRaw("to_tsvector('english', title) @@ to_tsquery('english', ?)", [$search])
+        ->orderByRaw("ts_rank(to_tsvector('english', title), to_tsquery('english', ?)) DESC", [$search])
+        ->limit(40)
+        ->get();
+    }
+
+    return view('pages.user_search_task', ['task' => $tasks, 'search' => $search,'project'=>$project]);
+}
+
 }

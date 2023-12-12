@@ -63,7 +63,8 @@ CREATE TABLE task (
   title varchar(255) NOT null,
   id_project int not null,
   foreign key (id_project) references project(id) ON DELETE CASCADE,
-  CONSTRAINT unique_task_title_per_project UNIQUE (title, id_project)
+  CONSTRAINT unique_task_title_per_project UNIQUE (title, id_project),
+  search TSVECTOR
 );
 
 CREATE TABLE comment (
@@ -306,27 +307,7 @@ EXECUTE PROCEDURE project_search_update();
 
 
 -- TRIGGER01
-DROP TRIGGER IF EXISTS add_favorite ON favorite;
 
-
-
-CREATE OR REPLACE FUNCTION add_favorite() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-    IF ((SELECT COUNT(*)
-        FROM favorite
-        WHERE NEW.users_id = users_id)>=5)
-        THEN
-            RAISE EXCEPTION 'A user cant have more than 5 favorite projects';
-    END IF;
-        RETURN NEW;
-    END;
-$BODY$
-LANGUAGE plpgsql;
-CREATE TRIGGER add_favorite
-    BEFORE INSERT OR UPDATE ON favorite
-    FOR EACH ROW
-EXECUTE PROCEDURE add_favorite();
 
 -- TRIGGER02
 CREATE OR REPLACE FUNCTION add_new_member_notification() RETURNS TRIGGER AS
@@ -500,5 +481,7 @@ EXECUTE FUNCTION anonymize_user_comments();
 
 UPDATE users SET search = to_tsvector('english', name);
 UPDATE project SET search = to_tsvector('english', title);
+CREATE INDEX idx_gin_search ON task USING GIN (search);
+
 
 
