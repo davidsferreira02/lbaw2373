@@ -474,6 +474,18 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
+CREATE OR REPLACE FUNCTION update_task_search_vector() RETURNS TRIGGER AS $$
+BEGIN
+    NEW.search = to_tsvector('english', coalesce(NEW.title, '') || ' ' ||
+                                coalesce(NEW.content, ''));
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER task_search_vector_update_trigger BEFORE INSERT OR UPDATE
+    ON task FOR EACH ROW EXECUTE FUNCTION update_task_search_vector();
+
+
 CREATE TRIGGER after_delete_user_anonymize_comments
 AFTER DELETE ON users
 FOR EACH ROW

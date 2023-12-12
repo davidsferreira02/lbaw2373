@@ -182,48 +182,69 @@ public function update(Request $request, $title,$taskTitle)
    
 
     // Validação dos dados recebidos do formulário
-    $validatedData = $request->validate([
-        'title' => 'required|max:255',
-        'content' => 'required',
-        'priority' => 'required',
-        'deadline' => 'date',
+
+      
+      
+        $validatedData = $request->validate([
+            'title' => 'required|unique:task,title,' . $task->id . ',id,id_project,' . $project->id,
+            'content' => 'required',
+            'priority' => 'required',
+            'deadline' => 'date',
+            'isCompleted' => 'boolean',
+            'assigned' => 'required' 
+        ]);
         // Adicione outras regras de validação conforme necessário
-    ]);
+
+        if ($task->title === $validatedData['title']) {
+        }
+        else {
+            $task->title = $validatedData['title'];
+        }
 
     // Atualize os campos da tarefa com base nos dados recebidos do formulário
-    $task->title = $validatedData['title'];
     $task->content = $validatedData['content'];
     $task->priority = $validatedData['priority'];
     $task->deadline = $validatedData['deadline'];
-    // Adicione outros campos que você deseja atualizar
+    $currentDateTime=new DateTime();
+    $task->datecreation = $currentDateTime->format('Y-m-d');
+    
+   
+    $deadline = Carbon::parse($request->input('deadline'));
+    if ($deadline->isPast()) {
+        return redirect()->back()->withInput()->withErrors(['deadline' => 'The deadline must be after today']);
+    }
 
-    // Salve as alterações na tarefa
     $task->save();
 
     // Redirecione para onde você precisa após a atualização
     return redirect()->route('task.show', ['title' => $task->project->title])->with('success', 'Tarefa atualizada com sucesso!');
 }
 
-public function search(Request $request,$title)
+public function search(Request $request, $title)
 {
-
     $project = Project::where('title', $title)->first();
     $search = $request->input('search');
-    $search= implode(' & ', explode(' ', $search));
-$tasks = Task::where('id_project', $project->id)
-    ->whereRaw("to_tsvector('english', title) @@ to_tsquery('english', ?)", [$search])
-    ->orderByRaw("ts_rank(to_tsvector('english', title), to_tsquery('english', ?)) DESC", [$search])
-    ->limit(40)
-    ->get();
-    if ($search ) {
-        $tasks = Task::where('id_project', $project->id)
-        ->whereRaw("to_tsvector('english', title) @@ to_tsquery('english', ?)", [$search])
-        ->orderByRaw("ts_rank(to_tsvector('english', title), to_tsquery('english', ?)) DESC", [$search])
-        ->limit(40)
-        ->get();
+
+    if ($search) {
+       
+        $searchTerms = explode(' ', $search);
+        $query = Task::where('id_project', $project->id);
+
+        foreach ($searchTerms as $term) {
+            $query->where(function ($q) use ($term) {
+                $q->whereRaw("search @@ to_tsquery('english', ?)", [$term])
+                    ->orWhere('title', 'ILIKE', '%' . $term . '%');
+            });
+        }
+
+        $tasks = $query->get();
+    
+    
+    } else {
+        
     }
 
-    return view('pages.user_search_task', ['task' => $tasks, 'search' => $search,'project'=>$project]);
+    return view('pages.user_search_task', ['task' => $tasks, 'search' => $search, 'project' => $project]);
 }
 
 }
