@@ -45,7 +45,7 @@ public function show($id)
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
-            'profile_image' => 'image|mimes:jpg,jpeg,png|max:2048'
+          //  'profile_image' => 'image|mimes:jpg,jpeg,png|max:2048'
             
         ]);
     
@@ -67,9 +67,9 @@ public function show($id)
     
         // Salva as alterações no usuário
         $user->save();
-    
-        // Redireciona para a página do perfil com uma mensagem de sucesso
-        return redirect()->route('profile', $user->id)->with('success', 'Perfil atualizado com sucesso!');
+        return redirect()->route('profile', $user->id)
+        ->withErrors($validatedData)
+        ->withInput();
     }
     
     

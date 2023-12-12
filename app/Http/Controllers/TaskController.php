@@ -135,11 +135,32 @@ public function isCompleted($title, $taskId)
 
 //falta editar task
 
+public function edit($title,$titleTask)
+{
+
+    $project = Project::where('title', $title)->first();
+
+    $task = Task::whereHas('project', function ($query) use ($title) {
+        $query->where('title', $title);
+    })
+    ->where('title', $titleTask)
+    ->first();
+   
+
+    return view('pages.editTask', compact('project','task'));
+}
+
+
 
 //falta meter botao para delete
-public function delete($title,$idTask){
+public function delete($title,$titleTask){
     $project = Project::where('title', $title)->first();
-    $task = Task::where('id', $idTask)->where('id_project', $project->id)->first();
+
+    $task = Task::whereHas('project', function ($query) use ($title) {
+        $query->where('title', $title);
+    })
+    ->where('title', $titleTask)
+    ->first();
     
 
     $this->authorize('delete', [ $task, $project]);

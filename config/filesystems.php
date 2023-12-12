@@ -57,12 +57,13 @@ return [
         ],
         
             
-            'Tutorial02' => [
-                'driver' => 'local',        // The storage driver being used (in this case, local storage).
-                'root' => public_path(),    // The root directory for the storage, typically the public path of your application.
-                'url' => env('APP_URL'),    // The base URL for accessing files stored in this disk.
-                'visibility' => 'public',   // The default visibility setting for files stored on this disk, often set to 'public'.
-            ], 
+        'Tutorial02' => [
+            'driver' => 'local',                       // O driver de armazenamento sendo usado (neste caso, armazenamento local).
+            'root' => public_path('profile'),          // O diretório raiz para o armazenamento, o caminho público 'public/profile' da sua aplicação.
+            'url' => env('APP_URL') . '/profile',      // O URL base para acessar arquivos armazenados neste disco.
+            'visibility' => 'public',                  // A configuração padrão de visibilidade para arquivos armazenados neste disco, frequentemente configurado como 'public'.
+        ],
+        
         
 
     ],

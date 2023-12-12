@@ -30,9 +30,18 @@
                 @foreach ($task->owners as $owner)
                 <p><strong>Owner:</strong> {{ $owner->name }}</p>
                 @if ($owner->id === Auth::id()) <!-- Verifica se o usuário é o proprietário -->
-                <button class="btn btn-primary edit-comment-btn" data-task-id="{{ $task->id }}">
-                    Edit Comment
-                </button>
+                <a href="{{ route('task.edit', ['title' => $task->project->title, 'taskTitle' => $task->title, 'task' => $task->id]) }}" class="btn btn-primary edit-comment-btn">
+                    Edit Task
+                </a>
+                <form method="POST" action="{{ route('task.delete', ['title' => $task->project->title, 'taskTitle' => $task->title, 'task' => $task->id]) }}" class="delete-form">
+                    @csrf
+                    @method('DELETE')
+            
+                    <button type="submit" class="btn btn-danger delete-task-btn">
+                        Delete Task
+                    </button>
+                </form>   
+                
             @endif
                 
             @endforeach
@@ -64,16 +73,7 @@
         @endforelse
     </div>
 
-    <div class="modal" id="editModal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <form id="editTaskForm" action="{{ route('task.update',['title' => $project->title, 'taskId' => $task->id]) }}" method="POST">
-                <!-- Campos do formulário para editar a tarefa -->
-                <!-- ... -->
-                <button type="submit">Salvar Alterações</button>
-            </form>
-        </div>
-    </div>
+  
     
     
 
@@ -129,25 +129,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </script>
 
-<script>
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Listener para o botão de edição
-    document.querySelectorAll('.edit-comment-btn').forEach(function(btn) {
-        btn.addEventListener('click', function(event) {
-            event.preventDefault();
-            var taskId = btn.getAttribute('data-task-id');
-            var task = getTaskInfo(taskId); // Implemente a função para obter informações da tarefa com AJAX
-            fillEditForm(task); // Implemente a função para preencher o formulário com as informações da tarefa
-            openModal('editModal'); // Implemente a função para exibir o modal
-        });
-    });
-
-    // Listener para fechar o modal
-    document.querySelector('.close').addEventListener('click', function() {
-        closeModal('editModal'); // Implemente a função para fechar o modal
-    });
-});
-</script>
 
 @endsection
