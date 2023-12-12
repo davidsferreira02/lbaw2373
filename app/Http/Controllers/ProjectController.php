@@ -386,6 +386,8 @@ public function archived($title)
     if ($project) {
         $project->archived = !$project->archived; 
         $project->save();
+
+
         return redirect()->route('project.show', $project->title)->with('success', 'Projeto atualizado com sucesso!');
     }
 

@@ -61,15 +61,13 @@
         @endif
 
         @if(!$project->archived)
-        <button id="archiveButton" data-title="{{ $project->title }}" class="btn btn-primary ">
-            <i class="fa-regular fa-bookmark"></i>
-        </button>
+        <a href="{{ route('project.archived', ['title' => $project->title]) }}" class="btn btn-primary"> <i class="fa-regular fa-bookmark"></i></a>
+        
     @endif
     
     @if($project->archived)
-        <button id="unarchiveButton" data-title="{{ $project->title }}" class="btn btn-primary ">
-            <i class="fa-solid fa-bookmark"></i> 
-        </button>
+    <a href="{{ route('project.archived', ['title' => $project->title]) }}" class="btn btn-primary"> <i class="fa-solid fa-bookmark"></i></a>
+       
     @endif
 
 

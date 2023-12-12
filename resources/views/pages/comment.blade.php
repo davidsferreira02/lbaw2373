@@ -1,10 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-<!DOCTYPE html>
-<html>
+
+
+<a href="{{ route('task.show',['title'=>$project->title]) }}" class="btn btn-primary">
+    <i class="fas fa-arrow-left"></i> 
+</a>
+
 <head>
-    <title>Detalhes da Tarefa</title>
+    <title>Task Details</title>
 </head>
 <body>
     <h2><strong>title:</strong> {{ $task->title }}</h2>
@@ -14,13 +18,14 @@
     <p><strong>dateCreation:</strong>{{ $task->datecreation }}</p>
     <p><strong>isCompleted:</strong>{{ $task->iscompleted == 1 ? 'True' : 'False' }}</p>
     @foreach ($task->owners as $owner)
-    <p><strong>Owner:</strong> {{ $owner->name }}</p>
-    
+    <p><strong>Owner:</strong> {{ $owner->username }}</p>
 @endforeach
+     @foreach($task->assigned as $assigned)
 
+  <p><strong>Assigned:</strong> {{ $assigned->username }}</p>
+  @endforeach
 
-
-    <h2>Comentários:</h2>
+    <h2>Comments:</h2>
     <!-- Seção de comentários -->
 
  
@@ -44,8 +49,15 @@
             @endif
                 
             <!-- Contagem de Likes -->
-            <p id="likesCount_{{ $comment->id }}">Total de Likes: {{ $comment->likes()->count() }}</p>
+            <p id="likesCount_{{ $comment->id }}">Total of Likes: {{ $comment->likes()->count() }}</p>
         </div>
+        @if($owner->id === Auth::id())
+        <form method="POST" action="{{ route('comment.delete', ['title'=>$project->title,'titleTask'=>$task->title,'idComment' => $comment->id]) }}">
+            @csrf
+            @method('DELETE')
+            <button type="submit">Delete</button>
+        </form>
+    @endif
     @endforeach
 
     @if(!Auth::user()->isAdmin())
@@ -53,7 +65,7 @@
     <form method="POST" action="{{ route('comments.store', ['title' => $project->title, 'taskId' => $task->id]) }}">
         @csrf
         <textarea name="content" placeholder="Escreva seu comentário"></textarea>
-        <button type="submit">Enviar Comentário</button>
+        <button type="submit">Send Comment</button>
     </form>
     
     <div id="commentsContainer"></div>
@@ -95,5 +107,5 @@
         }
     </script>
 </body>
-</html>
+
 @endsection

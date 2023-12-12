@@ -133,6 +133,7 @@ public function isCompleted($title, $taskId)
     return Response::json(['error' => 'Tarefa não encontrada.'], 404);
 }
 
+
 //falta editar task
 
 public function edit($title,$titleTask)

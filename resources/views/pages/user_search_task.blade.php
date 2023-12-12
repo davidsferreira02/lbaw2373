@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+
+<a href="{{ route('task.show',['title'=>$project->title]) }}" class="btn btn-primary">
+    <i class="fas fa-arrow-left"></i> 
+</a>
     <h1>Search Results for "{{ $search }}"</h1>
 
     @if($task->isEmpty())

@@ -82,7 +82,7 @@ Route::controller(ProjectController::class)->group(function () {
    Route::put('/project/{title}/update', 'update')->name('project.update')->middleware('auth');
    Route::get('/project/{title}/favorite', 'favorite')->name('project.favorite')->middleware('auth');
    Route::get('/project/{title}/noFavorite', 'noFavorite')->name('project.noFavorite')->middleware('auth');
-   Route::post('project/{title}/archived','archived')->name('project.archived')->middleware('auth');
+   Route::get('project/{title}/archived','archived')->name('project.archived')->middleware('auth');
    Route::delete('/project/{title}/member/{id}/delete', 'deleteMember')->name('project.deleteMember');
    Route::get('/project/{title}/addMember/search-username', 'searchByUsernameAddMember')->name('search.username');
    Route::get('/project/{title}/addLeader/search-username', 'searchByUsernameAddLeader')->name('search.usernameLeader');
@@ -141,6 +141,7 @@ Route::controller(ProfileController::class)->group(function(){
 Route::controller(CommentController::class)->group(function(){
     Route::get('/project/{title}/task/{taskId}/comments','show')->name('task.comment')->middleware('auth');
     Route::post('/project/{title}/task/{taskId}/comments/store', 'store')->name('comments.store')->middleware('auth');
+    Route::delete('/project/{title}/task/{titleTask}/comments/{idComment}delete', 'delete')->name('comment.delete')->middleware('auth');
 
 });
 

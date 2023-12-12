@@ -20,6 +20,7 @@
             @endif
         </h1>
         <p>Email: {{ $user->email }}</p>
+        <p>Username: {{ $user->username }}</p>
 
         <h2>Profile Project:</h2>
         <ul>

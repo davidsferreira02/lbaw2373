@@ -57,8 +57,16 @@ class CommentController extends Controller
 
     }
 
-    public function delete(){
+    public function delete($title,$titleTask,$idComment){
+        $project = Project::where('title', $title)->first();
+        $task = Task::where('title', $titleTask)->where('id_project', $project->id)->first();
+        $comment=Comment::findorfail($idComment);
 
+        if($comment){
+            $comment->delete();
+        }
+
+        return redirect()->back();
     }
 
     public function addCommentOwner($username,$idcomment){

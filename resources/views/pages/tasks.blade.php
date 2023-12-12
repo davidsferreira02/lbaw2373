@@ -16,6 +16,7 @@
         <input type="text" name="search" placeholder="Search tasks...">
         <button type="submit">Search</button>
     </form>
+
 <div id="tasksContainer">
         @forelse ($tasks as $task)
             <div class="task-card" data-priority="{{ $task->priority }}">
@@ -34,10 +35,17 @@
                 </p>
                 @foreach ($task->owners as $owner)
                 <p><strong>Owner:</strong> {{ $owner->name }}</p>
-                @if ($owner->id === Auth::id()) <!-- Verifica se o usuário é o proprietário -->
+                @if ($owner->id === Auth::id()) 
                 <a href="{{ route('task.edit', ['taskTitle' => $task->title, 'title' => $project->title]) }}">
                     <button>Edit Task</button>
                 </a>
+
+                <form action="{{ route('task.delete', ['taskTitle' => $task->title, 'title' => $project->title]) }}" method="POST" class="my-3">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja apagar a task?')">Delete Task</button>
+                </form>
+
             @endif
                 
             @endforeach
