@@ -30,17 +30,12 @@
    
         <a href="{{ route('project.addMember', ['title' => $project->title]) }}" class="btn btn-primary">Add Member</a>
         <a href="{{ route('project.addLeader', ['title' => $project->title]) }}" class="btn btn-primary">Add Leader</a>
+        @if($project->archived)
+        <a href="{{ route('project.archived', ['title' => $project->title]) }}" class="btn btn-primary"> <i class="fa-solid fa-bookmark"></i></a>
+        @endif
         @if(!$project->archived)
         <a href="{{ route('project.archived', ['title' => $project->title]) }}" class="btn btn-primary"> <i class="fa-regular fa-bookmark"></i></a>
-        
-    @endif
-    
-    @if($project->archived)
-    <a href="{{ route('project.archived', ['title' => $project->title]) }}" class="btn btn-primary"> <i class="fa-solid fa-bookmark"></i></a>
-       
-    @endif
-
-      
+        @endif
         @endif
 
         @if($project->leaders->contains(Auth::user()) || Auth::user()->isAdmin() )
