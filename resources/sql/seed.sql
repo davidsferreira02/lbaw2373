@@ -87,7 +87,7 @@ CREATE TABLE likes(
 CREATE TABLE isadmin(
   id SERIAL PRIMARY KEY,
   user_id INT NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES users (id)
+  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 CREATE TABLE favorite(
@@ -235,7 +235,8 @@ INSERT INTO users (name,username, password, email) VALUES
 ('Nova Nelson', 'nova_nelson', '$2y$10$HWq0IqN9NlwHz9.CxUbgPey9HxZv2S0P5RtYkOYR6a/dGPE6tYrly', 'nov@example.com'),
 ('Sebastian Thompson', 'sebastian_thompson', '$2y$10$6FsUom4C8zvzgU/jfA/9meRiv7HrQw0Lyfk8Z9EYJh.yq97gSxU5C', 'sebastian@example.com'),
 ('Nova Rodriguez', 'nova_rodriguez', '$2y$10$FlgXSTY0wr1xflYJ49Tm8uH.0BZ0Pklx.vbfv.hYZ2I1bKQeVynMC', 'nova@example.com'),
-('Levi Powell', 'levi_powell', '$2y$10$jAtuOgjJdMx0s2ALD1SIs.GcIVUlkU1u.eE2u6fxx50Rj3uujqV5G', 'levi@example.com');
+('Levi Powell', 'levi_powell', '$2y$10$jAtuOgjJdMx0s2ALD1SIs.GcIVUlkU1u.eE2u6fxx50Rj3uujqV5G', 'levi@example.com'),
+ ('Anônimo', 'anonimo', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'anonimo@example.com');
 
 
 
@@ -585,19 +586,26 @@ CREATE TRIGGER add_comment_like_notification
     FOR EACH ROW
 EXECUTE PROCEDURE add_comment_like_notification();
 
-
 CREATE OR REPLACE FUNCTION anonymize_user_comments()
 RETURNS TRIGGER AS
 $BODY$
 BEGIN
-    UPDATE comment
-    SET content = REPLACE(content, OLD.name, 'Anônimo' || NEW.id)
+    UPDATE commentowner
+    SET id_user = (SELECT id FROM users WHERE username = 'anonimo')
     WHERE id_user = OLD.id;
+
+    UPDATE taskowner
+SET id_user = (SELECT id FROM users WHERE username = 'anonimo')
+WHERE id_user = OLD.id;
+
+-- Agora você pode atualizar o usuário para anonimo
+
     
     RETURN NEW;
 END;
 $BODY$
 LANGUAGE 'plpgsql';
+
 
 CREATE OR REPLACE FUNCTION update_task_search_vector() RETURNS TRIGGER AS $$
 BEGIN

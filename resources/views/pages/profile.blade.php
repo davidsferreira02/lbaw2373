@@ -59,7 +59,7 @@
 @endif
 
 
-        @if(Auth::check() && Auth::user()->id === $user->id)
+        @if(Auth::check() && Auth::user()->id === $user->id ||Auth::user()->isAdmin() )
         <form action="{{ route('profile.delete', ['id' => $user->id]) }}" method="POST">
             @csrf
             @method('DELETE')

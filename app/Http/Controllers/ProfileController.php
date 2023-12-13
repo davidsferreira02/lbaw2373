@@ -77,34 +77,86 @@ public function show($id)
         $user = User::find($userId);
     
         if ($user) {
-            // Encontra todos os projetos onde o usuário é membro
-            $memberProjects = $user->projectMember;
-    
-            // Encontra todos os projetos onde o usuário é líder
-            $leaderProjects = $user->projectLeader;
-            $allProjects = [];
+            if($user->isAdmin() && Auth::user()->id !=$user->id){
 
-            if ($memberProjects) {
-                $allProjects = $memberProjects;
+  return redirect()->back()->with('error', 'Não pode expulsar admin');
             }
+
+
+            // Anonimizar tarefas do usuário, se existirem
+        if ($user->tasksOwned()->count() > 0) {
+            $anonymousUserId = User::where('email', 'anonimo@example.com')->first()->id;
     
-            if ($leaderProjects) {
-                $allProjects = $allProjects->merge($leaderProjects);
+            foreach ($user->tasksOwned as $task) {
+                
+                $task->owners()->detach($user->id);
+                $task->owners()->attach($anonymousUserId);
             }
+        }
     
-            // Itera sobre todos os projetos para remover associações do usuário
-            foreach ($allProjects as $project) {
-                $project->members()->detach($user->id);
-                $project->leaders()->detach($user->id);
+        // Anonimizar tarefas atribuídas ao usuário, se existirem
+        if ($user->tasksAssigned()->count() > 0) {
+            $anonymousUserId = User::where('email', 'anonimo@example.com')->first()->id;
+    
+            foreach ($user->tasksAssigned as $task) {
+                $task->assigned()->detach($user->id);
+                $task->assigned()->attach($anonymousUserId);
             }
+        }
     
-            // Depois de remover associações, você pode excluir o usuário se necessário
-            $user->delete();
+        // Anonimizar comentários do usuário, se existirem
+        if ($user->ownedComments()->count() > 0) {
+            $anonymousUserId = User::where('email', 'anonimo@example.com')->first()->id;
     
-            return redirect()->route('login')->with('success', 'Usuário e associações de projeto removidos com sucesso.');
+            foreach ($user->ownedComments as $comment) {
+              
+                $comment->owner()->detach($user->id);
+                $comment->owner()->attach($anonymousUserId);
+            }
+        }
+    
+        if(!$user->isAdmin()){
+        // Remover associações do usuário em projetos
+        $memberProjects = $user->projectMember;
+        $leaderProjects = $user->projectLeader;
+        $allProjects = $memberProjects->merge($leaderProjects);
+        foreach ($allProjects as $project) {
+            $project->members()->detach($user->id);
+            $project->leaders()->detach($user->id);
+        }
+
+
+        // Anonimizar likes do usuário, se existirem
+if ($user->likes()->count() > 0) {
+    foreach ($user->likes as $like) {
+        $like->delete();
+    }
+}
+
+// Anonimizar favoritos do usuário, se existirem
+if ($user->favorites()->count() > 0) {
+    foreach ($user->favorites as $favorite) {
+        $favorite->delete();
+    }
+}
+        }
+
+
+
+
+    
+        // Depois de anonimizar os dados associados, você pode excluir o usuário
+        $user->delete();
+        if(Auth::user()->isAdmin() && $user->id !=Auth::user()->id){
+            return redirect()->route('admin.dashboard')->with('success', 'Usuário e dados associados anonimizados com sucesso.');
+        }
+    
+        return redirect()->route('login')->with('success', 'Usuário e dados associados anonimizados com sucesso.');
         } else {
             return redirect()->route('login')->with('error', 'Usuário não encontrado.');
         }
     }
+    
+    
 
 }

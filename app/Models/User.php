@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Http\Controllers\FileController;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 
 // Added to define Eloquent relationships.
@@ -82,4 +83,29 @@ class User extends Authenticatable
         return FileController::get('profile', $this->id);
     }
     
+
+    public function tasksOwned(): BelongsToMany
+    {
+        return $this->belongsToMany(Task::class, 'taskowner', 'id_user', 'id_task');
+    }
+
+    public function tasksAssigned(): BelongsToMany
+    {
+        return $this->belongsToMany(Task::class, 'assigned', 'id_user', 'id_task');
+    }
+
+    public function ownedComments(): BelongsToMany
+    {
+        return $this->belongsToMany(Comment::class, 'commentowner', 'id_user', 'id_comment');
+    }
+
+    public function likes()
+{
+    return $this->hasMany(Likes::class, 'user_id');
+}
+
+public function favorites()
+{
+    return $this->hasMany(Favorite::class, 'users_id');
+}
 }
