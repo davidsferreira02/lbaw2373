@@ -120,9 +120,21 @@ public function show($id)
         $memberProjects = $user->projectMember;
         $leaderProjects = $user->projectLeader;
         $allProjects = $memberProjects->merge($leaderProjects);
-        foreach ($allProjects as $project) {
+        foreach ($allProjects as $project) { // garantir a integredidade dos projectos
+            if($project->members()->count()>1 && $project->leaders()->count()>1){
             $project->members()->detach($user->id);
             $project->leaders()->detach($user->id);
+            }
+            else if($project->members()->count()==1 && $project->leaders()->count()==1){
+                    $project->members()->detach($user->id);
+                    $project->leaders()->detach($user->id);
+                    $project->delete();
+                }
+                else if($project->members->count()>1 && $project->leaders()->count()==1){
+                    return redirect()->back()->with('error', 'Adiciona um member do $projeto para ficar com um leader');
+                }
+
+
         }
 
 
