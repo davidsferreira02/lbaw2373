@@ -52,7 +52,9 @@ Route::controller(LoginController::class)->group(function () {
     Route::get('/block', function () {
         return view('pages.block');
     })->name('blocked');
-    
+
+     Route::get('/passwordRequest', 'recover')->name('password.request');
+     Route::post('/passwordUpdate', 'updatePassword')->name('password.update');
    
 });
 

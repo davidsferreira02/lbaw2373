@@ -8,7 +8,7 @@ use App\Models\IsAdmin;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 class LoginController extends Controller
@@ -73,5 +73,29 @@ class LoginController extends Controller
         return redirect()->route('login')
             ->withSuccess('You have logged out successfully!');
     } 
+
+
+    public function recover(Request $request){
+        return view('auth.password_request');
+    }
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return back()->withErrors(['email' => 'User with this email does not exist.']);
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return redirect()->route('login')->withSuccess('Password updated successfully!');
+    }
 }
+
 
