@@ -46,10 +46,9 @@
         <footer>
             <div class="container">
                 <ul>
-                    <li><a href="{{ route('about') }}">About Us</a></li>
-
-                    <li><a href={{ url('/features') }}>Main Features</a></li>       
-                    <li><a href={{ url('/contacts') }}>Contacts</a></li>                           
+                    <li><a href="{{ url('/about') }}">About Us</a></li>
+                    <li><a href="{{ url('/features') }}">Main Features</a></li>       
+                    <li><a href="{{ url('/contacts') }}">Contacts</a></li>                           
                    
                 </ul>
             </div>

@@ -129,3 +129,6 @@ Route::delete('/api/like/{id}', 'destroy')->name('like.destroy')->middleware('au
 
 });
 
+Route::controller(MailController::class)->group(function(){
+Route::post('/send', [MailController::class, 'send']);
+});
