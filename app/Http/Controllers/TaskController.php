@@ -242,6 +242,7 @@ public function search(Request $request, $title)
     
     
     } else {
+        $tasks = Task::where('id_project', $project->id)->get();
         
     }
 

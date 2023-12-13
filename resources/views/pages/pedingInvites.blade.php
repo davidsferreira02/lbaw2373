@@ -13,7 +13,7 @@
         <ul>
             @foreach ($pendingInvites as $invite)
                 <li>
-                    There are no invitations pending at the moment: {{ $invite->project->title }}
+                    There is a pending invitation to the project: {{ $invite->project->title }}
                     <form action="{{ route('accept.invite', ['id_user' => $invite->id_user, 'id_project' => $invite->id_project]) }}" method="POST">
                         @csrf
                         <button type="submit">Accept</button>

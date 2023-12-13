@@ -10,6 +10,8 @@
     <button type="button" class="btn btn-primary" onclick="filterProjects('all')">All Projects</button>
     <button type="button" class="btn btn-primary" onclick="filterProjects('favorites')">Favorite Projects</button>
     <button type="button" class="btn btn-primary" onclick="filterProjects('archived')">Archived</button>
+    <button type="button" class="btn btn-primary" onclick="filterProjects('leader')">Leader Project</button>
+    <button type="button" class="btn btn-primary" onclick="filterProjects('member')">Member Project</button>
   </p>
   
 
@@ -54,24 +56,80 @@
     </ul>
 </div>
 
+
+<div id="leader" style="display: none;">
+    <h1>Leader Projects</h1>
+    <ul>
+        @foreach($projects as $project)
+            @if($project->leaders->contains(Auth::user()->id) && !$project->archived)
+                <li class="project leader">
+                    <a href="{{ route('project.show', ['title' => $project->title]) }}">
+                        {{ $project->title }}
+                    </a>
+                </li>
+            @endif
+        @endforeach
+    </ul>
+</div>
+
+
+
+<div id="member" style="display: none;">
+    <h1>Member Projects</h1>
+    <ul>
+        @foreach($projects as $project)
+            @if(!$project->leaders->contains(Auth::user()->id) && $project->members->contains(Auth::user()->id) && !$project->archived)
+                <li class="project leader">
+                    <a href="{{ route('project.show', ['title' => $project->title]) }}">
+                        {{ $project->title }}
+                    </a>
+                </li>
+            @endif
+        @endforeach
+    </ul>
+</div>
+
 <script>
     function filterProjects(filter) {
         const allProjects = document.getElementById('allProjects');
         const favoriteProjects = document.getElementById('favoriteProjects');
         const archivedProjects = document.getElementById('archived');
+        const leaderProjects = document.getElementById('leader');
+        const memberProjects = document.getElementById('member');
 
         if (filter === 'favorites') {
             allProjects.style.display = 'none';
             favoriteProjects.style.display = 'block';
             archivedProjects.style.display = 'none';
+            leaderProjects.style.display='none';
+            memberProjects.style.display='none';
         } else if (filter === 'archived') {
             allProjects.style.display = 'none';
             favoriteProjects.style.display = 'none';
             archivedProjects.style.display = 'block';
-        } else {
+            leaderProjects.style.display='none';
+            memberProjects.style.display='none';
+
+        } else if(filter === 'leader'){
+            allProjects.style.display = 'none';
+            favoriteProjects.style.display = 'none';
+            archivedProjects.style.display = 'none';
+            leaderProjects.style.display='block';
+            memberProjects.style.display='none';
+        }
+        else if(filter==='member'){
+            allProjects.style.display = 'none';
+            favoriteProjects.style.display = 'none';
+            archivedProjects.style.display = 'none';
+            leaderProjects.style.display='none';
+            memberProjects.style.display='block';
+
+        }else {
             allProjects.style.display = 'block';
             favoriteProjects.style.display = 'none';
             archivedProjects.style.display = 'none';
+            leaderProjects.style.display='none';
+            memberProjects.style.display='none';
         }
     }
 </script>

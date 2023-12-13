@@ -8,6 +8,10 @@
         </div>
     @endif
 
+    <a href="{{ route('project.show', ['title'=>$project->title]) }}" class="btn btn-primary">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+
     <!-- Formulário de pesquisa -->
     <form method="get" action="{{ route('search.usernameLeader',['title' => $project->title]) }}">
         @csrf
@@ -31,7 +35,7 @@
                 </form>
             @endforeach
         @else
-            <p>No users found.</p>
+            <p>No users found with this  username{{ $username }}.</p>
         @endif
     @endif
 @endsection

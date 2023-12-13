@@ -174,6 +174,7 @@ public function addOneMember($title,$username)
    return redirect()->route('project.show', ['title' => $project->title])->with('success', 'Convite enviado com sucesso!');
     }
 
+
 }
 
 
@@ -406,26 +407,30 @@ public function searchByUsernameAddMember(Request $request, $title) {
 
 
     if (!$username) {
-        return redirect()->back()->withErrors('Enter a username.');
+        return redirect()->back()->withInput()->withErrors(['error' => 'Enter a username.']);
     }
 
     $userId = Auth::id(); // Obtém o ID do usuário autenticado
 
     // Busca usuários que correspondam ao username fornecido e não são membros deste projeto
     $users = User::where('id', '!=', $userId)
-        ->whereDoesntHave('projectMember', function ($query) use ($project) {
-            $query->where('id_project', $project->id);
-        })
-        ->where(function ($query) use ($username) {
-            $query->where('username', 'ILIKE', '%' . $username . '%')
-                ->orWhereRaw('search @@ plainto_tsquery(\'english\', ?)', [$username]);
-        })
-        ->orderByRaw('ts_rank(search, plainto_tsquery(\'english\', ?)) DESC', [$username])
-        ->limit(40)
-        ->get();
+    ->whereDoesntHave('isAdminRelation') // Garante que não têm a relação de administração
+    ->whereDoesntHave('projectMember', function ($query) use ($project) {
+        $query->where('id_project', $project->id);
+    })
+    ->where(function ($query) use ($username) {
+        $query->where('username', 'ILIKE', '%' . $username . '%')
+            ->orWhereRaw('search @@ plainto_tsquery(\'english\', ?)', [$username]);
+    })
+    ->orderByRaw('ts_rank(search, plainto_tsquery(\'english\', ?)) DESC', [$username])
+    ->limit(40)
+    ->get();
 
+    $users = $users->filter(function ($user) {
+        return !$user->isAdmin();
+    });
     // Retorne a view com os resultados da busca
-    return view('pages.user_search_results', compact('users', 'project'));
+    return view('pages.user_search_results', compact('users', 'project','username'));
 }
 
 public function searchByUsernameAddLeader(Request $request, $title) {
@@ -460,7 +465,7 @@ public function searchByUsernameAddLeader(Request $request, $title) {
     ->get();
 
     // Retorne a view com os resultados da busca
-    return view('pages.user_search_leader', compact('users', 'project'));
+    return view('pages.user_search_leader', compact('users', 'project','username'));
 }
 
 public function leaveProject($title)

@@ -131,7 +131,7 @@ public function show($id)
                     $project->delete();
                 }
                 else if($project->members->count()>1 && $project->leaders()->count()==1){
-                    return redirect()->back()->with('error', 'Adiciona um member do $projeto para ficar com um leader');
+                    return redirect()->back()->with('error', 'Adicione um membro ao projeto ' . $project->title . ' para ter um líder.');
                 }
 
 

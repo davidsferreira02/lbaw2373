@@ -51,7 +51,7 @@ Route::controller(LoginController::class)->group(function () {
     Route::get('/forgotPassword','forgotPassword')->name('password');
     Route::get('/block', function () {
         return view('pages.block');
-    })->name('blocked');
+    })->name('blocked')->middleware('auth');;
 
      Route::get('/passwordRequest', 'recover')->name('password.request');
      Route::post('/passwordUpdate', 'updatePassword')->name('password.update');
@@ -85,10 +85,10 @@ Route::controller(ProjectController::class)->group(function () {
    Route::get('/project/{title}/favorite', 'favorite')->name('project.favorite')->middleware('auth');
    Route::get('/project/{title}/noFavorite', 'noFavorite')->name('project.noFavorite')->middleware('auth');
    Route::get('project/{title}/archived','archived')->name('project.archived')->middleware('auth');
-   Route::delete('/project/{title}/member/{id}/delete', 'deleteMember')->name('project.deleteMember');
-   Route::get('/project/{title}/addMember/search-username', 'searchByUsernameAddMember')->name('search.username');
-   Route::get('/project/{title}/addLeader/search-username', 'searchByUsernameAddLeader')->name('search.usernameLeader');
-   Route::delete('/project/{title}/leave', 'leaveProject')->name('project.leave');
+   Route::delete('/project/{title}/member/{id}/delete', 'deleteMember')->name('project.deleteMember')->middleware('auth');;
+   Route::get('/project/{title}/addMember/search-username', 'searchByUsernameAddMember')->name('search.username')->middleware('auth');;
+   Route::get('/project/{title}/addLeader/search-username', 'searchByUsernameAddLeader')->name('search.usernameLeader')->middleware('auth');;
+   Route::delete('/project/{title}/leave', 'leaveProject')->name('project.leave')->middleware('auth');;
 
 
    
@@ -117,7 +117,7 @@ Route::controller(TaskController::class)->group(function () {
     Route::get('/project/{title}/task/{taskTitle}/edit', 'edit')->name('task.edit')->middleware('auth');
    Route::put('/project/{title}/task/{taskTitle}/update', 'update')->name('task.update')->middleware('auth');
    Route::delete('/project/{title}/task/{taskTitle}/delete', 'delete')->name('task.delete')->middleware('auth');
-   Route::get('/project/{title}/task/search','search')->name('task.search');
+   Route::get('/project/{title}/task/search','search')->name('task.search')->middleware('auth');;
   
 
 
@@ -126,8 +126,8 @@ Route::controller(TaskController::class)->group(function () {
 });
 
 Route::controller(AdminController::class)->group(function () {
-    Route::get('/admin', 'index')->name('admin.dashboard');
-    Route::patch('/block/{id}','block')->name('admin.block');
+    Route::get('/admin', 'index')->name('admin.dashboard')->middleware('auth');;
+    Route::patch('/block/{id}','block')->name('admin.block')->middleware('auth');;
 });
 
 
@@ -156,6 +156,6 @@ Route::patch('/project/{title}/task/{titleTask}/comment/{commentId}/like/store',
 
 
 Route::controller(FileController::class)->group(function(){
-Route::post('/file/upload',  'upload')->name('file.upload');
+Route::post('/file/upload',  'upload')->name('file.upload')->middleware('auth');;
 });
 

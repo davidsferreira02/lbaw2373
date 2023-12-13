@@ -113,7 +113,7 @@ class ProjectPolicy
     }
 
     public function archived(User $user,Project $project){ //archived
-        return !$user->isblocked && $project->members->contains($user) && Auth::check();
+        return !$user->isblocked && $project->leaders->contains($user) && Auth::check();
     }
 
 
