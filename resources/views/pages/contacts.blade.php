@@ -30,7 +30,18 @@
 @endif
     <div class="container">
         <h1>Contacts</h1>
-        <p>Welcome to our website! We are a fantastic team working together to bring you amazing content.</p>
-        <!-- Add any other content or details about your team/company here -->
+        <div class="owner">
+            <h2>Owner 1</h2>
+            <p>Name: David dos Santos Ferreira</p>
+            <p>Email: up202006302@fe.up.pt</p>
+        </div>
+       
+        <!-- Owner 2 -->
+        <div class="owner">
+            <h2>Owner 2</h2>
+            <p>Name:  Ana Sofia Oliveira Teixeira</p>
+            <p>Email: up201806629@fe.up.pt</p>
+        </div>
+    </div>
     </div>
 @endsection

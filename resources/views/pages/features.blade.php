@@ -30,7 +30,13 @@
 @endif
     <div class="container">
         <h1>Main Features</h1>
-        <p>Welcome to our website! We are a fantastic team working together to bring you amazing content.</p>
-        <!-- Add any other content or details about your team/company here -->
+        <ul>
+            <li>Create Projects</li>
+            <li>Create Tasks</li>
+            <li>Assign Tasks</li>
+            <li>Add Members</li>
+            <li>Comment on Tasks</li>
+            
+        </ul>
     </div>
 @endsection
