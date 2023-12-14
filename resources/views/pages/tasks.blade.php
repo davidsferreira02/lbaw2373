@@ -196,8 +196,51 @@
         
         </script>
         
+        <script>
+
+const editTaskButton = document.querySelector("#editTask");
+const modal = document.querySelector("dialog");
+const buttonClose = document.querySelector("#closeEditTask");
+const editTaskSubmit = document.querySelector(".editTaskSubmit");
+
+
+
+
+editTaskButton.onclick = function() {
+  modal.showModal();
+};
+
+buttonClose.onclick = function() {
+  modal.close();
+};
+
+editTaskSubmit.addEventListener("submit", async function(event) {
+  event.preventDefault();
+  const formData = new FormData(editTaskSubmit);
+
+  try {
+    const response = await fetch(editTaskSubmit.action, {
+      method: 'PUT',
+      body: formData
+    });
+
+    if (!response.ok) {
+      throw new Error('Resposta inesperada do servidor');
+    }
+
+    // Fechar o diálogo se a atualização for bem-sucedida
+    modal.close();
+  } catch (error) {
+    const errorMessages = document.querySelectorAll('.error');
+  
+
+    modal.showModal(); // Mantém o modal aberto após o erro
+  }
+});
+
+        </script>
+
 
   
 
     @endsection
-
