@@ -180,20 +180,21 @@ public function update(Request $request, $title,$taskTitle)
    
     $project = Project::where('title', $title)->first();
     $task = Task::where('title', $taskTitle)->first();
+    $task->assigned()->detach();
    
 
     // Validação dos dados recebidos do formulário
 
       
       
-        $validatedData = $request->validate([
-            'title' => 'required|unique:task,title,' . $task->id . ',id,id_project,' . $project->id,
-            'content' => 'required',
-            'priority' => 'required',
-            'deadline' => 'date',
-            'isCompleted' => 'boolean',
-            'assigned' => 'required' 
-        ]);
+    $validatedData = $request->validate([
+        'title' => 'required|unique:task,title,' . $task->id . ',id,id_project,' . $project->id,
+        'content' => 'required',
+        'priority' => 'required',
+        'deadline' => 'required|date|after:today', 
+        'isCompleted' => 'boolean',
+        'assigned' => 'required' 
+    ]);
         // Adicione outras regras de validação conforme necessário
 
         if ($task->title === $validatedData['title']) {
@@ -203,17 +204,15 @@ public function update(Request $request, $title,$taskTitle)
         }
 
     // Atualize os campos da tarefa com base nos dados recebidos do formulário
+    $user = $request->input('assigned');
     $task->content = $validatedData['content'];
     $task->priority = $validatedData['priority'];
     $task->deadline = $validatedData['deadline'];
     $currentDateTime=new DateTime();
     $task->datecreation = $currentDateTime->format('Y-m-d');
-    
-   
-    $deadline = Carbon::parse($request->input('deadline'));
-    if ($deadline->isPast()) {
-        return redirect()->back()->withInput()->withErrors(['deadline' => 'The deadline must be after today']);
-    }
+ 
+
+
 
     $task->save();
 

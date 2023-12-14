@@ -140,7 +140,16 @@ footer a {
 }
 
 
+dialog::backdrop{
+  background-color: rgb(0,0,0/.5);
+}
 
+dialog{
+  border:none;
+  border-radius: .5em;
+  box-shadow:0 0 1em rgb(0,0,0/.3);
+  width: 80%;
+}
 
 .profile img, img {
   width: 100px;
