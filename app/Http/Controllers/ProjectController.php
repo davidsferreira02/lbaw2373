@@ -69,7 +69,7 @@ public function showaddLeaderForm($title)
     {
         // Validação dos dados do formulário
         $validatedData = $request->validate([
-            'title' => 'required|max:255',
+            'title' => 'required|max:255|unique:project',
             'description' => 'required',
             'theme' => 'required',
         ]);
@@ -305,14 +305,6 @@ public function showLeaders($title)
 
 
 
-public function edit($title)
-{
-
-    $project = Project::where('title', $title)->first();
-    $this->authorize('edit', $project);
-
-    return view('pages.editProject', compact('project'));
-}
 
 public function update(Request $request,$title)
 {
@@ -321,7 +313,7 @@ public function update(Request $request,$title)
     $this->authorize('update', $project);
     
     $validatedData = $request->validate([
-        'title' => 'required|string|max:255|unique:project,title,' . $project->id,
+        'title' => 'required|max:255|unique:project',
         'description' => 'required|string|max:255',
         'theme' => 'required|string|max:255'
         

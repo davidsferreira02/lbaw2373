@@ -57,7 +57,13 @@
             @method('DELETE')
             <button type="submit">Delete</button>
         </form>
+
+    
+
     @endif
+
+
+
     @endforeach
 
     @if(!Auth::user()->isAdmin())
@@ -106,6 +112,10 @@
             });
         }
     </script>
+
+
 </body>
+
+
 
 @endsection

@@ -41,7 +41,7 @@ class CommentController extends Controller
         // Se quiseres remover a fração de milissegundos (até os segundos)
         $formattedDateTime = substr($formattedDateTime, 0, -3);
     
-        // Salvar o comentário com a data formatada
+        
         $comment->date = $formattedDateTime;
 
 
@@ -53,7 +53,45 @@ class CommentController extends Controller
         return redirect()->back();
     }
 
-    public function edit(){
+    public function commentUpdate($title,$taskId,$commentid,Request $request){
+
+        $project = Project::where('title', $title)->first();
+
+        $task=Task::findOrFail($taskId);
+
+
+        $task = Task::where('id', $taskId)
+        ->where('id_project', $project->id) // Supondo que você tenha $taskid para a tarefa desejada
+        ->firstOrFail();
+
+
+        $comment = Comment::where('id', $commentid)
+        ->where('id_task', $taskId) // Supondo que você tenha $taskid para a tarefa desejada
+        ->firstOrFail();
+
+     
+        
+        $validatedData = $request->validate([
+            
+            'content'=> 'required|string|max:255'
+            
+        ]);
+
+        $comment->content = $request->input('content');
+        $currentDateTime = Carbon::now();
+
+    
+        $formattedDateTime = $currentDateTime->format('Y-m-d H:i:s');
+
+
+        $formattedDateTime = substr($formattedDateTime, 0, -3);
+    
+        
+        $comment->date = $formattedDateTime;
+    
+       
+        return redirect()->route('task.comment', ['title' => $project->title, 'taskId' => $task->id])->with('success', 'Comentário atualizado com sucesso!');
+
 
     }
 

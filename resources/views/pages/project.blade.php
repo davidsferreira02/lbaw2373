@@ -39,7 +39,53 @@
         @endif
 
         @if($project->leaders->contains(Auth::user()) || Auth::user()->isAdmin() )
-        <a href="{{ route('project.editProject', ['title' => $project->title]) }}" class="btn btn-primary">Edit Project</a>
+       
+
+        <button id="editProject">Edit Project </button>
+
+        <dialog>
+
+      
+    <div class="project">
+        <h1>Edit Project</h1>
+
+        <a id="closeEditProject">
+            <i class="fa-solid fa-xmark"></i>
+        </a>
+
+        <form id="editProjectSubmit" method="POST" action="{{ route('project.update', ['title' => $project->title]) }}">
+            @csrf
+            @method('PUT')
+
+            <label for="title">Project Title:</label>
+            <input type="text" id="title" name="title" value="{{ $project->title }}" required>
+            <span class="error">
+                {{ $errors->first('title') }}
+              </span>
+
+            <label for="description">Project Description:</label>
+            <input type="text" id="description" name="description" value="{{ $project->description }}" required>
+
+            <span class="error">
+                {{ $errors->first('description') }}
+              </span>
+
+            <label for="theme">Project Theme:</label>
+            <input type="text" id="theme" name="theme" value="{{ $project->theme }}" required>
+
+            <span class="error">
+                {{ $errors->first('theme') }}
+              </span>
+
+            
+   
+
+            <button type="submit">Save</button>
+        </form>
+    </div>
+
+
+        </dialog>
         
         @endif
         @if($project->members->contains(Auth::user()))
@@ -71,8 +117,49 @@
     </div>
 
 
+
+
+<script>
+
+    const editProjectButton = document.querySelector("#editProject");
+    const modal = document.querySelector("dialog");
+    const buttonClose = document.querySelector("#closeEditProject");
+    const editProjectSubmit = document.querySelector(".editProjectSubmit");
     
-
-   
-
-@endsection
+    
+    
+    
+    editProjectButton.onclick = function() {
+      modal.showModal();
+    };
+    
+    buttonClose.onclick = function() {
+      modal.close();
+    };
+    
+    editProjectSubmit.addEventListener("submit", async function(event) {
+      event.preventDefault();
+      const formData = new FormData(editProjectSubmit);
+    
+      try {
+        const response = await fetch(editProjectSubmit.action, {
+          method: 'PUT',
+          body: formData
+        });
+    
+        if (!response.ok) {
+          throw new Error('Resposta inesperada do servidor');
+        }
+    
+        // Fechar o diálogo se a atualização for bem-sucedida
+        modal.close();
+      } catch (error) {
+        const errorMessages = document.querySelectorAll('.error');
+      
+    
+        modal.showModal(); // Mantém o modal aberto após o erro
+      }
+    });
+    
+            </script>
+    @endsection

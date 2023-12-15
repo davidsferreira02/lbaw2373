@@ -46,7 +46,7 @@ CREATE TABLE users (
 
 CREATE TABLE project(
   id SERIAL PRIMARY KEY,
-  title varchar(255) NOT NULL,
+  title varchar(255) NOT NULL UNIQUE,
   description varchar(255) NOT NULL,
   theme varchar(255) NOT NULL,
   archived boolean  DEFAULT FALSE,

@@ -180,6 +180,8 @@ public function update(Request $request, $title,$taskTitle)
    
     $project = Project::where('title', $title)->first();
     $task = Task::where('title', $taskTitle)->first();
+
+    if($task !== null){
     $task->assigned()->detach();
    
 
@@ -218,6 +220,7 @@ public function update(Request $request, $title,$taskTitle)
 
     // Redirecione para onde você precisa após a atualização
     return redirect()->route('task.show', ['title' => $task->project->title])->with('success', 'Tarefa atualizada com sucesso!');
+    }
 }
 
 public function search(Request $request, $title)

@@ -114,7 +114,6 @@ Route::controller(TaskController::class)->group(function () {
     Route::post('/project/{title}/storeTask', 'store')->name('task.store')->middleware('auth');
     Route::get('/project/{title}/task', 'show')->name('task.show')->middleware('auth');
     Route::patch('/project/{title}/task/{taskId}/complete', 'isCompleted')->name('task.complete')->middleware('auth');
-    Route::get('/project/{title}/task/{taskTitle}/edit', 'edit')->name('task.edit')->middleware('auth');
    Route::put('/project/{title}/task/{taskTitle}/update', 'update')->name('task.update')->middleware('auth');
    Route::delete('/project/{title}/task/{taskTitle}/delete', 'delete')->name('task.delete')->middleware('auth');
    Route::get('/project/{title}/task/search','search')->name('task.search')->middleware('auth');;
@@ -144,6 +143,7 @@ Route::controller(CommentController::class)->group(function(){
     Route::get('/project/{title}/task/{taskId}/comments','show')->name('task.comment')->middleware('auth');
     Route::post('/project/{title}/task/{taskId}/comments/store', 'store')->name('comments.store')->middleware('auth');
     Route::delete('/project/{title}/task/{titleTask}/comments/{idComment}delete', 'delete')->name('comment.delete')->middleware('auth');
+    Route::put('/project/{title}/task/{taskId}/comments/{commentId}/update', 'commentUpdate')->name('comment.update')->middleware('auth');
 
 });
 
