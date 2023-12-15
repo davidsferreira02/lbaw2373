@@ -33,7 +33,9 @@
             <p>{{ $user->username }}</p>
              <form method="post" action="{{ route('project.Memberstore', ['title'=>$project->title,'username' => $user->username]) }}">
                 @csrf
-                <button type="submit" class="btn btn-success">Add</button>
+                <button type="submit" class="btn btn-success" onclick="return confirm('Tem certeza que deseja mandar convite a este user para o projeto?')">Add</button>
+
+              
             </form>
         @endforeach
     @else

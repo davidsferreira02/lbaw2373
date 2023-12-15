@@ -207,6 +207,7 @@ public function update(Request $request, $title,$taskTitle)
 
     // Atualize os campos da tarefa com base nos dados recebidos do formulário
     $user = $request->input('assigned');
+    $this->assignedTask($task->id, $user);
     $task->content = $validatedData['content'];
     $task->priority = $validatedData['priority'];
     $task->deadline = $validatedData['deadline'];

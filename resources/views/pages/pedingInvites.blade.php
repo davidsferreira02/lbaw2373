@@ -16,11 +16,11 @@
                     There is a pending invitation to the project: {{ $invite->project->title }}
                     <form action="{{ route('accept.invite', ['id_user' => $invite->id_user, 'id_project' => $invite->id_project]) }}" method="POST">
                         @csrf
-                        <button type="submit">Accept</button>
+                        <button type="submit"  onclick="return confirm('Tem certeza que deseja aceitar este convite?')">Accept</button>
                     </form>
                     <form action="{{ route('decline.invite', ['id_user' => $invite->id_user, 'id_project' => $invite->id_project]) }}" method="POST">
                         @csrf
-                        <button type="submit">Refuse</button>
+                        <button type="submit"  onclick="return confirm('Tem certeza que deseja recusar este convite?')>Refuse</button>
                     </form>
                 </li>
             @endforeach
