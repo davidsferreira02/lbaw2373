@@ -30,6 +30,9 @@ class MailController extends Controller
                 $missingVariables[] = $envVar;
             }
         }
+
+        dd($request);
+        Mail::to($request->email)->send(new MailModel($requiredEnvVariables));
     
         if (empty($missingVariables)) {
 
@@ -37,7 +40,8 @@ class MailController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
             ];
-
+            Mail::to($request->email)->send(new MailModel($mailData));
+/*
             try {
                 Mail::to($request->email)->send(new MailModel($mailData));
                 $status = 'Success!';
@@ -52,12 +56,12 @@ class MailController extends Controller
 
         } else {
             $status = 'Error!';
-            $message = 'The SMTP server cannot be reached due to missing environment variables:';
+            $message = 'The SMTP server cannot be reached due to missing environment variables:';*/
         }
 
-        $request->session()->flash('status', $status);
-        $request->session()->flash('message', $message);
-        $request->session()->flash('details', $missingVariables);
+        //$request->session()->flash('status', $status);
+        //$request->session()->flash('message', $message);
+        //$request->session()->flash('details', $missingVariables);
         return redirect()->route('home');
     }
 }

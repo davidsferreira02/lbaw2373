@@ -25,7 +25,7 @@ use App\Http\Controllers\MailController;
 */
 
 // Home
-Route::redirect('/', '/login');
+Route::redirect('/', '/login')->name('home');
 
 Route::get('/features', function () {
     return view('pages.features');
@@ -130,5 +130,5 @@ Route::delete('/api/like/{id}', 'destroy')->name('like.destroy')->middleware('au
 });
 
 Route::controller(MailController::class)->group(function(){
-Route::post('/send', [MailController::class, 'send']);
+    Route::post('/send', [MailController::class, 'send']);
 });
