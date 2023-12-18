@@ -76,7 +76,7 @@
 
     </div>
 
-    <img src="{{ $user->getProfileImage() }}">
+    <img src="{{ $user->getProfileImage()}}">
           
 
 

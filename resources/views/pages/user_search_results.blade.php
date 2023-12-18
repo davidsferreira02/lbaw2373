@@ -11,10 +11,10 @@
     <form method="get" action="{{ route('search.username',['title' => $project->title]) }}">
         @csrf
         <div class="form-group">
-            <label for="username">Member username</label>
+            <label for="username">username</label>
             <input type="text" id="username" name="username" class="form-control">
         </div>
-        <button type="submit" class="btn btn-primary">Search Member</button>
+        <button type="submit" class="btn btn-primary">Search User</button>
         @if(session('error'))
         <div class="alert alert-danger">
             {{ session('error') }}

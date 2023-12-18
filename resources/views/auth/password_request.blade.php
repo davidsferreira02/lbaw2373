@@ -1,6 +1,13 @@
 @extends('layouts.app')
 
+
+
+
 @section('content')
+
+<a href="{{ route('login') }}" class="btn btn-primary">
+    <i class="fas fa-arrow-left"></i>
+</a>
     <form method="POST" action="{{ route('password.update') }}">
         @csrf
 
