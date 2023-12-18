@@ -159,3 +159,6 @@ Route::controller(FileController::class)->group(function(){
 Route::post('/file/upload',  'upload')->name('file.upload')->middleware('auth');;
 });
 
+
+
+Route::post('/comment/like', [CommentController::class, 'like']);
