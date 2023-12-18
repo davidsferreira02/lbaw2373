@@ -45,31 +45,31 @@ public function show($id)
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
-          //  'profile_image' => 'image|mimes:jpg,jpeg,png|max:2048'
-            
+            'username' => 'required|string|max:255|unique:users,username,'.$user->id,
+            'image' => 'image|mimes:jpg,jpeg,png|max:2048' // Change to 'image' instead of 'profile_image'
         ]);
-    
-        // Atualização dos campos nome e email
+        
         $user->name = $request->input('name');
         $user->email = $request->input('email');
-        if ($request->hasFile('profile_image')) {
-            $file = $request->file('profile_image');
-    
-            // Generate a unique filename for the image
-            $fileName = time() . '_' . $file->getClientOriginalName();
-    
-            // Store the file in the public/profile directory (adjust the storage path as needed)
-            $filePath = $file->storeAs('profile', $fileName, 'public');
-    
-            $user->photo = $filePath; // Save the file path in the database
+        $user->username = $request->input('username');
+        
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $requestImage = $request->file('image'); // Access the file using file() method
+            $extension = $requestImage->extension();
+            $imageName = md5($requestImage->getClientOriginalName() . strtotime("now")) . "." . $extension;
+            
+            $requestImage->move(public_path('img/profile'), $imageName); // Move the uploaded file to the desired directory
+            
+            
+            $user->photo = $imageName; 
         }
-        // Verificação e processamento da imagem, se houver
-    
-        // Salva as alterações no usuário
+        
         $user->save();
+   
+        
         return redirect()->route('profile', $user->id)
-        ->withErrors($validatedData)
-        ->withInput();
+            ->withErrors($validatedData)
+            ->withInput();
     }
     
     

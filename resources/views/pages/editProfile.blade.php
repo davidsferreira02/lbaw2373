@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+    <a href="{{ route('profile', ['id'=>$user->id]) }}" class="btn btn-primary">
+        <i class="fas fa-arrow-left"></i> Back
+    </a>
+
     <div class="profile">
         <h1>Edit Profile</h1>
 
@@ -10,15 +14,26 @@
 
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" value="{{ $user->name }}" required>
+            <span class="error">
+                {{ $errors->first('name') }}
+            </span>
 
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" value="{{ $user->email }}" required>
+            <span class="error">
+                {{ $errors->first('email') }}
+            </span>
 
-            <img src="{{ $user->getProfileImage() }}">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" value="{{ $user->username }}" required>
+            <span class="error">
+                {{ $errors->first('username') }}
+            </span>
 
-            <label for="profile_image">Change Photo:</label>
-            <input name="profile_image" type="file">
+            <img src="{{ $user->getProfileImage() }}" alt="profile_image">
 
+            <label for="image">Change Photo:</label>
+            <input name="image" type="file" id = "image" class="from-control-file">
             @if ($errors->has('profile_image'))
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $errors->first('profile_image') }}</strong>

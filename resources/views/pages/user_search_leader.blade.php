@@ -37,7 +37,7 @@
                 </form>
             @endforeach
         @else
-            <p>No users found with this  username{{ $username }}.</p>
+            <p>No members found with this  username{{ $username }}.</p>
         @endif
     @endif
 @endsection

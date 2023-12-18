@@ -79,9 +79,16 @@ class User extends Authenticatable
     {
         return $this->hasOne(IsAdmin::class);
     }
-    public function getProfileImage() {
-        return FileController::get('profile', $this->id);
+    public function getProfileImage()
+    {
+        if ($this->photo && $this->photo!='profile/default.jpg') {
+            return asset('img/profile/' . $this->photo);
+        }
+
+        // Retorne uma imagem padrão, se o usuário não tiver foto
+        return asset('img/profile/default.jpg');
     }
+
     
 
     public function tasksOwned(): BelongsToMany

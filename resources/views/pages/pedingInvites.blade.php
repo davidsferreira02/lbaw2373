@@ -20,7 +20,7 @@
                     </form>
                     <form action="{{ route('decline.invite', ['id_user' => $invite->id_user, 'id_project' => $invite->id_project]) }}" method="POST">
                         @csrf
-                        <button type="submit"  onclick="return confirm('Tem certeza que deseja recusar este convite?')>Refuse</button>
+                        <button type="submit"  onclick="return confirm('Tem certeza que deseja recusar este convite?')">Refuse</button>
                     </form>
                 </li>
             @endforeach
