@@ -2,6 +2,10 @@
 
 @section('content')
 
+
+<a href="{{ route('task.show', ['title'=>$project->title]) }}" class="btn btn-primary">
+    <i class="fas fa-arrow-left"></i>
+</a>
 <form action="{{ route('task.store', ['title' => $project->title]) }}" method="POST">
     @csrf
 

@@ -34,8 +34,9 @@
                     
                     <form class="form-inline my-2 my-lg-0 ml-auto" id="search" action="{{ route('search.users') }}" method="GET">
                         <input class="form-control mr-sm-2" type="search" id="searchInput" name="search" placeholder="Search for users or projects">
-                        <i class="fas fa-search" id="searchIcon" style="cursor: pointer;"></i> <!-- Ícone de lupa -->
+                        <i class="fas fa-search" id="searchIcon" style="cursor: pointer; color: black;"></i> <!-- Ícone de lupa -->
                     </form>
+                    
                     
                     
                 @endif

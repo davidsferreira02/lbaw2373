@@ -105,7 +105,7 @@ public function showaddLeaderForm($title)
     {
         // Supondo que 'title' seja um campo único na tabela de projetos
         $project = Project::where('title', $title)->first();
-        $this->authorize('show', Project::class);
+        $this->authorize('show',$project);
      
         // Verifique se o projeto foi encontrado
         if (!$project) {
@@ -346,7 +346,7 @@ public function favorite($title){
    // $user->favoriteProjects()->attach($project->id);
     $favorite->save();
 
-    return redirect()->route('project.show', $project->title)->with('success', 'Projeto atualizado com sucesso!');
+    return response()->json(['message' => 'Projeto favoritado com sucesso'], 200);
 
 }
 
@@ -365,8 +365,9 @@ public function noFavorite($title){
         $favorite->delete();
     }
 
-    return redirect()->route('project.show', $project->title)->with('success', 'Projeto desfavoritado com sucesso!');
+    return response()->json(['message' => 'Projeto sem favoritado com sucesso'], 200);
 }
+
 
 
 

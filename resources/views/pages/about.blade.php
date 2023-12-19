@@ -8,19 +8,20 @@
 
 @if(Auth::check() && !Auth::user()->isAdmin() && !Auth::user()->isblocked)
 <a href="{{ route('project.home') }}" class="btn btn-primary">
-    <i class="fas fa-arrow-left"></i> <!-- Use "fas" para ícones sólidos -->
+    <i class="fas fa-arrow-left" style="color: black;"></i>
 </a>
+
 @endif
 
 @if(Auth::check() && Auth::user()->isAdmin())
 <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">
-    <i class="fas fa-arrow-left"></i> <!-- Use "fas" para ícones sólidos -->
+    <i class="fas fa-arrow-left" style="color: black;"></i> <!-- Use "fas" para ícones sólidos -->
 </a>
 @endif
 
 @if(!Auth::check())
 <a href="{{ route('login') }}" class="btn btn-primary">
-    <i class="fas fa-arrow-left"></i> <!-- Use "fas" para ícones sólidos -->
+    <i class="fas fa-arrow-left" style="color: black;"></i> <!-- Use "fas" para ícones sólidos -->
 </a>
 @endif
 

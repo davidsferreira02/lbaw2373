@@ -1,13 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-@if(Auth::user()->isAdmin())
-<a href="{{ route('admin.dashboard') }}" class="btn btn-primary">
-    <i class="fas fa-arrow-left"></i> <!-- Use "fas" para ícones sólidos -->
-@endif
+
 
 @if(!Auth::user()->isAdmin())
-<a href="{{ route('project.home') }}" class="btn btn-primary">
+<a href="{{ route('task.show',['title'=>$project->title]) }}" class="btn btn-primary">
     <i class="fas fa-arrow-left"></i> <!-- Use "fas" para ícones sólidos -->
 @endif
 </a>
@@ -88,13 +85,8 @@
         </dialog>
         
         @endif
-        @if($project->members->contains(Auth::user()))
-        <a href="{{ route('task.create', ['title' => $project->title]) }}" class="btn btn-primary">Create Task</a>
-        @endif
-        @if($project->members->contains(Auth::user()) || Auth::user()->isAdmin() )
-
-        <a href="{{ route('task.show', ['title' => $project->title]) }}" class="btn btn-primary">See Task</a>
-        @endif
+      
+  
         @if($project->members->contains(Auth::user()))
         
            <form action="{{ route('project.leave', ['title' => $project->title]) }}" method="POST" class="my-3">
@@ -102,14 +94,17 @@
         @method('DELETE')
         <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja sair do projeto?')">Leave Project</button>
     </form>
-        @if(!$isFavorite)
-        
-<a href="{{ route('project.favorite', ['title' => $project->title]) }}" class="btn btn-primary"><i class="fa-regular fa-star"></i></a>
+    @if(!$isFavorite)
+    <a href="{{ route('project.favorite', ['title' => $project->title]) }}" class="btn btn-primary favorite-btn" data-project-id="{{ $project->id }}" data-is-favorite="false">
+        <i class="fa-regular fa-star"></i>
+    </a>
 @endif
-@if($isFavorite)
 
-<a href="{{ route('project.noFavorite', ['title' => $project->title]) }}" class="btn btn-primary"><i class="fa-solid fa-star"></i></a>
-        @endif
+@if($isFavorite)
+    <a href="{{ route('project.noFavorite', ['title' => $project->title]) }}" class="btn btn-primary favorite-btn" data-project-id="{{ $project->id }}" data-is-favorite="true">
+        <i class="fa-solid fa-star"></i>
+    </a>
+@endif
 
       
 
@@ -162,4 +157,99 @@
     });
     
             </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const favoriteBtns = document.querySelectorAll('.favorite-btn');
+
+  favoriteBtns.forEach(btn => {
+    btn.addEventListener('click', async function(event) {
+      event.preventDefault();
+
+      const projectId = this.getAttribute('data-project-id');
+      const isFavorite = this.getAttribute('data-is-favorite') === 'true';
+
+      this.disabled = true;
+
+      try {
+        if (isFavorite) {
+          // Se já for um favorito, remove-o
+          const removeFavoriteResponse = await fetchFavoriteAction(this.getAttribute('href'), projectId, true);
+
+          if (!removeFavoriteResponse.ok) {
+            console.log(removeFavoriteResponse);
+            throw new Error('Erro ao remover o favorito');
+          }
+
+          this.setAttribute('data-is-favorite', 'false');
+        } else {
+          // Remove todos os favoritos anteriores no mesmo projeto
+          await removePreviousFavorites(projectId);
+
+          // Adiciona o novo favorito
+          const addNewFavoriteResponse = await fetchFavoriteAction(this.getAttribute('href'), projectId, true);
+
+          if (!addNewFavoriteResponse.ok) {
+            console.log(addNewFavoriteResponse);
+            throw new Error('Erro ao atualizar o estado do favorito');
+          }
+
+          this.setAttribute('data-is-favorite', 'true');
+        }
+
+        toggleIconClass(this);
+      } catch (error) {
+        console.error('Erro:', error);
+        this.setAttribute('data-is-favorite', isFavorite ? 'true' : 'false');
+        toggleIconClass(this);
+      } finally {
+        this.disabled = false;
+      }
+    });
+  });
+});
+
+async function removePreviousFavorites(projectId) {
+  const favoriteBtns = document.querySelectorAll(`.favorite-btn[data-project-id="${projectId}"][data-is-favorite="true"]`);
+
+  for (const btn of favoriteBtns) {
+    try {
+      const removeFavoriteResponse = await fetchFavoriteAction(btn.getAttribute('href'), projectId, true);
+      if (!removeFavoriteResponse.ok) {
+        console.log(removeFavoriteResponse);
+        throw new Error('Erro ao remover favorito anterior');
+      }
+      btn.setAttribute('data-is-favorite', 'false');
+      toggleIconClass(btn);
+    } catch (error) {
+      console.error('Erro ao remover favorito:', error);
+      throw error;
+    }
+  }
+}
+function fetchFavoriteAction(url, projectId, removePreviousFavorite) {
+  const requestBody = {
+    projectId,
+    removePreviousFavorite
+  };
+
+  return fetch(url, {
+    method: 'POST',
+    headers: {
+      'X-CSRF-TOKEN': '{{ csrf_token() }}',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(requestBody),
+  });
+}
+
+function toggleIconClass(button) {
+  const icon = button.querySelector('i');
+  icon.classList.toggle('fa-regular');
+  icon.classList.toggle('fa-solid');
+}
+
+
+
+</script>
     @endsection
