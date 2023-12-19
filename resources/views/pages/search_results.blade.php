@@ -13,6 +13,7 @@
         <div class="col-sm-6">
             <button class="btn btn-primary active" onclick="filterResults('users')">Users</button>
             <ul id="usersList" style="display: block;">
+         
                 <h2>Users:</h2>
                 @if(count($users) > 0)
                     @foreach($users as $user)
@@ -28,8 +29,10 @@
             </ul>
         </div>
         <div class="col-sm-6">
+            
             <button class="btn btn-primary" onclick="filterResults('projects')">Projects</button>
             <ul id="projectsList" style="display: none;">
+          
                 <h2>Projects:</h2>
                 @if(count($projects) > 0)
                     @foreach($projects as $project)

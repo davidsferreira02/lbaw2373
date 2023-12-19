@@ -92,7 +92,7 @@ public function showaddLeaderForm($title)
   
     
         // Redirecione o usuário após criar o projeto
-        return redirect()->route('project.show', ['title' => $project->title])->with('success', 'Projeto criado com sucesso!');
+        return redirect()->route('task.show', ['title' => $project->title])->with('success', 'Projeto criado com sucesso!');
 
     }
     

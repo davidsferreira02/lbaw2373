@@ -83,8 +83,30 @@ body {
     border-color: #87cefa;
   }
   
-  #searchIcon {
-    color: black; /* Definir a cor do ícone como preto */
+/* Estilos para o input */
+#searchInput {
+  width: 700px;
+  height: 35px;
+  font-size: 14px;
+  padding: 6px 8px;
+  display: block;
+  margin: 0 auto;
+  /* Adiciona flexbox para alinhar os itens na barra */
+  display: flex;
+  align-items: center;
+  
+  
+}
+
+/* Estilos para o ícone de busca */
+#searchIcon {
+  color: black;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  margin-left: 1230px;
+  margin-top: -25px;
+
 }
 
 
@@ -94,12 +116,15 @@ body {
     font-size: 12px;
     border-radius: 4px 0 0 4px;
     border-color: black;
+    width: 10px;
+    height: 30px;
   }
 
   #search input[type="search"]:focus {
     
     border-color: black; /* Define a cor da borda para preto quando em foco */
     box-shadow: none; /* Remove a sombra que aparece por padrão */
+    
 }
   
   #search button[type="submit"] {
@@ -111,6 +136,8 @@ body {
     border-radius: 0 4px 4px 0;
     cursor: pointer;
     line-height: 1.8; /* Ajuste este valor conforme necessário */
+    width: 10px;
+    height: 30px;
 }
 
 
@@ -175,9 +202,10 @@ dialog{
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  position: absolute;
-  top: 310px;
-  right: 50px;
+
+  margin-left: 30px;
+
+
 }
 .fa-solid.fa-house {
   font-size: 0.8em;
@@ -189,5 +217,138 @@ dialog{
 #archived .content-text,
 #leader .content-text,
 #member .content-text {
-    color: #333; /* Altere para a cor desejada */
+    color: #333; 
 }
+
+#priorityFilter {
+  width: 150px; 
+  height: 30px; 
+  font-size: 14px; 
+  padding: 5px; 
+  position: absolute;
+  top: 250px; 
+  right: 10px; 
+}
+
+input:focus, textarea:focus {
+  border-color: black; /* Define a cor da borda como preta quando em foco */
+  /* Outros estilos de foco, se necessário */
+}
+#title:focus {
+  border-color: black; /* Define a cor da borda como preta quando em foco */
+  /* Outros estilos de foco para o campo de título, se necessário */
+}
+
+.error{
+  color:red;
+  margin-top: 1px;
+  margin-bottom: 4px;
+  
+}
+
+.button-container form {
+  display: inline-block; /* Exibe os formulários como elementos inline */
+  margin-right: 10px; /* Espaçamento entre os formulários (ajuste conforme necessário) */
+}
+
+
+#searchTask {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.searchTask-container {
+  display: flex;
+  align-items: center;
+  width: 300px; /* Largura do container (ajuste conforme necessário) */
+  height: 40px;
+  border: 1px solid black;
+  border-radius: 4px;
+}
+
+#searchTaskInput {
+  flex: 1;
+  padding: 6px;
+  font-size: 12px;
+  border: none;
+  outline: none;
+  border-radius: 4px 0 0 4px;
+}
+
+/* Estilos para os ícones de busca */
+#searchTaskIcon {
+  padding: 8px 12px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+#searchTaskIcon i {
+  color: black;
+  font-size: 14px;
+}
+
+.task-card {
+  border: 1px solid #87cefa;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 150px;
+  margin-left: -1000px; /* Adicione um espaçamento do lado esquerdo */
+  width: 400px;
+  font-size: medium;
+  
+}
+.tasksContainer{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+form#deleteTask {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.comment {
+  border: 1px solid #ccc; /* Adiciona uma borda ao redor de cada comentário */
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: medium;
+}
+
+form#deleteComment{
+
+ display: inline;
+  margin: 0;
+  padding: 0;
+  border: none;
+
+ 
+}
+
+
+ul{
+  font-size: large;
+}
+
+
+
+
+
+
+
+
+
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Espaçamento entre a foto e as informações do usuário */
+  padding: 20px; /* Espaçamento interno */
+}
+
+
+
+/* Adicione estilos adicionais conforme necessário */

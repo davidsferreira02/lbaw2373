@@ -24,6 +24,86 @@
 
   <p><strong>Assigned:</strong> {{ $assigned->username }}</p>
   @endforeach
+  @if ($owner->id === Auth::id()) 
+  
+    <button id="editTask">Edit Task </button> 
+    <dialog>
+    <div class="profile">
+        <h1>Edit Task</h1>
+
+        <a id="closeEditTask">
+            <i class="fa-solid fa-xmark"></i>
+        </a>
+        <form id="editTaskSubmit" method="POST" action="{{ route('task.update', ['title' => $task->project->title, 'taskTitle' => $task->title, 'task' => $task->id]) }}">
+            @csrf
+            @method('PUT')
+
+            
+            <div>
+            <label for="title">Task Title:</label>
+            <input type="text" id="title" name="title" value="{{ $task->title }}" required>
+            <span class="error">
+                {{ $errors->first('title') }}
+              </span>
+            </div>
+
+            <div>
+            <label for="content">Task Content:</label>
+            <input type="text" id="content" name="content" value="{{ $task->content }}" required>
+            <span class="error">
+                {{ $errors->first('content') }}
+              </span>
+        </div>
+            <div>
+            <label for="priority">Priority:</label>
+            <select name="priority" id="priority">
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+            </select>
+            <span class="error">
+                {{ $errors->first('priority') }}
+              </span>
+        </div>
+            <div>
+            <label for="deadline">DeadLine:</label>
+            <input type="date" id="deadline" name="deadline" value="{{ $task->deadline }}" required>
+            <span class="error">
+                {{ $errors->first('deadline') }}
+              </span>
+        </div>
+            <div>
+            <label for="assigned">Assigned to:</label>
+            <select name="assigned" id="assigned">
+                @foreach($project->members as $member)
+                    <option value="{{ $member->id }}">{{ $member->name }}</option>
+                @endforeach
+            </select>
+            <span class="error">
+                {{ $errors->first('assigned') }}
+              </span>
+        </div>
+            
+        
+        
+         
+        
+            <button type="submit">Save</button>
+        </form>
+    </div>
+
+</dialog>
+               <form id = "deleteTask" action="{{ route('task.delete', ['taskTitle' => $task->title, 'title' => $project->title]) }}" method="POST" class="my-3">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja apagar a task?')">Delete Task</button>
+                </form>
+           
+            
+@endif
+
+
+  
 
     <h2>Comments:</h2>
     <!-- Seção de comentários -->
@@ -33,7 +113,8 @@
     @foreach($comments as $comment)
         <div class="comment">
             @foreach($comment->owner as $user)
-    <h3>{{ $user->username }}</h3>
+           <h3>{{ $user->username }}</h3>
+            
 @endforeach
 <p><strong>Date:</strong> {{ $comment->date }}</p>
             <p><strong>Comment:</strong> {{ $comment->content }}</p>
@@ -50,18 +131,19 @@
                 
             <!-- Contagem de Likes -->
             <p id="likesCount_{{ $comment->id }}">Total of Likes: {{ $comment->likes()->count() }}</p>
-        </div>
-        @if($owner->id === Auth::id())
-        <form method="POST" action="{{ route('comment.delete', ['title'=>$project->title,'titleTask'=>$task->title,'idComment' => $comment->id]) }}">
-            @csrf
-            @method('DELETE')
-            <button type="submit">Delete</button>
-        </form>
-
+            @if($owner->id === Auth::id())
+            <form id="deleteComment" method="POST" action="{{ route('comment.delete', ['title'=>$project->title,'titleTask'=>$task->title,'idComment' => $comment->id]) }}">
+                @csrf
+                @method('DELETE')
+                <button type="submit">Delete</button>
+            </form>
     
-
-    @endif
-
+        
+    
+        @endif
+    
+        </div>
+      
 
 
     @endforeach
@@ -115,6 +197,53 @@
 
 
 </body>
+
+
+<script>
+
+    const editTaskButton = document.querySelector("#editTask");
+    const modal = document.querySelector("dialog");
+    const buttonClose = document.querySelector("#closeEditTask");
+    const editTaskSubmit = document.querySelector(".editTaskSubmit");
+    
+    
+    
+    
+    editTaskButton.onclick = function() {
+      modal.showModal();
+    };
+    
+    buttonClose.onclick = function() {
+      modal.close();
+    };
+    
+    editTaskSubmit.addEventListener("submit", async function(event) {
+      event.preventDefault();
+      const formData = new FormData(editTaskSubmit);
+    
+      try {
+        const response = await fetch(editTaskSubmit.action, {
+          method: 'PUT',
+          body: formData
+        });
+    
+        if (!response.ok) {
+          throw new Error('Resposta inesperada do servidor');
+        }
+    
+        // Fechar o diálogo se a atualização for bem-sucedida
+        modal.close();
+      } catch (error) {
+        const errorMessages = document.querySelectorAll('.error');
+      
+    
+        modal.showModal(); // Mantém o modal aberto após o erro
+      }
+    });
+    
+            </script>
+    
+    
 
 {{-- <script>
 function like(id) {

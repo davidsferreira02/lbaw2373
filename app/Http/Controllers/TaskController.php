@@ -168,7 +168,7 @@ public function delete($title,$titleTask){
     if($task){
    
     $task->delete();
-    return redirect()->route('project.show', ['title' => $project->title])->with('success', 'Tarefa apagada com sucesso!');
+    return redirect()->route('task.show', ['title' => $project->title])->with('success', 'Tarefa apagada com sucesso!');
     }
 
 
@@ -220,7 +220,7 @@ public function update(Request $request, $title,$taskTitle)
     $task->save();
 
     // Redirecione para onde você precisa após a atualização
-    return redirect()->route('task.show', ['title' => $task->project->title])->with('success', 'Tarefa atualizada com sucesso!');
+    return redirect()->route('task.comment', ['title' => $task->project->title,'taskId'=>$task->id])->with('success', 'Tarefa atualizada com sucesso!');
     }
 }
 

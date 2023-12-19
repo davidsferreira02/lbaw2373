@@ -6,14 +6,23 @@
     <i class="fas fa-arrow-left"></i>
 </a>
 
-<h2> Task from {{$project->title}} <h2>
-    <a href="{{ route('project.show', ['title'=>$project->title]) }}" class="btn btn-primary">
-        See Project details
-    </a>
+<h2> Tasks from {{$project->title}} <h2>
+    
+    <div class="button-container">
+        <form method="GET" action="{{ route('project.show', ['title' => $project->title]) }}">
+            <button type="submit" class="btn btn-primary">See Project details</button>
+        </form>
+    
+        @if($project->members->contains(Auth::user()))
+            <form method="GET" action="{{ route('task.create', ['title' => $project->title]) }}">
+                <button type="submit" class="btn btn-primary">Create Task</button>
+            </form>
+        @endif
+    </div>
+    
+    
 
-    @if($project->members->contains(Auth::user()))
-    <a href="{{ route('task.create', ['title' => $project->title]) }}" class="btn btn-primary">Create Task</a>
-    @endif
+   
     <select id="priorityFilter">
         <option value="all">All Priorities</option>
         <option value="Low">Low Priority</option>
@@ -24,23 +33,28 @@
  
 
 
-
-
-    <form action="{{ route('task.search', ['title' => $project->title]) }}" method="GET">
-        <input type="text" name="search" placeholder="Search tasks...">
-        <button type="submit">Search</button>
-    </form>
+    <div id="searchTask">
+        <form action="{{ route('task.search', ['title' => $project->title]) }}" method="GET">
+            <div class="searchTask-container">
+                <input type="text" name="search" placeholder="Search tasks..." id="searchTaskInput">
+                <button type="submit" id="searchTaskIcon"><i class="fas fa-search"></i></button>
+            
+        </form>
+    </div>
+    
+    
+    
 
 <div id="tasksContainer">
         @forelse ($tasks as $task)
             <div class="task-card" data-priority="{{ $task->priority }}">
                 <!-- Detalhes da tarefa -->
                 <a href="{{ route('task.comment', ['taskId' => $task->id,'title'=>$project->title]) }}">
-                    <h3><strong>title:</strong> {{ $task->title }}</h3>
+                    <h3><strong>Title:</strong> {{ $task->title }}</h3>
                 </a>
-                <p><strong>priority:</strong>{{ $task->priority }}</p>
-                <p><strong>deadline:</strong>{{ $task->deadline }}</p>
-                <p><strong>isCompleted: </strong>
+                <p><strong>Priority:</strong>{{ $task->priority }}</p>
+                <p><strong>Deadline:</strong>{{ $task->deadline }}</p>
+                <p><strong>IsCompleted: </strong>
                     @if($task->iscompleted)
                         true
                     @else
@@ -49,90 +63,6 @@
                 </p>
                 @foreach ($task->owners as $owner)
                 <p><strong>Owner:</strong> {{ $owner->name }}</p>
-                @if ($owner->id === Auth::id()) 
-                <button id="editTask">Edit Task </button>
-                <dialog>
-                <div class="profile">
-                    <h1>Edit Task</h1>
-            
-                    <a id="closeEditTask">
-                        <i class="fa-solid fa-xmark"></i>
-                    </a>
-                    <form id="editTaskSubmit" method="POST" action="{{ route('task.update', ['title' => $task->project->title, 'taskTitle' => $task->title, 'task' => $task->id]) }}">
-                        @csrf
-                        @method('PUT')
-            
-                        
-                        <div>
-                        <label for="title">Task Title:</label>
-                        <input type="text" id="title" name="title" value="{{ $task->title }}" required>
-                        <span class="error">
-                            {{ $errors->first('title') }}
-                          </span>
-                        </div>
-            
-                        <div>
-                        <label for="content">Task Content:</label>
-                        <input type="text" id="content" name="content" value="{{ $task->content }}" required>
-                        <span class="error">
-                            {{ $errors->first('content') }}
-                          </span>
-                    </div>
-                        <div>
-                        <label for="priority">Priority:</label>
-                        <select name="priority" id="priority">
-                            <option value="Low">Low</option>
-                            <option value="Medium">Medium</option>
-                            <option value="High">High</option>
-                        </select>
-                        <span class="error">
-                            {{ $errors->first('priority') }}
-                          </span>
-                    </div>
-                        <div>
-                        <label for="deadline">DeadLine:</label>
-                        <input type="date" id="deadline" name="deadline" value="{{ $task->deadline }}" required>
-                        <span class="error">
-                            {{ $errors->first('deadline') }}
-                          </span>
-                    </div>
-                        <div>
-                        <label for="assigned">Assigned to:</label>
-                        <select name="assigned" id="assigned">
-                            @foreach($project->members as $member)
-                                <option value="{{ $member->id }}">{{ $member->name }}</option>
-                            @endforeach
-                        </select>
-                        <span class="error">
-                            {{ $errors->first('assigned') }}
-                          </span>
-                    </div>
-                        
-                    
-                    
-                     
-                    
-                        <button type="submit">Save</button>
-                    </form>
-                </div>
-
-            </dialog>
-
-
-
-
-                <form id = "deleteTask" action="{{ route('task.delete', ['taskTitle' => $task->title, 'title' => $project->title]) }}" method="POST" class="my-3">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja apagar a task?')">Delete Task</button>
-                </form>
-
-               
-                
-            @endif
-                
-            @endforeach
-
                 @if(!Auth::user()->isAdmin())
     
                 <form method="POST" action="{{ route('task.complete', ['title' => $project->title, 'taskId' => $task->id]) }}" class="complete-form">
@@ -153,7 +83,13 @@
                     @endif
                 </form>
                 @endif
+            
             </div>
+    
+                
+            @endforeach
+
+                
         @empty
             <!-- Se não houver tarefas -->
             <p>No tasks found for this project.</p>
@@ -210,49 +146,7 @@
         
         </script>
         
-        <script>
-
-const editTaskButton = document.querySelector("#editTask");
-const modal = document.querySelector("dialog");
-const buttonClose = document.querySelector("#closeEditTask");
-const editTaskSubmit = document.querySelector(".editTaskSubmit");
-
-
-
-
-editTaskButton.onclick = function() {
-  modal.showModal();
-};
-
-buttonClose.onclick = function() {
-  modal.close();
-};
-
-editTaskSubmit.addEventListener("submit", async function(event) {
-  event.preventDefault();
-  const formData = new FormData(editTaskSubmit);
-
-  try {
-    const response = await fetch(editTaskSubmit.action, {
-      method: 'PUT',
-      body: formData
-    });
-
-    if (!response.ok) {
-      throw new Error('Resposta inesperada do servidor');
-    }
-
-    // Fechar o diálogo se a atualização for bem-sucedida
-    modal.close();
-  } catch (error) {
-    const errorMessages = document.querySelectorAll('.error');
-  
-
-    modal.showModal(); // Mantém o modal aberto após o erro
-  }
-});
-
-        </script>
+ 
 
 
   

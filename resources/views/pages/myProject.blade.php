@@ -19,11 +19,11 @@
     <h1>All My Projects</h1>
     <ul>
         @foreach($projects as $project)
-            <li class="project">
+            <ul class="project">
                 <a href="{{ route('task.show', ['title' => $project->title]) }}">
                     {{ $project->title }}
                 </a>
-            </li>
+            </ul>
         @endforeach
     </ul>
 </div>
@@ -32,11 +32,11 @@
     <h1>Favorite Projects</h1>
     <ul>
         @foreach($favoriteProjects as $favorite)
-            <li class="project favorite">
+            <ul class="project favorite">
                 <a href="{{ route('task.show', ['title' => $favorite->title]) }}">
                     {{ $favorite->title }}
                 </a>
-            </li>
+            </ul>
         @endforeach
     </ul>
 </div>
@@ -46,11 +46,11 @@
     <ul>
         @foreach($projects as $project)
             @if($project->archived)
-                <li class="project archived">
+                <ul class="project archived">
                     <a href="{{ route('task.show', ['title' => $project->title]) }}">
                         {{ $project->title }}
                     </a>
-                </li>
+                </ul>
             @endif
         @endforeach
     </ul>
@@ -62,11 +62,11 @@
     <ul>
         @foreach($projects as $project)
             @if($project->leaders->contains(Auth::user()->id) && !$project->archived)
-                <li class="project leader">
+                <ul class="project leader">
                     <a href="{{ route('task.show', ['title' => $project->title]) }}">
                         {{ $project->title }}
                     </a>
-                </li>
+                </ul>
             @endif
         @endforeach
     </ul>
@@ -79,11 +79,11 @@
     <ul>
         @foreach($projects as $project)
             @if(!$project->leaders->contains(Auth::user()->id) && $project->members->contains(Auth::user()->id) && !$project->archived)
-                <li class="project leader">
+                <ul class="project leader">
                     <a href="{{ route('task.show', ['title' => $project->title]) }}">
                         {{ $project->title }}
                     </a>
-                </li>
+                </ul>
             @endif
         @endforeach
     </ul>
