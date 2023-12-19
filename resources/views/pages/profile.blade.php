@@ -32,6 +32,20 @@
     right: 0;
     margin-bottom: 10px;
 }
+
+.project-card {
+    width: calc(33.33% - 20px);
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+#projectsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Adjust spacing between project cards */
+}
 </style>
 
 
@@ -59,13 +73,22 @@
 
     <h2>Profile Projects:</h2>
     <ul>
-        @foreach($project as $project)
-            <li>
-                <a href="{{ route('task.show', ['title' => $project->title]) }}">
-                    {{ $project->title }}
-                </a>
-            </li>
-        @endforeach
+        @if($project->count() === 0)
+            <p>No projects found for this user.</p>
+        @else
+            <div id="projectsContainer">
+                @foreach($project as $project)
+                    <div class="project-card">
+                        <a href="{{ route('task.show', ['title' => $project->title]) }}">
+                            <h3>{{ $project->title }}</h3>
+                        </a>
+                        <p><strong>Theme:</strong>{{ $project->theme }}</p>
+                        <p><strong>Description:</strong>{{ $project->description }}</p>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+
     </ul>
 
     @if($project->count() === 0)
@@ -88,7 +111,7 @@
                 </form>
             @endif
         @endif
-        
+
         @if($user->id === Auth::user()->id)
             <a href="{{ route('profile.edit', ['id' => $user->id]) }}" class="btn btn-primary">
                 Edit Profile
