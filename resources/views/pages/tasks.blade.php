@@ -134,7 +134,6 @@
         @endforelse
     </div>
     <script>
-
         document.addEventListener('DOMContentLoaded', function() {
             var forms = document.querySelectorAll('.complete-form');
             forms.forEach(function(form) {

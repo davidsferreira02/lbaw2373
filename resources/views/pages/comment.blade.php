@@ -83,12 +83,8 @@
                 {{ $errors->first('assigned') }}
               </span>
         </div>
-            
         
-        
-         
-        
-            <button type="submit">Save</button>
+            <button type="submitTask">Save</button>
         </form>
     </div>
 
@@ -96,7 +92,7 @@
                <form id = "deleteTask" action="{{ route('task.delete', ['taskTitle' => $task->title, 'title' => $project->title]) }}" method="POST" class="my-3">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja apagar a task?')">Delete Task</button>
+                    <button type="submitTask" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja apagar a task?')">Delete Task</button>
                 </form>
            
             
@@ -114,9 +110,9 @@
         <div class="comment">
             @foreach($comment->owner as $user)
            <h3>{{ $user->username }}</h3>
+            @endforeach
             
-@endforeach
-<p><strong>Date:</strong> {{ $comment->date }}</p>
+            <p><strong>Date:</strong> {{ $comment->date }}</p>
             <p><strong>Comment:</strong> {{ $comment->content }}</p>
             <!-- Detalhes do comentário -->
             @if($comment->likedByCurrentUser())
@@ -135,10 +131,24 @@
             <form id="deleteComment" method="POST" action="{{ route('comment.delete', ['title'=>$project->title,'titleTask'=>$task->title,'idComment' => $comment->id]) }}">
                 @csrf
                 @method('DELETE')
-                <button type="submit">Delete</button>
+                <button type="submitComment">Delete</button>
             </form>
-    
-        
+            <form id="editComment" method="POST" action="{{ route('comment.update', ['title'=>$project->title,'taskId'=>$task->id,'commentId' => $comment->id]) }}">
+                @csrf
+                @method('PUT')
+                <button type="submitComment">Edit</button>
+
+                
+            <div>
+            <label for="title">Comment:</label>
+            <input type="text" id="content" name="content" value="{{ $comment->content }}" required>
+            <span class="error">
+                {{ $errors->first('content') }}
+              </span>
+            </div>        
+            <button type="submitComment">Save</button>
+        </form>
+
     
         @endif
     
@@ -202,10 +212,11 @@
 <script>
 
     const editTaskButton = document.querySelector("#editTask");
+    const editCommentButton = document.querySelector("#editComment");
     const modal = document.querySelector("dialog");
     const buttonClose = document.querySelector("#closeEditTask");
     const editTaskSubmit = document.querySelector(".editTaskSubmit");
-    
+    const editCommentSubmit = document.querySelector(".editCommentSubmit");
     
     
     
@@ -217,12 +228,44 @@
       modal.close();
     };
     
-    editTaskSubmit.addEventListener("submit", async function(event) {
+    editTaskSubmit.addEventListener("submitTask", async function(event) {
       event.preventDefault();
       const formData = new FormData(editTaskSubmit);
     
       try {
         const response = await fetch(editTaskSubmit.action, {
+          method: 'PUT',
+          body: formData
+        });
+    
+        if (!response.ok) {
+          throw new Error('Resposta inesperada do servidor');
+        }
+    
+        // Fechar o diálogo se a atualização for bem-sucedida
+        modal.close();
+      } catch (error) {
+        const errorMessages = document.querySelectorAll('.error');
+      
+    
+        modal.showModal(); // Mantém o modal aberto após o erro
+      }
+    });
+
+    editCommentButton.onclick = function() {
+      modal.showModal();
+    };
+    
+    buttonClose.onclick = function() {
+      modal.close();
+    };
+    
+    editCommentSubmit.addEventListener("submitComment", async function(event) {
+      event.preventDefault();
+      const formData = new FormData(editCommentSubmit);
+    
+      try {
+        const response = await fetch(editCommentSubmit.action, {
           method: 'PUT',
           body: formData
         });
