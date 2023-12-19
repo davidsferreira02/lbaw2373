@@ -9,7 +9,7 @@
 }
 
 .task-card {
-  width: calc(33.33% - 20px); /* Adjust the width as needed */
+  width: calc(33.33% - 20px);
   margin: 10px;
   padding: 10px;
   border: 1px solid #ccc;
@@ -18,8 +18,18 @@
 
 .button-container {
     display: flex;
-    justify-content: center; /* Aligns content horizontally at the center */
-    margin-bottom: 20px; /* Adjust as needed */
+    justify-content: left;
+    margin-bottom: 20px;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1px;
+    max-width: 800%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .search-form {
@@ -27,7 +37,7 @@
 }
 
 #searchTaskInput {
-    flex: 1; /* Take up remaining space */
+    flex: 1;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -47,7 +57,6 @@
 </a>
 
 <h2> Tasks from {{$project->title}} <h2>
-    
     <div class="button-container">
         <form method="GET" action="{{ route('project.show', ['title' => $project->title]) }}">
             <button type="submit" class="btn btn-primary">See Project details</button>
@@ -58,6 +67,13 @@
                 <button type="submit" class="btn btn-primary">Create Task</button>
             </form>
         @endif
+
+        <select id="priorityFilter">
+            <option value="all">All Priorities</option>
+            <option value="Low">Low Priority</option>
+            <option value="Medium">Medium Priority</option>
+            <option value="High">High Priority</option>
+        </select>
     </div>
 
     <div class="search-container">
@@ -66,15 +82,8 @@
             <button type="submit" id="searchTaskIcon"><i class="fas fa-search"></i></button>
         </form>
     </div>
-    
-    <select id="priorityFilter">
-        <option value="all">All Priorities</option>
-        <option value="Low">Low Priority</option>
-        <option value="Medium">Medium Priority</option>
-        <option value="High">High Priority</option>
-    </select>
 
-<div id="tasksContainer">
+    <div id="tasksContainer">
         @forelse ($tasks as $task)
             <div class="task-card" data-priority="{{ $task->priority }}">
                 <!-- Detalhes da tarefa -->
@@ -171,8 +180,6 @@
                 });
             });
         });
-        
-        
         </script>
         
     @endsection
