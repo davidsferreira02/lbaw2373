@@ -2,6 +2,46 @@
 
 @section('content')
 
+<style>
+#tasksContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.task-card {
+  width: calc(33.33% - 20px); /* Adjust the width as needed */
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center; /* Aligns content horizontally at the center */
+    margin-bottom: 20px; /* Adjust as needed */
+}
+
+.search-form {
+    display: flex;
+}
+
+#searchTaskInput {
+    flex: 1; /* Take up remaining space */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 5px;
+}
+
+#searchTaskIcon {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+}
+</style>
+
 <a href="{{ route('project.home') }}" class="btn btn-primary">
     <i class="fas fa-arrow-left"></i>
 </a>
@@ -19,31 +59,20 @@
             </form>
         @endif
     </div>
-    
-    
 
-   
+    <div class="search-container">
+        <form action="{{ route('task.search', ['title' => $project->title]) }}" method="GET" class="search-form">
+            <input type="text" name="search" placeholder="Search tasks..." id="searchTaskInput">
+            <button type="submit" id="searchTaskIcon"><i class="fas fa-search"></i></button>
+        </form>
+    </div>
+    
     <select id="priorityFilter">
         <option value="all">All Priorities</option>
         <option value="Low">Low Priority</option>
         <option value="Medium">Medium Priority</option>
         <option value="High">High Priority</option>
     </select>
-
- 
-
-
-    <div id="searchTask">
-        <form action="{{ route('task.search', ['title' => $project->title]) }}" method="GET">
-            <div class="searchTask-container">
-                <input type="text" name="search" placeholder="Search tasks..." id="searchTaskInput">
-                <button type="submit" id="searchTaskIcon"><i class="fas fa-search"></i></button>
-            
-        </form>
-    </div>
-    
-    
-    
 
 <div id="tasksContainer">
         @forelse ($tasks as $task)
@@ -146,9 +175,4 @@
         
         </script>
         
- 
-
-
-  
-
     @endsection
