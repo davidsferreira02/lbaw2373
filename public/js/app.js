@@ -17,11 +17,14 @@ function sendAjaxRequest(method, url, data, handler) {
 
 function filterTasks() {
   const priority = document.getElementById('priorityFilter').value;
+
   const tasks = document.querySelectorAll('.task-card');
 
   tasks.forEach(task => {
     const taskPriority = task.dataset.priority;
     const priorityMatch = taskPriority === priority || priority === 'all';
+
+    
 
     if (priorityMatch) {
       task.style.display = 'block';
@@ -36,12 +39,6 @@ function filterTasks() {
 
 document.getElementById('priorityFilter').addEventListener('change', filterTasks);
 
-// Adicionando filtro de busca
-
-
-
-
-// Initial call to filterTasks to display tasks based on the initial filter values
 
 
 

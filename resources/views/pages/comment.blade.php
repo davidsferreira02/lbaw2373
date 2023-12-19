@@ -116,6 +116,41 @@
 
 </body>
 
+{{-- <script>
+function like(id) {
+    const button = document.querySelector("#post" + id + " button");
+    if (button.className === "not-clicked") {
+        button.className = "clicked";
+        button.innerHTML = "Liked";
+        sendAjaxRequest('post', '../post/like', {id: id});
+    }
+}
 
+const pusher = new Pusher(pusherAppKey, {
+    cluster: pusherCluster,
+    encrypted: true
+});
 
+const channel = pusher.subscribe('tutorial02');
+channel.bind('notification-postlike', function(data) {
+
+    const notification = document.getElementById('notification');
+    const closeButton = document.getElementById('closeButton');
+    const notificationText = document.getElementById('notificationText');
+    notificationText.textContent = data.message;
+    notification.classList.add('show');
+
+    closeButton.addEventListener('click', function() {
+        notification.classList.remove('show');
+    });
+
+    setTimeout(function() {
+        notification.classList.remove('show');
+    }, 5000);
+});
+</script>
+
+--}}
 @endsection
+
+

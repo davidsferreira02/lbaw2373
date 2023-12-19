@@ -48,8 +48,8 @@ class ProjectPolicy
      }
 
 
-     public function show(User $user){ //see project page
-        return !$user->isblocked && Auth::check();
+     public function show(User $user,Project $project){ //see project page
+        return !$user->isblocked && Auth::check() && $project->members->contains($user) || $user->isAdmin();
 
      }
 

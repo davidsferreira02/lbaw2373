@@ -45,22 +45,22 @@ Route::get('/contacts', function () {
 
 // Authentication
 Route::controller(LoginController::class)->group(function () {
-    Route::get('/login', 'showLoginForm')->name('login');
-    Route::post('/login', 'authenticate');
-    Route::get('/logout', 'logout')->name('logout');
-    Route::get('/forgotPassword','forgotPassword')->name('password');
+    Route::get('/login', 'showLoginForm')->name('login')->middleware('guest');
+    Route::post('/login', 'authenticate')->middleware('guest');
+    Route::get('/logout', 'logout')->name('logout')->middleware('auth');
+    Route::get('/forgotPassword','forgotPassword')->name('password')->middleware('guest');
     Route::get('/block', function () {
         return view('pages.block');
     })->name('blocked')->middleware('auth');;
 
-     Route::get('/passwordRequest', 'recover')->name('password.request');
-     Route::post('/passwordUpdate', 'updatePassword')->name('password.update');
+     Route::get('/passwordRequest', 'recover')->name('password.request')->middleware('guest');
+     Route::post('/passwordUpdate', 'updatePassword')->name('password.update')->middleware('guest');
    
 });
 
 Route::controller(RegisterController::class)->group(function () {
-    Route::get('/register', 'showRegistrationForm')->name('register');
-    Route::post('/register', 'register');
+    Route::get('/register', 'showRegistrationForm')->name('register')->middleware('guest');
+    Route::post('/register', 'register')->middleware('guest');
 });
 
 
@@ -82,14 +82,16 @@ Route::controller(ProjectController::class)->group(function () {
     Route::get('/projects/{title}/leaders', 'showLeaders')->name("project.showLeader")->middleware('auth');
     Route::get('/project/{title}/edit', 'edit')->name('project.editProject')->middleware('auth');
    Route::put('/project/{title}/update', 'update')->name('project.update')->middleware('auth');
-   Route::get('/project/{title}/favorite', 'favorite')->name('project.favorite')->middleware('auth');
-   Route::get('/project/{title}/noFavorite', 'noFavorite')->name('project.noFavorite')->middleware('auth');
-   Route::get('project/{title}/archived','archived')->name('project.archived')->middleware('auth');
-   Route::delete('/project/{title}/member/{id}/delete', 'deleteMember')->name('project.deleteMember')->middleware('auth');;
-   Route::get('/project/{title}/addMember/search-username', 'searchByUsernameAddMember')->name('search.username')->middleware('auth');;
-   Route::get('/project/{title}/addLeader/search-username', 'searchByUsernameAddLeader')->name('search.usernameLeader')->middleware('auth');;
-   Route::delete('/project/{title}/leave', 'leaveProject')->name('project.leave')->middleware('auth');;
+   Route::post('/project/{title}/favorite', 'favorite')->name('project.favorite')->middleware('auth');
+   Route::post('/project/{title}/noFavorite', 'noFavorite')->name('project.noFavorite')->middleware('auth');
+   
 
+   
+   Route::get('project/{title}/archived','archived')->name('project.archived')->middleware('auth')->middleware('auth');
+   Route::delete('/project/{title}/member/{id}/delete', 'deleteMember')->name('project.deleteMember')->middleware('auth');
+   Route::get('/project/{title}/addMember/search-username', 'searchByUsernameAddMember')->name('search.username')->middleware('auth');
+   Route::get('/project/{title}/addLeader/search-username', 'searchByUsernameAddLeader')->name('search.usernameLeader')->middleware('auth');
+   Route::delete('/project/{title}/leave', 'leaveProject')->name('project.leave')->middleware('auth');
 
    
 
@@ -159,3 +161,6 @@ Route::controller(FileController::class)->group(function(){
 Route::post('/file/upload',  'upload')->name('file.upload')->middleware('auth');;
 });
 
+
+
+Route::post('/comment/like', [CommentController::class, 'like']);

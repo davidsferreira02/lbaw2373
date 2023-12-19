@@ -26,7 +26,7 @@
         <ul>
             @foreach($project as $project)
                 <li>
-                    <a href="{{ route('project.show', ['title' => $project->title]) }}">
+                    <a href="{{ route('task.show', ['title' => $project->title]) }}">
                         {{ $project->title }}
                     </a>
                 </li>

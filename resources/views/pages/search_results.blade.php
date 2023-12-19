@@ -34,7 +34,7 @@
                 @if(count($projects) > 0)
                     @foreach($projects as $project)
                         <li>
-                            <button class="btn btn-primary" onclick="location.href='{{ route('project.show', ['title' => $project->title]) }}'">
+                            <button class="btn btn-primary" onclick="location.href='{{ route('task.show', ['title' => $project->title]) }}'">
                                 {{ $project->title }}
                             </button>
                         </li>

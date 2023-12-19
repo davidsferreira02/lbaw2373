@@ -26,7 +26,7 @@ class TaskController extends Controller
       
        
         $tasks = Task::where('id_project', $project->id)->get();
-    $this->authorize('show', [Project::class, Task::class]);
+        $this->authorize('show',$project);
         
 
         return view('pages.tasks', compact('tasks', 'project'));

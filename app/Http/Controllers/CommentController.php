@@ -6,6 +6,7 @@ use App\Models\Task;
 use App\Models\Project;
 use App\Models\Comment;
 use App\Models\User;
+use App\Events\CommentLike;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -13,6 +14,10 @@ use Illuminate\Support\Facades\DB;
 class CommentController extends Controller
 {
     
+
+    function like(Request $request) { //notificaçoes 
+        event(new CommentLike($request->id));
+    }
     public function show($title,$taskId){
         
         $project = Project::where('title', $title)->first();

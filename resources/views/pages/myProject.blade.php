@@ -20,7 +20,7 @@
     <ul>
         @foreach($projects as $project)
             <li class="project">
-                <a href="{{ route('project.show', ['title' => $project->title]) }}">
+                <a href="{{ route('task.show', ['title' => $project->title]) }}">
                     {{ $project->title }}
                 </a>
             </li>
@@ -33,7 +33,7 @@
     <ul>
         @foreach($favoriteProjects as $favorite)
             <li class="project favorite">
-                <a href="{{ route('project.show', ['title' => $favorite->title]) }}">
+                <a href="{{ route('task.show', ['title' => $favorite->title]) }}">
                     {{ $favorite->title }}
                 </a>
             </li>
@@ -47,7 +47,7 @@
         @foreach($projects as $project)
             @if($project->archived)
                 <li class="project archived">
-                    <a href="{{ route('project.show', ['title' => $project->title]) }}">
+                    <a href="{{ route('task.show', ['title' => $project->title]) }}">
                         {{ $project->title }}
                     </a>
                 </li>
@@ -63,7 +63,7 @@
         @foreach($projects as $project)
             @if($project->leaders->contains(Auth::user()->id) && !$project->archived)
                 <li class="project leader">
-                    <a href="{{ route('project.show', ['title' => $project->title]) }}">
+                    <a href="{{ route('task.show', ['title' => $project->title]) }}">
                         {{ $project->title }}
                     </a>
                 </li>
@@ -80,7 +80,7 @@
         @foreach($projects as $project)
             @if(!$project->leaders->contains(Auth::user()->id) && $project->members->contains(Auth::user()->id) && !$project->archived)
                 <li class="project leader">
-                    <a href="{{ route('project.show', ['title' => $project->title]) }}">
+                    <a href="{{ route('task.show', ['title' => $project->title]) }}">
                         {{ $project->title }}
                     </a>
                 </li>

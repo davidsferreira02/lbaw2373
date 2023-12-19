@@ -41,7 +41,7 @@ class TaskPolicy
 
 
 public function show(User $user,Project $project){
-   return (!$user->isblocked && $user->projectMember->contains($project)&& Auth::check() )|| ($user->isAdmin() && Auth::check());
+   return (!$user->isblocked && $user->projectMember->contains($project)&& Auth::check() )||  ($user->isAdmin());
 
 
 }

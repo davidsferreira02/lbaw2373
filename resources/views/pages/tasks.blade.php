@@ -2,15 +2,29 @@
 
 @section('content')
 
-<a href="{{ route('project.show', ['title'=>$project->title]) }}" class="btn btn-primary">
+<a href="{{ route('project.home') }}" class="btn btn-primary">
     <i class="fas fa-arrow-left"></i>
 </a>
+
+<h2> Task from {{$project->title}} <h2>
+    <a href="{{ route('project.show', ['title'=>$project->title]) }}" class="btn btn-primary">
+        See Project details
+    </a>
+
+    @if($project->members->contains(Auth::user()))
+    <a href="{{ route('task.create', ['title' => $project->title]) }}" class="btn btn-primary">Create Task</a>
+    @endif
     <select id="priorityFilter">
         <option value="all">All Priorities</option>
         <option value="Low">Low Priority</option>
         <option value="Medium">Medium Priority</option>
         <option value="High">High Priority</option>
     </select>
+
+ 
+
+
+
 
     <form action="{{ route('task.search', ['title' => $project->title]) }}" method="GET">
         <input type="text" name="search" placeholder="Search tasks...">
