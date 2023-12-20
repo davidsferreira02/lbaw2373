@@ -1,6 +1,6 @@
 body {
     background-color: #ffffff;
-    color: #87cefa;
+    color: #3B3561;
     min-height: 100vh;
   }
   
@@ -8,7 +8,7 @@ body {
     display: grid;
     grid-template-columns: 1fr auto auto;
     align-items: center;
-    background-color: #87cefa;
+    background-color: #ffffff;
     padding: 1em;
     margin: 0em;
   }
@@ -58,30 +58,30 @@ body {
 }
   
   
-  /**
-   * Override milligram colors
-   * Some styles might be missing
-   **/
-  button {
-    background-color: #87cefa;
-    border-color: black;
-  }
-  a.button {
-    background-color: black;
-    border-color: black;
-  }
-  a.button.button-outline {
-    color: #87cefa;
-    border-color: black;
-  }
-  a {
-    color: black;
-  }
-  input[type=text]:focus,
-  input[type=email]:focus,
-  input[type=password]:focus {
-    border-color: #87cefa;
-  }
+/**
+  * Override milligram colors
+  * Some styles might be missing
+  **/
+button {
+  background-color: #87cefa;
+  border-color: black;
+}
+a.button {
+  background-color: black;
+  border-color: black;
+}
+a.button.button-outline {
+  color: #87cefa;
+  border-color: black;
+}
+a {
+  color: black;
+}
+input[type=text]:focus,
+input[type=email]:focus,
+input[type=password]:focus {
+  border-color: #87cefa;
+}
   
 /* Estilos para o input */
 #searchInput {
@@ -110,36 +110,34 @@ body {
 }
 
 
-  #search input[type="text"] {
-    /* Estilos específicos para o campo de entrada no formulário com ID "meuFormulario" */
-    padding: 6px;
-    font-size: 12px;
-    border-radius: 4px 0 0 4px;
-    border-color: black;
-    width: 10px;
-    height: 30px;
-  }
+#search input[type="text"] {
+  /* Estilos específicos para o campo de entrada no formulário com ID "meuFormulario" */
+  padding: 6px;
+  font-size: 12px;
+  border-radius: 4px 0 0 4px;
+  border-color: black;
+  width: 10px;
+  height: 30px;
+}
 
-  #search input[type="search"]:focus {
-    
-    border-color: black; /* Define a cor da borda para preto quando em foco */
-    box-shadow: none; /* Remove a sombra que aparece por padrão */
-    
+#search input[type="search"]:focus {
+  
+  border-color: black; /* Define a cor da borda para preto quando em foco */
+  box-shadow: none; /* Remove a sombra que aparece por padrão */
 }
   
-  #search button[type="submit"] {
-    background-color: #87cefa;
-    color: black;
-    border: 1px solid #87cefa;
-    padding: 8px 12px;
-    font-size: 14px;
-    border-radius: 0 4px 4px 0;
-    cursor: pointer;
-    line-height: 1.8; /* Ajuste este valor conforme necessário */
-    width: 10px;
-    height: 30px;
+#search button[type="submit"] {
+  background-color: #87cefa;
+  color: black;
+  border: 1px solid #87cefa;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  line-height: 1.8; /* Ajuste este valor conforme necessário */
+  width: 10px;
+  height: 30px;
 }
-
 
 .star{
 
@@ -157,15 +155,12 @@ body {
   padding: 0; /* Remove o espaçamento interno */
 }
 
-
-
-
 footer {
   position: fixed;
   bottom: 0;
   width: 100%;
   height: 5%;
-  background-color: #87cefa; /* Cor de fundo do footer */
+  background-color: #3B3561; /* Cor de fundo do footer */
   padding: 0.5em;
   margin: 0.5em;
 }
@@ -328,13 +323,9 @@ form#deleteComment{
  
 }
 
-
 ul{
   font-size: large;
 }
-
-
-
 
 #tasksContainer {
   display: flex;
@@ -389,10 +380,6 @@ ul{
     height: 35px;
 }
 
-
-
-
-
 .profile {
   display: flex;
   align-items: center;
@@ -403,3 +390,11 @@ ul{
 
 
 /* Adicione estilos adicionais conforme necessário */
+/*
+########## CORES ##########
+amarelo - #EAD94C
+azul escuro - #3B3561
+azul claro - #51A3A3
+cinzento - #D1D1D1
+rosa - #DD7373
+*/

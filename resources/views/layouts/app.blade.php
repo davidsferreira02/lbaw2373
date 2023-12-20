@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
     <head>
+
+        <style>
+            /* Custom CSS to enlarge the logo */
+            header img {
+                width: 400px; /* Adjust the width as needed */
+                height: auto; /* Maintain aspect ratio */
+                border-radius: 0;
+            }
+        </style>
+
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,7 +36,9 @@
     <body>
         <main>
             <header>
-                <h1><a href="{{ url('/home') }}">TaskSquad</a></h1>
+                <a class="nav-link" href="{{ url('/home') }}">
+                    <img src="img/logo.svg" width="300" height="75">
+                </a>        
                 @if (Auth::check())
                     <a class="button" href="{{ url('/logout') }}"> Logout </a> <a href="{{ route('profile', ['id' => Auth::user()->id]) }}" class="btn btn-primary">
                         {{ Auth::user()->name }}
@@ -36,8 +48,6 @@
                         <input class="form-control mr-sm-2" type="search" id="searchInput" name="search" placeholder="Search for users or projects">
                         <i class="fas fa-search" id="searchIcon" style="cursor: pointer; color: black;"></i> <!-- Ícone de lupa -->
                     </form>
-                    
-                    
                     
                 @endif
             </header>
@@ -49,19 +59,14 @@
             <div class="container">
                 <ul>
                     <li><a href="{{ route('about') }}">About Us</a></li>
-
                     <li><a href={{ url('/features') }}>Main Features</a></li>       
                     <li><a href={{ url('/contacts') }}>Contacts</a></li>                           
-                   
                 </ul>
             </div>
         </footer>
     </body>
 
     <!-- resources/views/footer.blade.php -->
-
-
-
 </html>
 
 
