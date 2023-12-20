@@ -1,10 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
-    <a href="{{ route('project.home') }}" class="btn btn-primary">
-        <i class="fas fa-arrow-left"></i>
-    </a>
 
+
+@if(!Auth::user()->isAdmin())
+<a href="{{ route('project.home') }}" class="btn btn-primary">
+    <i class="fas fa-arrow-left"></i>
+</a>
+@endif
+
+@if(Auth::user()->isAdmin())
+<a href="{{ route('admin.dashboard') }}" class="btn btn-primary">
+    <i class="fas fa-arrow-left"></i>
+</a>
+@endif
     @if($search)
         <h1>Search results: {{ $search }}</h1>
     @endif
@@ -19,8 +28,11 @@
                     @foreach($users as $user)
                         <li>
                             <button class="btn btn-primary" onclick="location.href='{{ route('profile', ['id' => $user->id,'project' => $user->projectMember()]) }}'">
-                                {{ $user->name }}
+                                {{ $user->username }}
                             </button>
+                            @if($user->isAdmin())
+                            <i class="fa-solid fa-user-tie"></i>
+                        @endif
                         </li>
                     @endforeach
                 @else

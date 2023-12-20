@@ -13,6 +13,7 @@
         transition: background-color 0.3s ease; /* Smooth transition */
     }
 
+
     #usersContainer {
         display: flex;
         flex-wrap: wrap;
@@ -90,6 +91,9 @@
             <a href="{{ route('profile', ['id' => $user->id]) }}" class="card user-details-box">
                 <div class="card-body">
                     <h5 class="card-title">{{ $user->username }}</h5>
+                    @if($user->isAdmin())
+                    <i class="fa-solid fa-user-tie"></i>
+                    @endif
                     <p class="card-text">{{ $user->email }}</p>
                 </div>
             </a>

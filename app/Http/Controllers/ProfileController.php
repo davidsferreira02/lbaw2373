@@ -21,11 +21,23 @@ public function show($id)
        
         $user = User::findOrFail($id);
         $this->authorize('see', User::class);
+        if(!Auth::user()->isAdmin()){
+        $project = Project::whereHas('members', function ($query) use ($user) {
+            $query->where('id_user', $user->id);
+        })
+        ->whereHas('members', function ($query) {
+            $query->where('id_user', Auth::user()->id);
+        })
+        ->get();
+    }
+    else{
         $project = Project::whereHas('members', function ($query) use ($user) {
             $query->where('id_user', $user->id);
         })->orWhereHas('leaders', function ($query) use ($user) {
             $query->where('id_user', $user->id);
         })->get();
+    }
+    
         return view('pages.profile', compact('user','project'));
     }
 

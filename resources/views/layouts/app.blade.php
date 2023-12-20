@@ -52,6 +52,8 @@
                 @if (Auth::check())
                     <a class="button" href="{{ url('/logout') }}"> Logout </a> <a href="{{ route('profile', ['id' => Auth::user()->id]) }}" class="btn btn-primary">
                         <img src="{{ Auth::user()->getProfileImage() }}" alt="Profile Image" style="width: 50px; height: 50px;">
+                       {{ Auth::user()->username }}
+                    </a>
                     </a>
                     
                     

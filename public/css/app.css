@@ -498,7 +498,12 @@ ul{
   box-sizing: border-box;
 }
 
-
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* Adicione mais estilos conforme necessário */
+}
 
 
 

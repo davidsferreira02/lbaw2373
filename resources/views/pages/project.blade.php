@@ -115,6 +115,10 @@
             @csrf
             @method('DELETE')
             <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja sair do projeto?')">Leave Project</button>
+            <span class="error">
+              {{ $errors->first() }}
+          </span>
+
         </form>
 
         @if($isFavorite)
