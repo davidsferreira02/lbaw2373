@@ -111,7 +111,6 @@ input[type=password]:focus {
   align-items: center;
   margin-left: 1020px;
   margin-top: -25px;
-
 }
 
 
@@ -266,10 +265,8 @@ input:focus, textarea:focus {
 .searchTask-container {
   display: flex;
   align-items: center;
-  width: 300px; /* Largura do container (ajuste conforme necessário) */
+  width: 300px;
   height: 40px;
-  border: 1px solid black;
-  border-radius: 25px 25px 25px 25px;
 }
 
 #searchTaskInput {
@@ -278,20 +275,16 @@ input:focus, textarea:focus {
   font-size: 12px;
   border: none;
   outline: none;
-  border-radius: 25px 25px 25px 25px;
+  border-radius: 25px;
 }
 
 /* Estilos para os ícones de busca */
 #searchTaskIcon {
-  padding: 8px 12px;
-  background-color: transparent;
-  border: none;
   cursor: pointer;
-}
-
-#searchTaskIcon i {
-  color: black;
-  font-size: 14px;
+  color: #3B3561;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
 }
 
 .task-card {
