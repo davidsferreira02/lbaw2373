@@ -48,11 +48,7 @@
                 </a>  
                 @endif
                 @endif
-                @if(!Auth::check())
-                <a class="nav-link" href="{{ url('/home') }}">
-                    <img src="img/logo.svg" width="300" height="75">
-
-                    @endif
+             
                
                 @if (Auth::check())
                     <a class="button" href="{{ url('/logout') }}"> Logout </a> <a href="{{ route('profile', ['id' => Auth::user()->id]) }}" class="btn btn-primary">

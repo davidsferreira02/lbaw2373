@@ -34,7 +34,7 @@
 }
 
 .project-card {
-    width: calc(33.33% - 20px);
+    width: calc(45.33% - 20px);
     margin: 10px;
     padding: 10px;
     border: 1px solid #ccc;
