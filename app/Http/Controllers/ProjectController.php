@@ -195,9 +195,9 @@ public function deleteMember($title,$id){
     ->where('id_user', $user->id)
     ->where('id_project', $project->id)
     ->delete();
-    return redirect()->route('project.showMember', ['title' => $project->title])->with('success', 'Membro apagado!');
+    return response()->json(['message' => 'Membro excluído com sucesso']);
     }
-    abort(404);
+
     
   
 
