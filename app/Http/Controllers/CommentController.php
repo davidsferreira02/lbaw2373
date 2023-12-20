@@ -58,20 +58,32 @@ class CommentController extends Controller
         return redirect()->back();
     }
 
-    public function commentUpdate($title,$taskId,$commentid,Request $request){
+
+    public function edit($title,$titleTask,$commentid){
+
+        $task = Task::where('title', $titleTask)->first();
+        $comment=Comment::find($commentid);
+        $project = Project::where('title', $title)->first();
+        return view('pages.editComment',['project'=>$project,'task'=>$task,'comment'=>$comment]);
+        
+        
+    }
+    public function commentUpdate($title,$titleTask,$commentid,Request $request){
 
         $project = Project::where('title', $title)->first();
 
-        $task=Task::findOrFail($taskId);
+
+        $task = Task::where('title', $titleTask)->first();
+        
 
 
-        $task = Task::where('id', $taskId)
+        $task = Task::where('id', $task->id)
         ->where('id_project', $project->id) // Supondo que você tenha $taskid para a tarefa desejada
         ->firstOrFail();
 
 
         $comment = Comment::where('id', $commentid)
-        ->where('id_task', $taskId) // Supondo que você tenha $taskid para a tarefa desejada
+        ->where('id_task', $task->id) // Supondo que você tenha $taskid para a tarefa desejada
         ->firstOrFail();
 
      
@@ -93,12 +105,16 @@ class CommentController extends Controller
     
         
         $comment->date = $formattedDateTime;
+        $comment->save();
+
+      //  dd($project->title,$task->title,$comment->content,$comment->date);
     
        
-        return redirect()->route('task.comment', ['title' => $project->title, 'taskId' => $task->id])->with('success', 'Comentário atualizado com sucesso!');
 
-
-    }
+        return redirect()->route('task.comment',['title' => $project->title, 'taskId' => $task->id])
+        ->withErrors($validatedData)
+        ->withInput();
+}
 
     public function delete($title,$titleTask,$idComment){
         $project = Project::where('title', $title)->first();

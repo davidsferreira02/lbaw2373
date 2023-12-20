@@ -43,6 +43,8 @@ Route::get('/contacts', function () {
 
 
 
+
+
 // Authentication
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'showLoginForm')->name('login')->middleware('guest');
@@ -127,8 +129,8 @@ Route::controller(TaskController::class)->group(function () {
 });
 
 Route::controller(AdminController::class)->group(function () {
-    Route::get('/admin', 'index')->name('admin.dashboard')->middleware('auth');;
-    Route::patch('/block/{id}','block')->name('admin.block')->middleware('auth');;
+    Route::get('/admin', 'index')->name('admin.dashboard')->middleware('admin');;
+    Route::patch('/block/{id}','block')->name('admin.block')->middleware('admin');;
 });
 
 
@@ -144,8 +146,10 @@ Route::controller(ProfileController::class)->group(function(){
 Route::controller(CommentController::class)->group(function(){
     Route::get('/project/{title}/task/{taskId}/comments','show')->name('task.comment')->middleware('auth');
     Route::post('/project/{title}/task/{taskId}/comments/store', 'store')->name('comments.store')->middleware('auth');
-    Route::delete('/project/{title}/task/{titleTask}/comments/{idComment}delete', 'delete')->name('comment.delete')->middleware('auth');
-    Route::put('/project/{title}/task/{taskId}/comments/{commentId}/update', 'commentUpdate')->name('comment.update')->middleware('auth');
+    Route::delete('/project/{title}/task/{titleTask}/comments/{idComment}/delete', 'delete')->name('comment.delete')->middleware('auth');
+    Route::get('/project/{title}/task/{titleTask}/comments/{idComment}/edit', 'edit')->name('comment.edit')->middleware('auth');
+    Route::put('/project/{title}/task/{titleTask}/comments/{idComment}/update', 'commentupdate')->name('comment.update')->middleware('auth');
+  
 
 });
 
@@ -161,6 +165,3 @@ Route::controller(FileController::class)->group(function(){
 Route::post('/file/upload',  'upload')->name('file.upload')->middleware('auth');;
 });
 
-
-
-Route::post('/comment/like', [CommentController::class, 'like']);

@@ -36,9 +36,16 @@
     <body>
         <main>
             <header>
-                <a class="nav-link" href="{{ url('/home') }}">
+                @if(Auth::user()->isAdmin())
+                <a class="nav-link" href="{{ url('/admin') }}">
                     <img src="img/logo.svg" width="300" height="75">
                 </a>        
+                @endif
+                @if(!Auth::user()->isAdmin())
+                <a class="nav-link" href="{{ url('/home') }}">
+                    <img src="img/logo.svg" width="300" height="75">
+                </a>  
+                @endif
                 @if (Auth::check())
                     <a class="button" href="{{ url('/logout') }}"> Logout </a> <a href="{{ route('profile', ['id' => Auth::user()->id]) }}" class="btn btn-primary">
                         {{ Auth::user()->name }}
@@ -55,7 +62,7 @@
                 @yield('content')
             </section>
         </main>
-        <footer>
+        <footer class="footer">
             <div class="container">
                 <ul>
                     <li><a href="{{ route('about') }}">About Us</a></li>
@@ -73,5 +80,17 @@
 <script>
     document.getElementById('searchIcon').addEventListener('click', function() {
         document.getElementById('search').submit();
+    });
+</script>
+
+<script>
+    window.addEventListener("scroll", function() {
+        var footer = document.querySelector(".footer");
+        // Verifica se a posição vertical do scroll é maior que zero
+        if (window.scrollY > 0) {
+            footer.style.display = "block"; // Mostra o footer
+        } else {
+            footer.style.display = "none"; // Esconde o footer se o scroll estiver no topo
+        }
     });
 </script>

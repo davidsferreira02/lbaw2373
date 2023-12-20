@@ -127,42 +127,19 @@
                 
             <!-- Contagem de Likes -->
             <p id="likesCount_{{ $comment->id }}">Total of Likes: {{ $comment->likes()->count() }}</p>
-            @if($owner->id === Auth::id())
+            @if($user->id === Auth::id())
             <form id="deleteComment" method="POST" action="{{ route('comment.delete', ['title'=>$project->title,'titleTask'=>$task->title,'idComment' => $comment->id]) }}">
                 @csrf
                 @method('DELETE')
-                <button type="submitComment">Delete</button>
+                <button type="submitComment"><i class="fa-solid fa-trash"></i></button>
             </form>
-            <form id="editComment" method="POST" action="{{ route('comment.update', ['title'=>$project->title,'taskId'=>$task->id,'commentId' => $comment->id]) }}">
-                @csrf
-                @method('PUT')
-                <button id="editComment">Edit  </button> 
-                <dialog>
-                <div class="profile">
-                    <h1>Edit Task</h1>
-            
-                    <a id="closeEditComment">
-                        <i class="fa-solid fa-xmark"></i>
-                    </a>
-                    <form id="editTaskComment" method="POST" action="{{ route('comment.update', ['title' => $task->project->title, 'taskId' => $task->id, 'commentId' => $comment->id]) }}">
-                        @csrf
-                        @method('PUT')
-            
-                        
-                        <div>
-                        <label for="content">Content:</label>
-                        <input type="text" id="content" name="content" value="{{ $comment->content }}" required>
-                        <span class="error">
-                            {{ $errors->first('content') }}
-                          </span>
-                        </div>
-            
-                        
-                        <button type="submitComment">Save</button>
-                    </form>
-                </div>
-            
-            </dialog>
+
+            <form method="GET" action="{{ route('comment.edit', ['title'=>$project->title,'titleTask'=>$task->title,'idComment' => $comment->id]) }}">
+              <button type="submit" class="btn btn-primary">Edit Comment</button>
+          </form>
+
+
+        
 
         </div>
 
@@ -310,7 +287,7 @@
     
     <script>
 
-        const editCommentButton = document.querySelector("#editComment");
+        const editButton = document.querySelector("#editComment");
         
         const modal = document.querySelector("dialog");
         const buttonClose = document.querySelector("#closeEditComment");

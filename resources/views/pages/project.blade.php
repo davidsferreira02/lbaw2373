@@ -88,28 +88,27 @@
       
   
         @if($project->members->contains(Auth::user()))
-        
-           <form action="{{ route('project.leave', ['title' => $project->title]) }}" method="POST" class="my-3">
-        @csrf
-        @method('DELETE')
-        <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja sair do projeto?')">Leave Project</button>
-    </form>
-    @if(!$isFavorite)
-    <a href="{{ route('project.favorite', ['title' => $project->title]) }}" class="btn btn-primary favorite-btn" data-project-id="{{ $project->id }}" data-is-favorite="false">
-        <i class="fa-regular fa-star"></i>
-    </a>
-@endif
-
-@if($isFavorite)
-    <a href="{{ route('project.noFavorite', ['title' => $project->title]) }}" class="btn btn-primary favorite-btn" data-project-id="{{ $project->id }}" data-is-favorite="true">
-        <i class="fa-solid fa-star"></i>
-    </a>
-@endif
-
-      
-
-        @endif
-    </div>
+        <form action="{{ route('project.leave', ['title' => $project->title]) }}" method="POST" class="my-3 leave-btn">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja sair do projeto?')">Leave Project</button>
+        </form>
+    
+        <div class="edit-favorite-buttons">
+            @if(!$isFavorite)
+                <a href="{{ route('project.favorite', ['title' => $project->title]) }}" class="btn btn-primary favorite-btn" data-project-id="{{ $project->id }}" data-is-favorite="false">
+                    <i class="fa-regular fa-star"></i>
+                </a>
+            @endif
+    
+            @if($isFavorite)
+                <a href="{{ route('project.noFavorite', ['title' => $project->title]) }}" class="btn btn-primary favorite-btn" data-project-id="{{ $project->id }}" data-is-favorite="true">
+                    <i class="fa-solid fa-star"></i>
+                </a>
+            @endif
+        </div>
+    @endif
+  
 
 
 

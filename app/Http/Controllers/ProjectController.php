@@ -105,7 +105,9 @@ public function showaddLeaderForm($title)
     {
         // Supondo que 'title' seja um campo único na tabela de projetos
         $project = Project::where('title', $title)->first();
-        $this->authorize('show',$project);
+       if( $this->authorize('show',$project))
+
+
      
         // Verifique se o projeto foi encontrado
         if (!$project) {
@@ -241,7 +243,7 @@ public function acceptInvite($userId,$projectId)
 
 
     // Lógica adicional para adicionar o usuário ao projeto (se necessário)
-    return redirect()->route('project.show', ['title' => $project->title])->with('success', 'Convite aceito com sucesso!');
+    return redirect()->route('task.show', ['title' => $project->title])->with('success', 'Convite aceito com sucesso!');
 
 
 }
