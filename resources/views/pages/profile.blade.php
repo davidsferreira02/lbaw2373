@@ -168,13 +168,12 @@
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-danger">Delete  Profile</button>
-
                 @if(session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
-                @endif
-            </form>
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+            
         @endif
     </div>
 

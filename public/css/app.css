@@ -476,7 +476,10 @@ ul{
   border-radius: 25px;
 }
 
-        
+.alert.alert-danger {
+  color: red;
+  
+}    
         
  
 
