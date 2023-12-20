@@ -34,6 +34,59 @@
         margin-top: 10px;
         margin-right: 10px;
     }
+
+    .comment {
+    display: flex;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    position: relative;
+}
+
+.user-details {
+    display: flex;
+    align-items: center;
+}
+
+.profile-image {
+    /* Styles for profile image */
+}
+
+.username {
+    margin: 0;
+}
+
+.comment-details {
+    flex: 1;
+    padding-left: 10px;
+}
+
+.comment-date {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+}
+
+.like-section {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.likes-count {
+    margin-left: 10px;
+}
+
+.comment-actions {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
 </style>
 
 <a href="{{ route('task.show',['title'=>$project->title]) }}" class="btn btn-primary">
@@ -155,50 +208,44 @@
     @foreach($comments as $comment)
         <div class="comment">
             @foreach($comment->owner as $user)
-           <h3>{{ $user->username }}</h3>
+                <div class="user-details">
+                    <img src="{{ $user->getProfileImage() }}" class="profile-image">
+                    <p class="username">{{ $user->username }}</p>
+                </div>
             @endforeach
-            
+            <div class="comment-details">
             <p><strong>Date:</strong> {{ $comment->date }}</p>
             <p><strong>Comment:</strong> {{ $comment->content }}</p>
-            <!-- Detalhes do comentário -->
-            @if($comment->likedByCurrentUser())
-                <button type="button" onclick="handleLike('dislike', {{ $comment->id }}, '{{ $project->title }}', '{{ $task->id }}', '{{ $task->title }}', this)">
-                    <i class="fa-solid fa-thumbs-up"></i>
-                </button>
-            @else
-                <button type="button" onclick="handleLike('like', {{ $comment->id }}, '{{ $project->title }}', '{{ $task->id }}', '{{ $task->title }}', this)">
-                    <i class="far fa-thumbs-up"></i>
-                </button>
-            @endif
-                
-            <!-- Contagem de Likes -->
-            <p id="likesCount_{{ $comment->id }}">Total of Likes: {{ $comment->likes()->count() }}</p>
-            @if($user->id === Auth::id())
-            <form id="deleteComment" method="POST" action="{{ route('comment.delete', ['title'=>$project->title,'titleTask'=>$task->title,'idComment' => $comment->id]) }}">
-                @csrf
-                @method('DELETE')
-                <button type="submitComment"><i class="fa-solid fa-trash"></i></button>
-            </form>
+            <!-- Likes -->
+            <div class="like-section">
+                @if($comment->likedByCurrentUser())
+                    <button type="button" onclick="handleLike('dislike', {{ $comment->id }}, '{{ $project->title }}', '{{ $task->id }}', '{{ $task->title }}', this)">
+                        <i class="fa-solid fa-thumbs-up"></i>
+                    </button>
+                @else
+                    <button type="button" onclick="handleLike('like', {{ $comment->id }}, '{{ $project->title }}', '{{ $task->id }}', '{{ $task->title }}', this)">
+                        <i class="far fa-thumbs-up"></i>
+                    </button>
+                @endif
+                <p class="likes-count" id="likesCount_{{ $comment->id }}">Total of Likes: {{ $comment->likes()->count() }}</p>
+                @if($user->id === Auth::id())
+                <div class="comment-actions">
+                    <form id="deleteComment" method="POST" action="{{ route('comment.delete', ['title'=>$project->title,'titleTask'=>$task->title,'idComment' => $comment->id]) }}">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submitComment"><i class="fa-solid fa-trash"></i></button>
+                    </form>
 
-            <form method="GET" action="{{ route('comment.edit', ['title'=>$project->title,'titleTask'=>$task->title,'idComment' => $comment->id]) }}">
-              <button type="submit" class="btn btn-primary">Edit Comment</button>
-          </form>
-
-
-        
-
+                    <form method="GET" action="{{ route('comment.edit', ['title'=>$project->title,'titleTask'=>$task->title,'idComment' => $comment->id]) }}">
+                        <button type="submit" class="btn btn-primary">Edit Comment</button>
+                    </form>
+                </div>
+                @endif
+            </div> 
         </div>
-
-                
-            <div>
-           
     
-        @endif
-    
+            
         </div>
-      
-
-
     @endforeach
 
     @if(!Auth::user()->isAdmin())
