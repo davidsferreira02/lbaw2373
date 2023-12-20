@@ -4,21 +4,17 @@
 
 <style>
 .project-card {
-    width: calc(33.33% - 20px);
+    width: calc(33.33% - 40px);
     margin: 10px;
     padding: 10px;
     border: 1px solid #ccc;
     box-sizing: border-box;
 }
 
-
-
-
-
 #projectsContainer {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px; /* Adjust spacing between project cards */
+    gap: 5px;
 }
 
 </style>
@@ -46,8 +42,8 @@
                     <a href="{{ route('task.show', ['title' => $project->title]) }}">
                         <h3>{{ $project->title }}</h3>
                     </a>
-                    <p><strong>Theme:</strong>{{ $project->theme }}</p>
-                    <p><strong>Description:</strong>{{ $project->description }}</p>
+                    <p><strong>Theme: </strong>{{ $project->theme }}</p>
+                    <p><strong>Description: </strong>{{ $project->description }}</p>
                 </div>
             @endforeach
         </div>
@@ -63,10 +59,10 @@
                 <div class="project-card">
                     <ul class="project-favorite">
                         <a href="{{ route('task.show', ['title' => $favorite->title]) }}">
-                            {{ $favorite->title }}
+                            <h3> {{ $favorite->title }} </h3>
                         </a>
-                        <p><strong>Theme:</strong>{{ $favorite->theme }}</p>
-                        <p><strong>Description:</strong>{{ $favorite->description }}</p>
+                        <p><strong>Theme: </strong>{{ $favorite->theme }}</p>
+                        <p><strong>Description: </strong>{{ $favorite->description }}</p>
                     </ul>
                 </div>
             @endforeach
@@ -84,10 +80,10 @@
                     <div class="project-card">
                         <ul class="project archived">
                             <a href="{{ route('task.show', ['title' => $project->title]) }}">
-                                {{ $project->title }}
+                                <h3> {{ $project->title }} </h3>
                             </a>
-                            <p><strong>Theme:</strong>{{ $project->theme }}</p>
-                            <p><strong>Description:</strong>{{ $project->description }}</p>
+                            <p><strong>Theme: </strong>{{ $project->theme }}</p>
+                            <p><strong>Description: </strong>{{ $project->description }}</p>
                         </ul>
                     </div>
                 @endif
@@ -106,10 +102,10 @@
                     <div class="project-card">
                         <ul class="project leader">
                             <a href="{{ route('task.show', ['title' => $project->title]) }}">
-                                {{ $project->title }}
+                                <h3> {{ $project->title }} </h3>
                             </a>
-                            <p><strong>Theme:</strong>{{ $project->theme }}</p>
-                            <p><strong>Description:</strong>{{ $project->description }}</p>
+                            <p><strong>Theme: </strong>{{ $project->theme }}</p>
+                            <p><strong>Description: </strong>{{ $project->description }}</p>
                         </ul>
                     </div>
                 @endif
@@ -129,10 +125,10 @@
                     <div class="project-card">
                         <ul class="project leader">
                             <a href="{{ route('task.show', ['title' => $project->title]) }}">
-                                {{ $project->title }}
+                                <h3> {{ $project->title }} </h3>
                             </a>
-                            <p><strong>Theme:</strong>{{ $project->theme }}</p>
-                            <p><strong>Description:</strong>{{ $project->description }}</p>
+                            <p><strong>Theme: </strong>{{ $project->theme }}</p>
+                            <p><strong>Description: </strong>{{ $project->description }}</p>
                         </ul>
                     </div>
                 @endif

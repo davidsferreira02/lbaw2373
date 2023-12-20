@@ -28,17 +28,16 @@
         Forgot Your Password?
     </a>
     
-
     <div class="button-container">
         <button type="submit">Login</button>
         <a class="button button-outline" href="{{ route('register') }}">Register</a>
-        @if (session('success'))
+    </div>
+    
+    @if (session('success'))
         <p class="success">
             {{ session('success') }}
         </p>
     @endif
-    </div>
-
 
 </form>
 

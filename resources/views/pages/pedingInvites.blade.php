@@ -1,10 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<a href="{{ route('project.home') }}" class="btn btn-primary">
-    <i class="fas fa-arrow-left"></i> <!-- Use "fas" para ícones sólidos -->
-    
-</a>
+    <a href="{{ route('project.home') }}" class="btn btn-primary">
+        <i class="fas fa-arrow-left"></i>
+    </a>
     <h1>Pending invitations</h1>
     @if ($pendingInvites->isEmpty())
     <p>No invitations pending at the moment.</p>

@@ -42,11 +42,8 @@ body {
   }
   #content > form .success {
     font-weight: bold;
-    color: #106af1;
-    margin-top: 80px;
-    margin-right: 100px; /* Use um valor menor para mover para a direita */
-    /* Outros estilos desejados */
-}
+    color: #51A3A3;
+  }
   #content > form input {
     border-radius: 25px;
     background-color: white;
@@ -108,13 +105,12 @@ input[type=password]:focus {
 
 /* Estilos para o ícone de busca */
 #searchIcon {
-  color: black;
+  color: #3B3561;
   font-size: 18px;
   display: flex;
   align-items: center;
-  margin-left: 1230px;
+  margin-left: 1020px;
   margin-top: -25px;
-
 }
 
 
@@ -123,14 +119,15 @@ input[type=password]:focus {
   padding: 6px;
   font-size: 12px;
   border-radius: 25px 25px 25px 25px;
-  border-color: black;
+  border-color: #3B3561;
   width: 10px;
   height: 30px;
+  margin-right: 5px;
 }
 
 #search input[type="search"]:focus {
   
-  border-color: black; /* Define a cor da borda para preto quando em foco */
+  border-color: #3B3561; /* Define a cor da borda para preto quando em foco */
   box-shadow: none; /* Remove a sombra que aparece por padrão */
 }
   
@@ -179,11 +176,16 @@ footer ul {
   list-style-type: none;
   display: flex;
   justify-content: space-between;
-  padding: 0;
+  padding: 0.5em;
+  margin: 0;
 }
 
 footer li {
-  margin-right: 20px; /* Espaçamento entre os links */
+  margin-right: 0px; /* Espaçamento entre os links */
+}
+
+footer ul li:last-child{
+  margin-right: 0;
 }
 
 footer a {
@@ -272,10 +274,8 @@ input:focus, textarea:focus {
 .searchTask-container {
   display: flex;
   align-items: center;
-  width: 300px; /* Largura do container (ajuste conforme necessário) */
+  width: 300px;
   height: 40px;
-  border: 1px solid black;
-  border-radius: 25px 25px 25px 25px;
 }
 
 #searchTaskInput {
@@ -284,20 +284,16 @@ input:focus, textarea:focus {
   font-size: 12px;
   border: none;
   outline: none;
-  border-radius: 25px 25px 25px 25px;
+  border-radius: 25px;
 }
 
 /* Estilos para os ícones de busca */
 #searchTaskIcon {
-  padding: 8px 12px;
-  background-color: transparent;
-  border: none;
   cursor: pointer;
-}
-
-#searchTaskIcon i {
-  color: black;
-  font-size: 14px;
+  color: #3B3561;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
 }
 
 .task-card {
@@ -401,6 +397,85 @@ ul{
   padding: 20px; /* Espaçamento interno */
 }
 
+.users-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  max-width: 1000px; /* Adjust the width as per your design */
+  margin: 0 auto; /* Center the container */
+}
+
+.user-square {
+  width: calc(20% - 20px); /* 20% width for 5 squares per row with 20px gap */
+  height: 150px; /* Set your preferred height */
+  border: 1px solid #ccc; /* Border style */
+  border-radius: 8px; /* Rounded corners */
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.user-square p {
+  margin: 0;
+}
+
+.user-square button {
+  width: 100%;
+  padding: 5px;
+}
+
+.project-square {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin: 5px;
+  width: calc(20% - 15px);
+  height: 150px;
+  display: inline-block;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.project-details .button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+  margin: 10px;
+}
+
+.project-details .project-square button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.task-squares {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.task-square {
+  width: calc(20% - 15px);
+  height: 200px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  margin: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.task-square a {
+  text-decoration: none;
+  color: #51A3A3;
+}
 
 .user-container {
   display: flex;
