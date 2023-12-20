@@ -18,8 +18,6 @@
         <button class="btn btn-success" onclick="window.location.href='{{ route('pending.invites') }}'">Pendent Invites</button>
     </div>
     
-    
-    
 </body>
 </html>
 @endsection
