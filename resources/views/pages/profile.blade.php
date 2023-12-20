@@ -103,21 +103,64 @@
                 <form action="{{ route('admin.block', ['id' => $user->id]) }}" method="POST">
                     @csrf
                     @method('PATCH')
-                    <button type="submit">Desbloquear Usuário</button>
+                    <button type="submit">Unblock User</button>
                 </form>
             @else
                 <form action="{{ route('admin.block', ['id' => $user->id]) }}" method="POST">
                     @csrf
                     @method('PATCH')
-                    <button type="submit">Bloquear Usuário</button>
+                    <button type="submit">Block Usuário</button>
                 </form>
             @endif
         @endif
 
         @if($user->id === Auth::user()->id)
-            <a href="{{ route('profile.edit', ['id' => $user->id]) }}" class="btn btn-primary">
-                Edit Profile
-            </a>
+        <a id="editProfile" class="btn btn-primary">
+            Edit Profile
+        </a>
+        
+<dialog>
+    <h1>Edit Profile</h1>
+    <div class="profile">
+        <a id="closeEditProfile">
+            <i class="fa-solid fa-xmark"></i>
+        </a>
+        <form id="editProfileSubmit"method="POST" action="{{ route('profile.update', ['id' => $user->id]) }}" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="{{ $user->name }}" required>
+            <span class="error">
+                {{ $errors->first('name') }}
+            </span>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="{{ $user->email }}" required>
+            <span class="error">
+                {{ $errors->first('email') }}
+            </span>
+
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" value="{{ $user->username }}" required>
+            <span class="error">
+                {{ $errors->first('username') }}
+            </span>
+
+            <img src="{{ $user->getProfileImage() }}" alt="profile_image">
+
+            <label for="image">Change Photo:</label>
+            <input name="image" type="file" id = "image" class="from-control-file">
+            @if ($errors->has('profile_image'))
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $errors->first('profile_image') }}</strong>
+                </span>
+            @endif
+
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</dialog>
         @endif
 
         @if(Auth::check() && Auth::user()->id === $user->id || Auth::user()->isAdmin())
@@ -139,4 +182,49 @@
 
 
     
+    <script>
+
+        const editProfileButton = document.querySelector("#editProfile");
+        const modal = document.querySelector("dialog");
+        const buttonClose = document.querySelector("#closeEditProfile");
+        const editProfileSubmit = document.querySelector(".editProfileSubmit");
+        
+        
+        
+        
+        editProfileButton.onclick = function() {
+          modal.showModal();
+        };
+        
+        buttonClose.onclick = function() {
+          modal.close();
+        };
+        
+        editProfileSubmit.addEventListener("submit", async function(event) {
+          event.preventDefault();
+          const formData = new FormData(editProfileSubmit);
+        
+          try {
+            const response = await fetch(editProfiletSubmit.action, {
+              method: 'PUT',
+              body: formData
+            });
+        
+            if (!response.ok) {
+              throw new Error('Resposta inesperada do servidor');
+            }
+        
+            // Fechar o diálogo se a atualização for bem-sucedida
+            modal.close();
+          } catch (error) {
+            const errorMessages = document.querySelectorAll('.error');
+          
+        
+            modal.showModal(); // Mantém o modal aberto após o erro
+          }
+        });
+        
+                </script>
+
+
 @endsection

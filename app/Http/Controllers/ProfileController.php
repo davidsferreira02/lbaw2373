@@ -46,13 +46,13 @@ public function show($id)
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
             'username' => 'required|string|max:255|unique:users,username,'.$user->id,
-            'image' => 'image|mimes:jpg,jpeg,png|max:2048' // Change to 'image' instead of 'profile_image'
+            'image' => 'image|mimes:jpg,jpeg,png|max:2048' 
         ]);
         
         $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->username = $request->input('username');
-        
+        $user->email = $validatedData['email'];
+        $user->username = $validatedData['username'];
+     
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $requestImage = $request->file('image'); // Access the file using file() method
             $extension = $requestImage->extension();
