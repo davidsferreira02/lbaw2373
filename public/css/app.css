@@ -33,7 +33,7 @@ body {
     border-radius: 25px;
     margin: 5em auto 0 auto; /* Espaço superior de 3em, sem margens laterais */
     padding: 1em;
-    max-width: 20em;
+    max-width: 500px;
     border: 1px solid #3B3561;
   }
   #content > form .error {
@@ -468,6 +468,13 @@ ul{
   color: #51A3A3;
 }
 
+.square-container {
+  width: 500px;
+  border: 1px solid #3B3561;
+  padding: 20px;
+  margin: 0 auto;
+  border-radius: 25px;
+}
 
 /*
 ########## CORES ##########
