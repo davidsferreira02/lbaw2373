@@ -42,7 +42,7 @@ body {
   }
   #content > form .success {
     font-weight: bold;
-    color: #106af1;
+    color: #51A3A3;
   }
   #content > form input {
     border-radius: 25px;
@@ -105,11 +105,11 @@ input[type=password]:focus {
 
 /* Estilos para o ícone de busca */
 #searchIcon {
-  color: black;
+  color: #3B3561;
   font-size: 18px;
   display: flex;
   align-items: center;
-  margin-left: 1230px;
+  margin-left: 1020px;
   margin-top: -25px;
 
 }
@@ -120,14 +120,15 @@ input[type=password]:focus {
   padding: 6px;
   font-size: 12px;
   border-radius: 25px 25px 25px 25px;
-  border-color: black;
+  border-color: #3B3561;
   width: 10px;
   height: 30px;
+  margin-right: 5px;
 }
 
 #search input[type="search"]:focus {
   
-  border-color: black; /* Define a cor da borda para preto quando em foco */
+  border-color: #3B3561; /* Define a cor da borda para preto quando em foco */
   box-shadow: none; /* Remove a sombra que aparece por padrão */
 }
   
@@ -166,19 +167,24 @@ footer {
   width: 100%;
   height: 5%;
   background-color: #3B3561; /* Cor de fundo do footer */
-  padding: 0.5em;
-  margin: 0.5em;
+  padding: 0;
+  margin: 0;
 }
 
 footer ul {
   list-style-type: none;
   display: flex;
   justify-content: space-between;
-  padding: 0;
+  padding: 0.5em;
+  margin: 0;
 }
 
 footer li {
-  margin-right: 20px; /* Espaçamento entre os links */
+  margin-right: 0px; /* Espaçamento entre os links */
+}
+
+footer ul li:last-child{
+  margin-right: 0;
 }
 
 footer a {
