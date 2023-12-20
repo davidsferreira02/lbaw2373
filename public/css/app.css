@@ -388,6 +388,35 @@ ul{
   padding: 20px; /* Espaçamento interno */
 }
 
+.users-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  max-width: 1000px; /* Adjust the width as per your design */
+  margin: 0 auto; /* Center the container */
+}
+
+.user-square {
+  width: calc(20% - 20px); /* 20% width for 5 squares per row with 20px gap */
+  height: 150px; /* Set your preferred height */
+  border: 1px solid #ccc; /* Border style */
+  border-radius: 8px; /* Rounded corners */
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.user-square p {
+  margin: 0;
+}
+
+.user-square button {
+  width: 100%;
+  padding: 5px;
+}
+
 
 
 /* Adicione estilos adicionais conforme necessário */

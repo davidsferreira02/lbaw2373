@@ -28,18 +28,21 @@
     @if(isset($users))
         @if(count($users) > 0)
             <h2>Search Results:</h2>
-            @foreach ($users as $user)
-                <!-- Exemplo simples de exibição dos usuários encontrados -->
-                <p>{{ $user->username }}</p>
-                 <form method="post" action="{{ route('project.Leaderstore', ['title'=>$project->title,'username' => $user->username]) }}">
-                    @csrf
-                    <button type="submit" class="btn btn-success" onclick="return confirm('Tem certeza que deseja promover este membro a leader')">Add</button>
-
-                   
-                </form>
-            @endforeach
+            <div class="users-container">
+                @foreach ($users as $user)
+                    <!-- Square container for each user -->
+                    <div class="user-square">
+                        <!-- Exemplo simples de exibição dos usuários encontrados -->
+                        <p>{{ $user->username }}</p>
+                        <form method="post" action="{{ route('project.Leaderstore', ['title'=>$project->title,'username' => $user->username]) }}">
+                            @csrf
+                            <button type="submit" class="btn btn-success" onclick="return confirm('Tem certeza que deseja promover este membro a líder?')">Add</button>
+                        </form>
+                    </div>
+                @endforeach
+            </div>
         @else
-            <p>No members found with this  username{{ $username }}.</p>
+            <p>No members found with this username: {{ $username }}.</p>
         @endif
     @endif
 @endsection
