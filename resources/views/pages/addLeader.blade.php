@@ -8,7 +8,7 @@
         </div>
     @endif
 
-    <a href="{{ route('project.show', ['title'=>$project->title]) }}" class="btn btn-primary">
+    <a href="{{ route('project.show', ['title'=>$project->title,'isFavorite'=>$isFavorite]) }}" class="btn btn-primary">
         <i class="fas fa-arrow-left"></i>
     </a>
 

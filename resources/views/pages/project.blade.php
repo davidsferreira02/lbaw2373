@@ -27,12 +27,18 @@
    
         <a href="{{ route('project.addMember', ['title' => $project->title]) }}" class="btn btn-primary">Add Member</a>
         <a href="{{ route('project.addLeader', ['title' => $project->title]) }}" class="btn btn-primary">Add Leader</a>
-        @if($project->archived)
-        <a href="{{ route('project.archived', ['title' => $project->title]) }}" class="btn btn-primary"> <i class="fa-solid fa-bookmark"></i></a>
-        @endif
-        @if(!$project->archived)
-        <a href="{{ route('project.archived', ['title' => $project->title]) }}" class="btn btn-primary"> <i class="fa-regular fa-bookmark"></i></a>
-        @endif
+        <form id="archivedForm" method="POST" action="{{ route('project.archived', ['title' => $project->title]) }}">
+          @csrf
+          @method('PUT')
+          <button type="submit" class="btn btn-primary" id="archivedButton">
+              @if($project->archived)
+                  <i class="fa-solid fa-bookmark"></i>
+              @else
+                  <i class="fa-regular fa-bookmark"></i>
+              @endif
+          </button>
+      </form>
+      
         @endif
 
         @if($project->leaders->contains(Auth::user()) || Auth::user()->isAdmin() )
@@ -93,25 +99,22 @@
             @method('DELETE')
             <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja sair do projeto?')">Leave Project</button>
         </form>
-    
+
+        @if($isFavorite)
         <div class="edit-favorite-buttons">
-            @if(!$isFavorite)
-                <a href="{{ route('project.favorite', ['title' => $project->title]) }}" class="btn btn-primary favorite-btn" data-project-id="{{ $project->id }}" data-is-favorite="false">
-                    <i class="fa-regular fa-star"></i>
-                </a>
-            @endif
-    
-            @if($isFavorite)
-                <a href="{{ route('project.noFavorite', ['title' => $project->title]) }}" class="btn btn-primary favorite-btn" data-project-id="{{ $project->id }}" data-is-favorite="true">
-                    <i class="fa-solid fa-star"></i>
-                </a>
-            @endif
-        </div>
+          <button class="btn btn-primary favorite-btn" id="favoriteButton">
+              <i class="fa-solid fa-star"></i>
+          </button>
+      </div>
+      @endif
+      @if(!$isFavorite)
+      <div class="edit-favorite-buttons">
+        <button class="btn btn-primary favorite-btn" id="favoriteButton">
+            <i class="fa-regular fa-star"></i>
+        </button>
+    </div>
     @endif
-  
-
-
-
+    @endif
 
 <script>
 
@@ -158,97 +161,88 @@
             </script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const favoriteBtns = document.querySelectorAll('.favorite-btn');
+ const favoriteButton = document.getElementById('favoriteButton');
+let isFavorite = @json($isFavorite);
 
-  favoriteBtns.forEach(btn => {
-    btn.addEventListener('click', async function(event) {
-      event.preventDefault();
 
-      const projectId = this.getAttribute('data-project-id');
-      const isFavorite = this.getAttribute('data-is-favorite') === 'true';
+function toggleFavorite() {
+    if (isFavorite) {
+        favoriteButton.innerHTML = '<i class="fa-solid fa-star"></i>';
+    } else {
+        favoriteButton.innerHTML = '<i class="fa-regular fa-star"></i>';
+    }
+}
 
-      this.disabled = true;
+function updateFavoriteIcon() {
+    toggleFavorite();
 
-      try {
-        if (isFavorite) {
-          // Se já for um favorito, remove-o
-          const removeFavoriteResponse = await fetchFavoriteAction(this.getAttribute('href'), projectId, true);
-
-          if (!removeFavoriteResponse.ok) {
-            console.log(removeFavoriteResponse);
-            throw new Error('Erro ao remover o favorito');
-          }
-
-          this.setAttribute('data-is-favorite', 'false');
-        } else {
-          // Remove todos os favoritos anteriores no mesmo projeto
-          await removePreviousFavorites(projectId);
-
-          // Adiciona o novo favorito
-          const addNewFavoriteResponse = await fetchFavoriteAction(this.getAttribute('href'), projectId, true);
-
-          if (!addNewFavoriteResponse.ok) {
-            console.log(addNewFavoriteResponse);
-            throw new Error('Erro ao atualizar o estado do favorito');
-          }
-
-          this.setAttribute('data-is-favorite', 'true');
+    fetch(`{{ route('project.favorite', ['title' => $project->title]) }}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({ isFavorite: isFavorite })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erro ao atualizar o favorito');
         }
-
-        toggleIconClass(this);
-      } catch (error) {
+        // Lidar com a resposta do servidor, se necessário
+    })
+    .catch(error => {
         console.error('Erro:', error);
-        this.setAttribute('data-is-favorite', isFavorite ? 'true' : 'false');
-        toggleIconClass(this);
-      } finally {
-        this.disabled = false;
-      }
     });
-  });
+}
+
+favoriteButton.addEventListener('click', function () {
+    isFavorite = !isFavorite;
+    updateFavoriteIcon();
 });
 
-async function removePreviousFavorites(projectId) {
-  const favoriteBtns = document.querySelectorAll(`.favorite-btn[data-project-id="${projectId}"][data-is-favorite="true"]`);
-
-  for (const btn of favoriteBtns) {
-    try {
-      const removeFavoriteResponse = await fetchFavoriteAction(btn.getAttribute('href'), projectId, true);
-      if (!removeFavoriteResponse.ok) {
-        console.log(removeFavoriteResponse);
-        throw new Error('Erro ao remover favorito anterior');
-      }
-      btn.setAttribute('data-is-favorite', 'false');
-      toggleIconClass(btn);
-    } catch (error) {
-      console.error('Erro ao remover favorito:', error);
-      throw error;
-    }
-  }
-}
-function fetchFavoriteAction(url, projectId, removePreviousFavorite) {
-  const requestBody = {
-    projectId,
-    removePreviousFavorite
-  };
-
-  return fetch(url, {
-    method: 'POST',
-    headers: {
-      'X-CSRF-TOKEN': '{{ csrf_token() }}',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(requestBody),
-  });
-}
-
-function toggleIconClass(button) {
-  const icon = button.querySelector('i');
-  icon.classList.toggle('fa-regular');
-  icon.classList.toggle('fa-solid');
-}
-
-
+toggleFavorite(); // Movido para o final para exibir corretamente o ícone no carregamento inicial
 
 </script>
+
+
+
+<!-- Seção de scripts no final da página -->
+
+
+<script>
+  const archivedButton = document.getElementById('archivedButton');
+  const isArchived = {{ $project->archived ? 'true' : 'false' }};
+  console.log(isArchived);
+  console.log(archivedButton);
+
+  archivedButton.addEventListener('click', function() {
+    fetch("{{ route('project.archived', ['title' => $project->title]) }}", {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+      },
+      body: JSON.stringify({ isArchived: !isArchived })
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Erro em  atualizar o status de arquivamento');
+      }
+      return response.json();
+    })
+    .then(data => {
+      
+      isArchived = data.isArchived;
+      if (isArchived) {
+        archivedButton.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
+      } else {
+        archivedButton.innerHTML = '<i class="fa-solid fa-bookmark"></i>';
+      }
+    })
+    .catch(error => {
+      console.error('Erro:', error);
+    });
+  });
+</script>
+
     @endsection
