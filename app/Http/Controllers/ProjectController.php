@@ -389,8 +389,16 @@ public function archived($title)
             $project->save();
         }
     
-        return response()->json(['isArchived' => $project->archived]);
+        $isFavorite = Auth::user()->favoriteProjects()->where('project_id', $project->id)->exists();
+
+   
+
+        
+    
+        
+        return redirect()->route('project.show',['title'=>$project->title,'isFavorite'=>$isFavorite])->with('success', 'Projeto atualizado com sucesso!');
     }
+    
     
 
 

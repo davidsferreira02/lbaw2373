@@ -85,7 +85,7 @@ Route::controller(ProjectController::class)->group(function () {
     Route::get('/project/{title}/edit', 'edit')->name('project.editProject')->middleware('auth');
    Route::put('/project/{title}/update', 'update')->name('project.update')->middleware('auth');
    Route::put('/project/{title}/favorite', 'favorite')->name('project.favorite')->middleware('auth');
-   Route::put('project/{title}/archived','archived')->name('project.archived')->middleware('auth');
+   Route::get('project/{title}/archived','archived')->name('project.archived')->middleware('auth');
    Route::delete('/project/{title}/member/{id}/delete', 'deleteMember')->name('project.deleteMember')->middleware('auth');
    Route::get('/project/{title}/addMember/search-username', 'searchByUsernameAddMember')->name('search.username')->middleware('auth');
    Route::get('/project/{title}/addLeader/search-username', 'searchByUsernameAddLeader')->name('search.usernameLeader')->middleware('auth');

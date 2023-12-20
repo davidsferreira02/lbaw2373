@@ -221,7 +221,7 @@ toggleFavorite(); // Movido para o final para exibir corretamente o ícone no ca
 <!-- Seção de scripts no final da página -->
 
 
-<script>
+<!--<script>
   const archivedButton = document.getElementById('archivedButton');
   const isArchived = {{ $project->archived ? 'true' : 'false' }};
   console.log(isArchived);
@@ -256,5 +256,5 @@ toggleFavorite(); // Movido para o final para exibir corretamente o ícone no ca
     });
   });
 </script>
-
+-->
     @endsection
