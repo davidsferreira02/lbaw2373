@@ -39,12 +39,12 @@
                 @if(Auth::check())
                 @if(Auth::user()->isAdmin())
                 <a class="nav-link" href="{{ url('/admin') }}">
-                    <img src="img/logo.svg" width="300" height="75">
+                    <img src="{{ asset('img/logo.svg') }}" width="300" height="75">
                 </a>        
                 @endif
                 @if(!Auth::user()->isAdmin())
                 <a class="nav-link" href="{{ url('/home') }}">
-                    <img src="img/logo.svg" width="300" height="75">
+                    <img src="{{ asset('img/logo.svg') }}" width="300" height="75">
                 </a>  
                 @endif
                 @endif
@@ -62,7 +62,7 @@
                     @else
     <!-- Se o usuário não estiver autenticado, mostra o link para o login -->
     <a class="nav-link" href="{{ url('/login') }}">
-        <img src="img/logo.svg" width="300" height="75">
+        <img src="{{ asset('img/logo.svg') }}" width="300" height="75">
     </a>
 @endif
                
