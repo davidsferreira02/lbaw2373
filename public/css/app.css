@@ -480,6 +480,28 @@ ul{
   color: red;
   
 }    
+
+
+/* Adicione este estilo ao seu arquivo de estilos CSS */
+.invite-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Espaçamento entre os convites */
+  list-style: none;
+  padding: 0;
+}
+
+.invite-item {
+  flex: 0 0 calc(33.33% - 20px); /* Defina a largura desejada para os convites */
+  border: 1px solid #ccc; /* Borda para destacar cada convite */
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+
+
+
+
         
  
 

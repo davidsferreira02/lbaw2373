@@ -48,19 +48,24 @@
                 </a>  
                 @endif
                 @endif
-             
-               
+              
                 @if (Auth::check())
                     <a class="button" href="{{ url('/logout') }}"> Logout </a> <a href="{{ route('profile', ['id' => Auth::user()->id]) }}" class="btn btn-primary">
                         <img src="{{ Auth::user()->getProfileImage() }}" alt="Profile Image" style="width: 50px; height: 50px;">
                     </a>
                     
+                    
                     <form class="form-inline my-2 my-lg-0 ml-auto" id="search" action="{{ route('search.users') }}" method="GET">
                         <input class="form-control mr-sm-2" type="search" id="searchInput" name="search" placeholder="Search for users or projects">
                         <i class="fas fa-search" id="searchIcon" style="cursor: pointer; color: black;"></i> <!-- Ícone de lupa -->
                     </form>
-                    
-                @endif
+                    @else
+    <!-- Se o usuário não estiver autenticado, mostra o link para o login -->
+    <a class="nav-link" href="{{ url('/login') }}">
+        <img src="img/logo.svg" width="300" height="75">
+    </a>
+@endif
+               
             </header>
             <section id="content">
                 @yield('content')

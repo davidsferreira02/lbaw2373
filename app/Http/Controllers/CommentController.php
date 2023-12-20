@@ -64,6 +64,7 @@ class CommentController extends Controller
         $task = Task::where('title', $titleTask)->first();
         $comment=Comment::find($commentid);
         $project = Project::where('title', $title)->first();
+        $this->authorize('edit', [Comment::class, $project, $task]);
         return view('pages.editComment',['project'=>$project,'task'=>$task,'comment'=>$comment]);
         
         
@@ -76,6 +77,7 @@ class CommentController extends Controller
         $task = Task::where('title', $titleTask)->first();
         
 
+        $this->authorize('edit', [Comment::class, $project, $task]);
 
         $task = Task::where('id', $task->id)
         ->where('id_project', $project->id) // Supondo que você tenha $taskid para a tarefa desejada

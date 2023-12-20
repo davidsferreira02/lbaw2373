@@ -40,10 +40,14 @@ Route::get('/contacts', function () {
     return view('pages.contacts');
 })->name('contacts');
 
+Route::get('/NotAllowed', function () {
+    return 'Esta página requer autenticação.';
+})->middleware('auth');
 
 
-
-
+Route::get('/403', function () {
+    return view('pages.error.403');
+})->name('403');
 
 // Authentication
 Route::controller(LoginController::class)->group(function () {
