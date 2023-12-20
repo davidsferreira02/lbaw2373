@@ -173,7 +173,11 @@ public function addOneMember($title,$username)
    $this->sendInvite($user->id, $project->id);
 
   
-   return redirect()->route('project.show', ['title' => $project->title])->with('success', 'Convite enviado com sucesso!');
+   $isFavorite = Auth::user()->favoriteProjects()->where('project_id', $project->id)->exists();
+
+
+    
+   return redirect()->route('project.show',['title'=>$project->title,'isFavorite'=>$isFavorite])->with('success', 'Projeto atualizado com sucesso!');
     }
 
 
@@ -280,9 +284,16 @@ public function addOneLeader($title,$username){
    
 
     $this->addProjectLeader($user->id,$project->id);
+    
 
   
-   return redirect()->route('project.show', ['title' => $project->title])->with('success', 'Convite enviado com sucesso!');
+
+
+    $isFavorite = Auth::user()->favoriteProjects()->where('project_id', $project->id)->exists();
+
+
+    
+    return redirect()->route('project.show',['title'=>$project->title,'isFavorite'=>$isFavorite])->with('success', 'Projeto atualizado com sucesso!');
     }
 
 }
@@ -329,12 +340,14 @@ public function update(Request $request,$title)
     
 
 
+    $isFavorite = Auth::user()->favoriteProjects()->where('project_id', $project->id)->exists();
 
    
 
     $project->save();
 
-    return redirect()->route('project.show', $project->title)->with('success', 'Projeto atualizado com sucesso!');
+    
+    return redirect()->route('project.show',['title'=>$project->title,'isFavorite'=>$isFavorite])->with('success', 'Projeto atualizado com sucesso!');
 }
 
 
@@ -342,32 +355,23 @@ public function favorite($title){
     $user=Auth::user();
     $project = Project::where('title', $title)->first();
     $this->authorize('favorite', $project);
-    $favorite = new Favorite();
-    $favorite->users_id=$user->id;
-    $favorite->project_id=$project->id;
-   // $user->favoriteProjects()->attach($project->id);
-    $favorite->save();
-
-    return response()->json(['message' => 'Projeto favoritado com sucesso'], 200);
-
-}
-
-
-
-public function noFavorite($title){
-    $user = Auth::user();
-    $project = Project::where('title', $title)->first();
-    $this->authorize('noFavorite', $project);
-
     $favorite = Favorite::where('users_id', $user->id)
         ->where('project_id', $project->id)
         ->first();
+        if($favorite){
+            $favorite->delete();
+            return response()->json(['message' => 'Projeto deixou de ser favorito com sucesso'], 200);
 
-    if ($favorite) {
-        $favorite->delete();
-    }
+        }
+        else{
+            $favorite = new Favorite();
+            $favorite->users_id=$user->id;
+            $favorite->project_id=$project->id;  
+            $favorite->save();
+        }
+   
+    return response()->json(['message' => 'Projeto favoritado com sucesso'], 200);
 
-    return response()->json(['message' => 'Projeto sem favoritado com sucesso'], 200);
 }
 
 
@@ -376,19 +380,18 @@ public function noFavorite($title){
 
 
 public function archived($title)
-{
-    $project = Project::where('title', $title)->first();
-    $this->authorize('archived', $project);
-    if ($project) {
-        $project->archived = !$project->archived; 
-        $project->save();
-
-
-        return redirect()->route('project.show', $project->title)->with('success', 'Projeto atualizado com sucesso!');
+    {
+        $project = Project::where('title', $title)->first();
+        $this->authorize('archived', $project);
+    
+        if ($project) {
+            $project->archived = !$project->archived; 
+            $project->save();
+        }
+    
+        return response()->json(['isArchived' => $project->archived]);
     }
-
-    return redirect()->back()->with('error', 'Projeto não encontrado');
-}
+    
 
 
 public function searchByUsernameAddMember(Request $request, $title) {
@@ -483,12 +486,19 @@ public function leaveProject($title)
                 
             }
             else if($project->leaders()->count()==1){
-                return redirect()->route('project.show', ['title' => $project->title])->with('error', 'Adiciona um leader ao projeto.');
+                $isFavorite = Auth::user()->favoriteProjects()->where('project_id', $project->id)->exists();
+
+
+    
+                return redirect()->route('project.show',['title'=>$project->title,'isFavorite'=>$isFavorite])->with('success', 'Projeto atualizado com sucesso!');
             }
         }
     }
+    $isFavorite = Auth::user()->favoriteProjects()->where('project_id', $project->id)->exists();
 
-    return redirect()->route('project.show', ['title' => $project->title])->with('error', 'Você não é um membro deste projeto.');
+
+    
+    return redirect()->route('project.show',['title'=>$project->title,'isFavorite'=>$isFavorite])->with('success', 'Projeto atualizado com sucesso!');
 }
 
 
