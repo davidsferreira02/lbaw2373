@@ -115,7 +115,7 @@
         @endif
 
         @if($user->id === Auth::user()->id)
-        <a id="editProfile" class="btn btn-primary">
+        <a id="editProfile"  class="btn btn-primary">
             Edit Profile
         </a>
         

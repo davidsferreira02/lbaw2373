@@ -56,7 +56,7 @@
                
                 @if (Auth::check())
                     <a class="button" href="{{ url('/logout') }}"> Logout </a> <a href="{{ route('profile', ['id' => Auth::user()->id]) }}" class="btn btn-primary">
-                        {{ Auth::user()->name }}
+                        <img src="{{ Auth::user()->getProfileImage() }}" alt="Profile Image" style="width: 50px; height: 50px;">
                     </a>
                     
                     <form class="form-inline my-2 my-lg-0 ml-auto" id="search" action="{{ route('search.users') }}" method="GET">

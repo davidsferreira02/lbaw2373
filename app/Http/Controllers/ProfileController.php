@@ -49,7 +49,7 @@ public function show($id)
             'image' => 'image|mimes:jpg,jpeg,png|max:2048' 
         ]);
         
-        $user->name = $request->input('name');
+        $user->name = $validatedData['name'];
         $user->email = $validatedData['email'];
         $user->username = $validatedData['username'];
      
@@ -67,9 +67,7 @@ public function show($id)
         $user->save();
    
         
-        return redirect()->route('profile', $user->id)
-            ->withErrors($validatedData)
-            ->withInput();
+        return redirect()->route('profile',['id'=>$user->id])->with('success', 'Perfil atualizado com sucesso!');
     }
     
     
