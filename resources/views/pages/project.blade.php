@@ -1,3 +1,5 @@
+
+
 @extends('layouts.app')
 
 @section('content')
@@ -44,12 +46,15 @@
         <div class="actions-bottom-right">
           <a href="{{ route('project.addMember', ['title' => $project->title]) }}" class="btn btn-primary">Add Member</a>
           <a href="{{ route('project.addLeader', ['title' => $project->title]) }}" class="btn btn-primary">Add Leader</a>
-        @if($project->archived)
-        <a href="{{ route('project.archived', ['title' => $project->title]) }}" class="btn btn-primary"> <i class="fa-solid fa-bookmark"></i></a>
-        @endif
-        @if(!$project->archived)
-        <a href="{{ route('project.archived', ['title' => $project->title]) }}" class="btn btn-primary"> <i class="fa-regular fa-bookmark"></i></a>
-        @endif
+          @if($project->archived)
+          <a id="archivedButton" href="{{ route('project.archived', ['title' => $project->title]) }}" class="btn btn-primary">
+              <i class="fa-solid fa-bookmark"></i>
+          </a>
+      @else
+          <a id="archivedButton" href="{{ route('project.archived', ['title' => $project->title]) }}" class="btn btn-primary">
+              <i class="fa-regular fa-bookmark"></i>
+          </a>
+      @endif
         @endif
 
         @if($project->leaders->contains(Auth::user()) || Auth::user()->isAdmin() )
@@ -127,6 +132,8 @@
     </div>
     @endif
     @endif
+
+
 
 <script>
 
@@ -221,13 +228,22 @@ toggleFavorite(); // Movido para o final para exibir corretamente o ícone no ca
 <!-- Seção de scripts no final da página -->
 
 
-<!--<script>
+<script>
   const archivedButton = document.getElementById('archivedButton');
-  const isArchived = {{ $project->archived ? 'true' : 'false' }};
+  let isArchived = {{ $project->archived ? 'true' : 'false' }};
   console.log(isArchived);
   console.log(archivedButton);
 
-  archivedButton.addEventListener('click', function() {
+  // Atualização do ícone com base no estado inicial de archived
+  if (isArchived) {
+    archivedButton.querySelector('i').className = 'fa-solid fa-bookmark'; // Ícone sólido quando archived é verdadeiro
+  } else {
+    archivedButton.querySelector('i').className = 'fa-regular fa-bookmark'; // Ícone regular quando archived é falso
+  }
+
+  archivedButton.addEventListener('click', function(event) {
+    event.preventDefault(); // Prevenir o comportamento padrão do link
+
     fetch("{{ route('project.archived', ['title' => $project->title]) }}", {
       method: 'PUT',
       headers: {
@@ -238,23 +254,26 @@ toggleFavorite(); // Movido para o final para exibir corretamente o ícone no ca
     })
     .then(response => {
       if (!response.ok) {
-        throw new Error('Erro em  atualizar o status de arquivamento');
+        throw new Error('Error updating archived status');
       }
       return response.json();
     })
     .then(data => {
-      
+      console.log('Response from server:', data);
       isArchived = data.isArchived;
+
+      // Atualização do ícone com base no novo estado de archived após a resposta
       if (isArchived) {
-        archivedButton.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
+        archivedButton.querySelector('i').className = 'fa-solid fa-bookmark'; // Ícone sólido quando archived é verdadeiro
       } else {
-        archivedButton.innerHTML = '<i class="fa-solid fa-bookmark"></i>';
+        archivedButton.querySelector('i').className = 'fa-regular fa-bookmark'; // Ícone regular quando archived é falso
       }
     })
     .catch(error => {
-      console.error('Erro:', error);
+      console.error('Error:', error);
     });
   });
 </script>
--->
+
+
     @endsection

@@ -380,26 +380,18 @@ public function favorite($title){
 
 
 public function archived($title)
-    {
-        $project = Project::where('title', $title)->first();
-        $this->authorize('archived', $project);
-    
-        if ($project) {
-            $project->archived = !$project->archived; 
-            $project->save();
-        }
-    
-        $isFavorite = Auth::user()->favoriteProjects()->where('project_id', $project->id)->exists();
+{
+    $project = Project::where('title', $title)->first();
+    $this->authorize('archived', $project);
 
-   
-
-        
-    
-        
-        return redirect()->route('project.show',['title'=>$project->title,'isFavorite'=>$isFavorite])->with('success', 'Projeto atualizado com sucesso!');
+    if ($project) {
+        $project->archived = !$project->archived; 
+        $project->save();
     }
-    
-    
+
+    return response()->json(['isArchived' => $project->archived]);
+}
+
 
 
 public function searchByUsernameAddMember(Request $request, $title) {
