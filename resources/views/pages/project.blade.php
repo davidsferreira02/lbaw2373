@@ -2,6 +2,23 @@
 
 @section('content')
 
+<style>
+  .actions-bottom-right {
+    position: fixed;
+    right: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 10px; /* Adds spacing between buttons */
+  }
+  .leave-favorite-buttons {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+  }
+</style>
 
 @if($project->members->contains(Auth::user())||Auth::user()->isAdmin())
 <a href="{{ route('task.show',['title'=>$project->title]) }}" class="btn btn-primary">
@@ -20,13 +37,13 @@
         <p><strong>Theme:</strong> {{ $project->theme }}</p>
         <a href="{{ route('project.showMember', ['title' => $project->title]) }}" class="btn btn-primary"><strong> Members</strong> {{ count($project->members) }}</a>
         <a href="{{ route('project.showLeader', ['title' => $project->title]) }}" class="btn btn-primary"><strong> Leaders</strong> {{ count($project->leaders) }}</a>
-    @endisset
+        @endisset
     
         <!-- Adicione mais informações conforme necessário -->
         @if($project->leaders->contains(Auth::user()))
-   
-        <a href="{{ route('project.addMember', ['title' => $project->title]) }}" class="btn btn-primary">Add Member</a>
-        <a href="{{ route('project.addLeader', ['title' => $project->title]) }}" class="btn btn-primary">Add Leader</a>
+        <div class="actions-bottom-right">
+          <a href="{{ route('project.addMember', ['title' => $project->title]) }}" class="btn btn-primary">Add Member</a>
+          <a href="{{ route('project.addLeader', ['title' => $project->title]) }}" class="btn btn-primary">Add Leader</a>
         @if($project->archived)
         <a href="{{ route('project.archived', ['title' => $project->title]) }}" class="btn btn-primary"> <i class="fa-solid fa-bookmark"></i></a>
         @endif
@@ -40,6 +57,7 @@
 
         <button id="editProject">Edit Project </button>
 
+        </div>
         <dialog>
 
       
@@ -88,24 +106,26 @@
       
   
         @if($project->members->contains(Auth::user()))
-        <form action="{{ route('project.leave', ['title' => $project->title]) }}" method="POST" class="my-3 leave-btn">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja sair do projeto?')">Leave Project</button>
-        </form>
-    
-        <div class="edit-favorite-buttons">
-            @if(!$isFavorite)
-                <a href="{{ route('project.favorite', ['title' => $project->title]) }}" class="btn btn-primary favorite-btn" data-project-id="{{ $project->id }}" data-is-favorite="false">
-                    <i class="fa-regular fa-star"></i>
-                </a>
-            @endif
-    
-            @if($isFavorite)
-                <a href="{{ route('project.noFavorite', ['title' => $project->title]) }}" class="btn btn-primary favorite-btn" data-project-id="{{ $project->id }}" data-is-favorite="true">
-                    <i class="fa-solid fa-star"></i>
-                </a>
-            @endif
+        <div class="leave-favorite-buttons">
+          <form action="{{ route('project.leave', ['title' => $project->title]) }}" method="POST" class="my-3 leave-btn">
+              @csrf
+              @method('DELETE')
+              <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja sair do projeto?')">Leave Project</button>
+          </form>
+
+          <div class="edit-favorite-buttons">
+              @if(!$isFavorite)
+                  <a href="{{ route('project.favorite', ['title' => $project->title]) }}" class="btn btn-primary favorite-btn" data-project-id="{{ $project->id }}" data-is-favorite="false">
+                      <i class="fa-regular fa-star"></i>
+                  </a>
+              @endif
+
+              @if($isFavorite)
+                  <a href="{{ route('project.noFavorite', ['title' => $project->title]) }}" class="btn btn-primary favorite-btn" data-project-id="{{ $project->id }}" data-is-favorite="true">
+                      <i class="fa-solid fa-star"></i>
+                  </a>
+              @endif
+          </div>
         </div>
     @endif
   
