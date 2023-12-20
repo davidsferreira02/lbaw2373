@@ -7,6 +7,8 @@
     <i class="fas fa-arrow-left"></i>
 </a>
 
+<h1>Add Member to {{$project->title}}</h1>
+
     <!-- Formulário de pesquisa -->
     <form method="get" action="{{ route('search.username',['title' => $project->title]) }}">
         @csrf

@@ -136,19 +136,39 @@
             <form id="editComment" method="POST" action="{{ route('comment.update', ['title'=>$project->title,'taskId'=>$task->id,'commentId' => $comment->id]) }}">
                 @csrf
                 @method('PUT')
-                <button type="submitComment">Edit</button>
+                <button id="editComment">Edit  </button> 
+                <dialog>
+                <div class="profile">
+                    <h1>Edit Task</h1>
+            
+                    <a id="closeEditComment">
+                        <i class="fa-solid fa-xmark"></i>
+                    </a>
+                    <form id="editTaskComment" method="POST" action="{{ route('comment.update', ['title' => $task->project->title, 'taskId' => $task->id, 'commentId' => $comment->id]) }}">
+                        @csrf
+                        @method('PUT')
+            
+                        
+                        <div>
+                        <label for="content">Content:</label>
+                        <input type="text" id="content" name="content" value="{{ $comment->content }}" required>
+                        <span class="error">
+                            {{ $errors->first('content') }}
+                          </span>
+                        </div>
+            
+                        
+                        <button type="submitComment">Save</button>
+                    </form>
+                </div>
+            
+            </dialog>
+
+        </div>
 
                 
             <div>
-            <label for="title">Comment:</label>
-            <input type="text" id="content" name="content" value="{{ $comment->content }}" required>
-            <span class="error">
-                {{ $errors->first('content') }}
-              </span>
-            </div>        
-            <button type="submitComment">Save</button>
-        </form>
-
+           
     
         @endif
     
@@ -209,14 +229,16 @@
 </body>
 
 
+
+
 <script>
 
     const editTaskButton = document.querySelector("#editTask");
-    const editCommentButton = document.querySelector("#editComment");
+    
     const modal = document.querySelector("dialog");
     const buttonClose = document.querySelector("#closeEditTask");
     const editTaskSubmit = document.querySelector(".editTaskSubmit");
-    const editCommentSubmit = document.querySelector(".editCommentSubmit");
+   
     
     
     
@@ -252,7 +274,7 @@
       }
     });
 
-    editCommentButton.onclick = function() {
+    editTaskButton.onclick = function() {
       modal.showModal();
     };
     
@@ -260,12 +282,12 @@
       modal.close();
     };
     
-    editCommentSubmit.addEventListener("submitComment", async function(event) {
+    editTaskSubmit.addEventListener("submitComment", async function(event) {
       event.preventDefault();
-      const formData = new FormData(editCommentSubmit);
+      const formData = new FormData(editTaskSubmit);
     
       try {
-        const response = await fetch(editCommentSubmit.action, {
+        const response = await fetch(editTaskSubmit.action, {
           method: 'PUT',
           body: formData
         });
@@ -286,43 +308,88 @@
     
             </script>
     
+    <script>
+
+        const editCommentButton = document.querySelector("#editComment");
+        
+        const modal = document.querySelector("dialog");
+        const buttonClose = document.querySelector("#closeEditComment");
+        const editCommentSubmit = document.querySelector(".editCommentSubmit");
+       
+        
+        
+        
+        editCommentButton.onclick = function() {
+          modal.showModal();
+        };
+        
+        buttonClose.onclick = function() {
+          modal.close();
+        };
+        
+        editCommentSubmit.addEventListener("submitComment", async function(event) {
+          event.preventDefault();
+          const formData = new FormData(editCommentSubmit);
+        
+          try {
+            const response = await fetch(editCommentSubmit.action, {
+              method: 'PUT',
+              body: formData
+            });
+        
+            if (!response.ok) {
+              throw new Error('Resposta inesperada do servidor');
+            }
+        
+            // Fechar o diálogo se a atualização for bem-sucedida
+            modal.close();
+          } catch (error) {
+            const errorMessages = document.querySelectorAll('.error');
+          
+        
+            modal.showModal(); // Mantém o modal aberto após o erro
+          }
+        });
+    
+        editCommentButton.onclick = function() {
+          modal.showModal();
+        };
+        
+        buttonClose.onclick = function() {
+          modal.close();
+        };
+        
+        editCommentSubmit.addEventListener("submitComment", async function(event) {
+          event.preventDefault();
+          const formData = new FormData(editCommentSubmit);
+        
+          try {
+            const response = await fetch(editCommentSubmit.action, {
+              method: 'PUT',
+              body: formData
+            });
+        
+            if (!response.ok) {
+              throw new Error('Resposta inesperada do servidor');
+            }
+
+            modal.close();
+          } catch (error) {
+            const errorMessages = document.querySelectorAll('.error');
+          
+        
+            modal.showModal(); // Mantém o modal aberto após o erro
+          }
+        });
+        
+                </script>
     
 
-{{-- <script>
-function like(id) {
-    const button = document.querySelector("#post" + id + " button");
-    if (button.className === "not-clicked") {
-        button.className = "clicked";
-        button.innerHTML = "Liked";
-        sendAjaxRequest('post', '../post/like', {id: id});
-    }
-}
+ 
+        
+    
 
-const pusher = new Pusher(pusherAppKey, {
-    cluster: pusherCluster,
-    encrypted: true
-});
 
-const channel = pusher.subscribe('tutorial02');
-channel.bind('notification-postlike', function(data) {
-
-    const notification = document.getElementById('notification');
-    const closeButton = document.getElementById('closeButton');
-    const notificationText = document.getElementById('notificationText');
-    notificationText.textContent = data.message;
-    notification.classList.add('show');
-
-    closeButton.addEventListener('click', function() {
-        notification.classList.remove('show');
-    });
-
-    setTimeout(function() {
-        notification.classList.remove('show');
-    }, 5000);
-});
-</script>
-
---}}
 @endsection
 
 

@@ -2,79 +2,37 @@
 
 @section('content')
 
-<style>
-#tasksContainer {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.task-card {
-  width: calc(33.33% - 20px);
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-}
-
-.button-container {
-    display: flex;
-    justify-content: left;
-    margin-bottom: 20px;
-}
-
-.search-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1px;
-    max-width: 800%;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.search-form {
-    display: flex;
-}
-
-#searchTaskInput {
-    flex: 1;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-right: 5px;
-}
-
-#searchTaskIcon {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #f0f0f0;
-}
-</style>
-
 <a href="{{ route('project.home') }}" class="btn btn-primary">
     <i class="fas fa-arrow-left"></i>
 </a>
 
 <h2> Tasks from {{$project->title}} <h2>
     <div class="button-container">
-        <form method="GET" action="{{ route('project.show', ['title' => $project->title]) }}">
-            <button type="submit" class="btn btn-primary">See Project details</button>
-        </form>
-    
-        @if($project->members->contains(Auth::user()))
-            <form method="GET" action="{{ route('task.create', ['title' => $project->title]) }}">
-                <button type="submit" class="btn btn-primary">Create Task</button>
-            </form>
-        @endif
-
-        <select id="priorityFilter">
-            <option value="all">All Priorities</option>
-            <option value="Low">Low Priority</option>
-            <option value="Medium">Medium Priority</option>
-            <option value="High">High Priority</option>
-        </select>
+        <div class="row">
+            <div class="col-sm">
+                <form method="GET" action="{{ route('project.show', ['title' => $project->title]) }}">
+                    <button type="submit" class="btn btn-primary">See Project details</button>
+                </form>
+            </div>
+            @if($project->members->contains(Auth::user()))
+            <div class="col-sm">
+                <form method="GET" action="{{ route('task.create', ['title' => $project->title]) }}">
+                    <button type="submit" class="btn btn-primary">Create Task</button>
+                </form>
+            </div>
+            @endif
+        </div>
     </div>
+    
+       
+
+
+    <select id="priorityFilter">
+        <option value="all">All Priorities</option>
+        <option value="Low">Low Priority</option>
+        <option value="Medium">Medium Priority</option>
+        <option value="High">High Priority</option>
+    </select>
 
     <div class="search-container">
         <form action="{{ route('task.search', ['title' => $project->title]) }}" method="GET" class="search-form">
@@ -83,16 +41,18 @@
         </form>
     </div>
 
-    <div id="tasksContainer">
+
+
+<div id="tasksContainer">
         @forelse ($tasks as $task)
             <div class="task-card" data-priority="{{ $task->priority }}">
                 <!-- Detalhes da tarefa -->
                 <a href="{{ route('task.comment', ['taskId' => $task->id,'title'=>$project->title]) }}">
-                    <h3><strong>Title:</strong> {{ $task->title }}</h3>
+                    <h3><strong>title:</strong> {{ $task->title }}</h3>
                 </a>
-                <p><strong>Priority:</strong>{{ $task->priority }}</p>
-                <p><strong>Deadline:</strong>{{ $task->deadline }}</p>
-                <p><strong>IsCompleted: </strong>
+                <p><strong>priority:</strong>{{ $task->priority }}</p>
+                <p><strong>deadline:</strong>{{ $task->deadline }}</p>
+                <p><strong>isCompleted: </strong>
                     @if($task->iscompleted)
                         true
                     @else
@@ -101,6 +61,10 @@
                 </p>
                 @foreach ($task->owners as $owner)
                 <p><strong>Owner:</strong> {{ $owner->name }}</p>
+            
+                
+            @endforeach
+
                 @if(!Auth::user()->isAdmin())
     
                 <form method="POST" action="{{ route('task.complete', ['title' => $project->title, 'taskId' => $task->id]) }}" class="complete-form">
@@ -121,19 +85,14 @@
                     @endif
                 </form>
                 @endif
-            
             </div>
-    
-                
-            @endforeach
-
-                
         @empty
             <!-- Se não houver tarefas -->
             <p>No tasks found for this project.</p>
         @endforelse
     </div>
     <script>
+
         document.addEventListener('DOMContentLoaded', function() {
             var forms = document.querySelectorAll('.complete-form');
             forms.forEach(function(form) {
@@ -179,6 +138,12 @@
                 });
             });
         });
+        
+        
         </script>
         
+     
+
+  
+
     @endsection

@@ -52,11 +52,13 @@
 @if(Auth::user()->isAdmin())
 <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">
     <i class="fas fa-arrow-left"></i> <!-- Use "fas" para ícones sólidos -->
+</a>
 @endif
 
 @if(!Auth::user()->isAdmin())
 <a href="{{ route('project.home') }}" class="btn btn-primary">
     <i class="fas fa-arrow-left"></i> <!-- Use "fas" para ícones sólidos -->
+</a>
 @endif
 
 <div class="profile">

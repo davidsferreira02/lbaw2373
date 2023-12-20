@@ -3,7 +3,7 @@
 @section('content')
 
 
-@if(!Auth::user()->isAdmin())
+@if($project->members->contains(Auth::user())||Auth::user()->isAdmin())
 <a href="{{ route('task.show',['title'=>$project->title]) }}" class="btn btn-primary">
     <i class="fas fa-arrow-left"></i> <!-- Use "fas" para ícones sólidos -->
 @endif

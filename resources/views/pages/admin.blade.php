@@ -9,7 +9,12 @@
     <h3>Users:</h3>
     <ul>
         @foreach($users as $user)
-            <li>{{ $user->name }} - {{ $user->email }}</li>
+            <li>
+                <a href="{{ route('profile', ['id' => $user->id]) }}">
+                    {{ $user->username }} - {{ $user->email }}</li>
+                </a>
+                
+          
             <!-- Adicione mais informações do usuário conforme necessário -->
         @endforeach
     </ul>
@@ -18,7 +23,7 @@
     <ul>
         @foreach($projects as $project)
         <li>
-            <a href="{{ route('project.show', ['title' => $project->title]) }}">
+            <a href="{{ route('task.show', ['title' => $project->title]) }}">
                 {{ $project->title }} - {{ $project->description }}
             </a>
         </li>

@@ -11,11 +11,16 @@
     box-sizing: border-box;
 }
 
+
+
+
+
 #projectsContainer {
     display: flex;
     flex-wrap: wrap;
     gap: 10px; /* Adjust spacing between project cards */
 }
+
 </style>
 
 
@@ -56,7 +61,7 @@
         <div id="projectsContainer">
             @foreach($favoriteProjects as $favorite)
                 <div class="project-card">
-                    <ul class="project favorite">
+                    <ul class="project-favorite">
                         <a href="{{ route('task.show', ['title' => $favorite->title]) }}">
                             {{ $favorite->title }}
                         </a>

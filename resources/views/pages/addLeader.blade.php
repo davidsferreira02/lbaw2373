@@ -11,6 +11,9 @@
     <a href="{{ route('project.show', ['title'=>$project->title]) }}" class="btn btn-primary">
         <i class="fas fa-arrow-left"></i>
     </a>
+
+
+    <h1>Add Leader to {{$project->title}}</h1>
     <!-- Formulário de pesquisa -->
     <form method="get" action="{{ route('search.usernameLeader',['title' => $project->title]) }}">
         @csrf

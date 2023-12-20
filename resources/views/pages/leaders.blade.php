@@ -10,12 +10,18 @@
 
 </a>
     <h1>Leaders from {{ $project->title }}</h1>
-    <ul>
+  
         @foreach ($leaders as $leader)
-         
-            <button class="btn btn-primary" onclick="location.href='{{ route('profile', ['id' => $leader->id,'project' => $leader->projectLeader()]) }}'">
-                {{ $leader->username }}
-            </button>
+            <ul>
+                <div>
+                    <a href="{{ route('profile', ['id' => $leader->id]) }}" class="btn btn-primary">{{ $leader->username }}</a>
+                  
+                   
+                 
+                    <i class="fa-solid fa-crown"></i>
+                   
+                </div>
+            </ul>
         @endforeach
     </ul>
 

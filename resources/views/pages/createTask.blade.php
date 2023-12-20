@@ -6,6 +6,8 @@
 <a href="{{ route('task.show', ['title'=>$project->title]) }}" class="btn btn-primary">
     <i class="fas fa-arrow-left"></i>
 </a>
+
+<h1>Create a New Task in {{$project->title}}</h1>
 <form action="{{ route('task.store', ['title' => $project->title]) }}" method="POST">
     @csrf
 
@@ -55,5 +57,5 @@
 
     <button type="submit">Task Create</button>
 </form>
-<a href="{{ route('project.show', ['title' => $project->title]) }}" class="btn btn-primary">Go back</a>
+
 @endsection
