@@ -48,10 +48,6 @@
     align-items: center;
 }
 
-.profile-image {
-    /* Styles for profile image */
-}
-
 .username {
     margin: 0;
 }
@@ -123,19 +119,19 @@
             </div>
         </div>
 
-    @if ($owner->id === Auth::id()) 
-    <button id="editTask">Edit Task </button> 
+        @if ($owner->id === Auth::id()) 
+    <button id="editTask">Edit Task</button> 
     <dialog>
-    <div class="profile">
         <h1>Edit Task</h1>
 
-        <a id="closeEditTask">
-            <i class="fa-solid fa-xmark"></i>
-        </a>
-        <form id="editTaskSubmit" method="POST" action="{{ route('task.update', ['title' => $task->project->title, 'taskTitle' => $task->title, 'task' => $task->id]) }}">
-            @csrf
-            @method('PUT')
-
+        <div class="profile">
+            <a id="closeEditTask">
+                <i class="fa-solid fa-xmark"></i>
+            </a>
+            <form id="editTaskSubmit" method="POST" action="{{ route('task.update', ['title' => $task->project->title, 'taskTitle' => $task->title, 'task' => $task->id]) }}">
+                @csrf
+                @method('PUT')
+                <div class="center-content">
             
             <div>
             <label for="title">Task Title:</label>
