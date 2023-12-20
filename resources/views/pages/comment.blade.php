@@ -2,6 +2,39 @@
 
 @section('content')
 
+<style>
+    .task-cont {
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    /* Grid layout for task details */
+    .details-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 10px;
+        margin-top: 20px;
+    }
+
+    /* Styles for individual columns */
+    .detail-column {
+        border-right: 1px solid #ccc;
+        padding-right: 15px;
+    }
+
+    .detail-column:last-child {
+        border-right: none;
+        padding-right: 0;
+    }
+
+    /* Additional styles for buttons inside the task container */
+    .task-cont button {
+        margin-top: 10px;
+        margin-right: 10px;
+    }
+</style>
 
 <a href="{{ route('task.show',['title'=>$project->title]) }}" class="btn btn-primary">
     <i class="fas fa-arrow-left"></i> 
@@ -11,21 +44,33 @@
     <title>Task Details</title>
 </head>
 <body>
-    <h2><strong>title:</strong> {{ $task->title }}</h2>
-    <p><strong>content:</strong>{{ $task->content }}</p>
-    <p><strong>priority:</strong>{{ $task->priority }}</p>
-    <p><strong>deadline:</strong>{{ $task->deadline }}</p>
-    <p><strong>dateCreation:</strong>{{ $task->datecreation }}</p>
-    <p><strong>isCompleted:</strong>{{ $task->iscompleted == 1 ? 'True' : 'False' }}</p>
-    @foreach ($task->owners as $owner)
-    <p><strong>Owner:</strong> {{ $owner->username }}</p>
-@endforeach
-     @foreach($task->assigned as $assigned)
+<div class="task-cont">
+    <h2><strong>Title:</strong> {{ $task->title }}</h2>
+        <div class="details-grid">
+            <div class="detail-column">
+                <p><strong>Content:</strong> {{ $task->content }}</p>
+                <p><strong>Priority:</strong> {{ $task->priority }}</p>
+            </div>
+            <div class="detail-column">
+              <p><strong>Date Creation:</strong> {{ $task->datecreation }}</p>    
+              <p><strong>Deadline:</strong> {{ $task->deadline }}</p> 
+            </div>
+            <div class="detail-column">
+                <p><strong>Is Completed:</strong> {{ $task->iscompleted == 1 ? 'True' : 'False' }}</p>
+                <p><strong>Owner:</strong>
+                    @foreach ($task->owners as $owner)
+                        {{ $owner->username }},
+                    @endforeach
+                </p>
+                <p><strong>Assigned:</strong>
+                    @foreach($task->assigned as $assigned)
+                        {{ $assigned->username }},
+                    @endforeach
+                </p>
+            </div>
+        </div>
 
-  <p><strong>Assigned:</strong> {{ $assigned->username }}</p>
-  @endforeach
-  @if ($owner->id === Auth::id()) 
-  
+    @if ($owner->id === Auth::id()) 
     <button id="editTask">Edit Task </button> 
     <dialog>
     <div class="profile">
@@ -97,6 +142,7 @@
            
             
 @endif
+</div>
 
 
   

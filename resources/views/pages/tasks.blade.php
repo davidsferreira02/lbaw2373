@@ -23,9 +23,6 @@
             @endif
         </div>
     </div>
-    
-       
-
 
     <select id="priorityFilter">
         <option value="all">All Priorities</option>
@@ -41,17 +38,15 @@
         </form>
     </div>
 
-
-
 <div id="tasksContainer">
         @forelse ($tasks as $task)
             <div class="task-card" data-priority="{{ $task->priority }}">
                 <!-- Detalhes da tarefa -->
                 <a href="{{ route('task.comment', ['taskId' => $task->id,'title'=>$project->title]) }}">
-                    <h3><strong>title:</strong> {{ $task->title }}</h3>
+                    <h3><strong>title: </strong> {{ $task->title }}</h3>
                 </a>
-                <p><strong>priority:</strong>{{ $task->priority }}</p>
-                <p><strong>deadline:</strong>{{ $task->deadline }}</p>
+                <p><strong>priority: </strong>{{ $task->priority }}</p>
+                <p><strong>deadline: </strong>{{ $task->deadline }}</p>
                 <p><strong>isCompleted: </strong>
                     @if($task->iscompleted)
                         true
@@ -60,7 +55,7 @@
                     @endif
                 </p>
                 @foreach ($task->owners as $owner)
-                <p><strong>Owner:</strong> {{ $owner->name }}</p>
+                <p><strong>Owner: </strong> {{ $owner->name }}</p>
             
                 
             @endforeach
