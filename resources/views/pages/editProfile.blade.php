@@ -2,50 +2,7 @@
 
 @section('content')
 
-<style>
-    .profile {
-    max-width: 350px; /* Adjust the width of the square */
-    margin: 50px auto; /* Center the square horizontally */
-    padding: 20px;
-    border: 1px solid #ccc; /* Border styling */
-    border-radius: 10px; /* Rounded corners */
-    text-align: center;
-    background-color: none; /* Background color */
-}
 
-.profile h1 {
-    margin-bottom: 20px;
-}
-
-.profile form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.profile label {
-    margin-bottom: 10px;
-}
-
-.profile input[type="text"],
-.profile input[type="email"],
-.profile input[type="file"] {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 15px;
-    border-radius: 25px;
-    border: 1px solid #ccc;
-}
-
-.profile button[type="submit"] {
-    border-radius: 5px;
-    border: none;
-    background-color: #51A3A3;
-    color: #fff;
-    cursor: pointer;
-    text-align: center;
-}
-</style>
 
     <a href="{{ route('profile', ['id'=>$user->id]) }}" class="btn btn-primary">
         <i class="fas fa-arrow-left"></i> Back

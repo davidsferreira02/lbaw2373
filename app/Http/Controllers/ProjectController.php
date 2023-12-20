@@ -333,9 +333,9 @@ public function update(Request $request,$title)
     ]);
 
 
-    $project->title=$request->input('title');
-    $project->description=$request->input('description');
-    $project->theme=$request->input('theme');
+    $project->title= $validatedData['title'];
+    $project->description= $validatedData['description'];
+    $project->theme= $validatedData['theme'];
    
     
 
