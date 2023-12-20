@@ -23,6 +23,7 @@ DROP TABLE IF EXISTS is_leader CASCADE;
 DROP TABLE IF EXISTS taskowner CASCADE;
 DROP TABLE IF EXISTS assigned CASCADE;
 DROP TABLE IF EXISTS commentowner CASCADE;
+DROP TABLE IF EXISTS password_reset CASCADE;
 CREATE TYPE accept_st as ENUM ('Pendent', 'Accepted', 'Rejected');
 
 --
@@ -189,12 +190,18 @@ CREATE TABLE inviteproject (
 );
 
 
+CREATE TABLE password_reset ( 
+    email TEXT NOT NULL, 
+    token TEXT NOT NULL,
+    PRIMARY KEY (email, token)
+);
+
 
 
 
 
 INSERT INTO users (name,username, password, email) VALUES
-('david','davidsferreira02','$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W','david@lbaw.com'),
+('david','davidsferreira02','$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W','davidsferreira02@gmail.com'),
   ('alice','alice02', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'alice@example.com'),
   ('bob', 'bob02' ,'$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'bob@example.com'),
   ('John Doe', 'john_doe', '$2y$10$Fak4VW1F2UahvwL9h1m2XucnT2A0.3vVjWJAJ8EgCfmEw5jEDdhqK', 'john@example.com'),

@@ -76,7 +76,7 @@ class LoginController extends Controller
 
 
     public function recover(Request $request){
-        return view('auth.password_request');
+        return view('auth.password-forgot');
     }
     public function updatePassword(Request $request)
     {

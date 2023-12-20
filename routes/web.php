@@ -40,27 +40,50 @@ Route::get('/contacts', function () {
     return view('pages.contacts');
 })->name('contacts');
 
-Route::get('/NotAllowed', function () {
-    return 'Esta página requer autenticação.';
-})->middleware('auth');
 
 
-Route::get('/403', function () {
-    return view('pages.error.403');
-})->name('403');
+
+Route::get('/forgot-password-sent', function () {
+    return view('auth.password-forgot-sent');
+})->middleware('guest')->name('forgot-password-sent');
+
+
+Route::get('/password/reset/{token}', function ($token) {
+    return view('auth.password-reset', ['token' => $token]);
+})->middleware('guest')->name('password.reset');
+
+
+Route::get('/forgot-password', function () {
+    return view('auth.password-forgot');
+})->middleware('guest')->name('password.request');
+
+
+
+
+
+
+Route::controller(MailController::class)->group(function () {
+
+    Route::get('/resetAuthPassword', 'showChangePassword')->middleware('guest');
+
+
+Route::post('reset_password_without_token', 'passwordRequest')->middleware("guest");
+Route::post('reset_password_with_token', 'resetPassword')->middleware("guest");
+});
+
+
 
 // Authentication
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'showLoginForm')->name('login')->middleware('guest');
     Route::post('/login', 'authenticate')->middleware('guest');
     Route::get('/logout', 'logout')->name('logout')->middleware('auth');
-    Route::get('/forgotPassword','forgotPassword')->name('password')->middleware('guest');
+
     Route::get('/block', function () {
         return view('pages.block');
     })->name('blocked')->middleware('auth');;
 
-     Route::get('/passwordRequest', 'recover')->name('password.request')->middleware('guest');
-     Route::post('/passwordUpdate', 'updatePassword')->name('password.update')->middleware('guest');
+    
    
 });
 
@@ -164,4 +187,5 @@ Route::patch('/project/{title}/task/{titleTask}/comment/{commentId}/like/store',
 Route::controller(FileController::class)->group(function(){
 Route::post('/file/upload',  'upload')->name('file.upload')->middleware('auth');;
 });
+
 
