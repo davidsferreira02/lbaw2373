@@ -14,10 +14,6 @@ DROP TABLE IF EXISTS comment CASCADE;
 DROP TABLE IF EXISTS likes CASCADE;
 DROP TABLE IF EXISTS isadmin CASCADE;
 DROP TABLE IF EXISTS favorite CASCADE;
-DROP TABLE IF EXISTS notification CASCADE;
-DROP TABLE IF EXISTS project_notification CASCADE;
-DROP TABLE IF EXISTS task_notification CASCADE;
-DROP TABLE IF EXISTS comment_notification CASCADE;
 DROP TABLE IF EXISTS is_member CASCADE;
 DROP TABLE IF EXISTS is_leader CASCADE;
 DROP TABLE IF EXISTS taskowner CASCADE;
@@ -40,10 +36,6 @@ CREATE TABLE users (
   photo TEXT NOT NULL DEFAULT 'profile/default.jpg',
   search TSVECTOR
 );
-
-
-
-
 
 CREATE TABLE project(
   id SERIAL PRIMARY KEY,
@@ -98,45 +90,6 @@ CREATE TABLE favorite(
   FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE,
   FOREIGN KEY (users_id) REFERENCES users (id)
 );
-
-Create TABLE notification(
-id SERIAL PRIMARY KEY,
-description TEXT NOT NULL 
-);
-
-CREATE TABLE project_notification(
-id SERIAL PRIMARY KEY,
-project_id INT NOT NULL,
-notification_id INT,
-user_id INT NOT NULL,
-projectType TEXT CHECK(projectType IN ('newLeader', 'expelled','deleted','newMember')) NOT NULL,
-FOREIGN KEY (project_id) REFERENCES project (id),
-FOREIGN KEY (notification_id) REFERENCES notification (id),
-FOREIGN KEY (user_id) REFERENCES users (id)
-);
-
-CREATE TABLE task_notification(
-id SERIAL PRIMARY KEY,
-task_id INT NOT NULL,
-notification_id INT NOT NULL,
-user_id INT NOT NULL,
-taskType TEXT CHECK(taskType IN ('assigned', 'completed')) NOT NULL,
-FOREIGN KEY (task_id) REFERENCES task (id),
-FOREIGN KEY (notification_id) REFERENCES notification (id),
-FOREIGN KEY (user_id) REFERENCES users (id)
-);
-
-CREATE TABLE comment_notification(
-id SERIAL PRIMARY KEY,
-comment_id INT NOT NULL,
-notification_id INT NOT NULL,
-user_id INT NOT NULL,
- comment TEXT CHECK(comment IN ('like', 'response')) NOT NULL,
-FOREIGN KEY (comment_id) REFERENCES comment (id),
-FOREIGN KEY (notification_id) REFERENCES notification (id),
-FOREIGN KEY (user_id) REFERENCES users (id)
-);
-
 
 CREATE TABLE is_leader(
    id_user Int not null,
@@ -197,65 +150,70 @@ CREATE TABLE password_reset (
 );
 
 
-
-
-
-INSERT INTO users (name,username, password, email) VALUES
-('david','davidsferreira02','$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W','davidsferreira02@gmail.com'),
-  ('alice','alice02', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'alice@example.com'),
-  ('bob', 'bob02' ,'$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'bob@example.com'),
-  ('John Doe', 'john_doe', '$2y$10$Fak4VW1F2UahvwL9h1m2XucnT2A0.3vVjWJAJ8EgCfmEw5jEDdhqK', 'john@example.com'),
-('Alice Smith', 'alice_smith', '$2y$10$XpJGu1sD7dOC9hS5jUjL8uAxeasex6RFjXPT5mIA3ukgPFOEeCvga', 'alice2@example.com'),
-('Bob Johnson', 'bob_johnson', '$2y$10$obEeBwTMRQhHsOs39ObmYuyQ5KW7BfTnRjvwrc9KDTj4yrDXpMn8q', 'bob2@example.com'),
-('Emma Davis', 'emma_davis', '$2y$10$LT3TgVW37.6Iajf2YXmDGOwGCSzOzGZW89QpYSvRm6NDQFm8F5PtW', 'emma@example.com'),
-('Michael Wilson', 'michael_wilson', '$2y$10$LHnnoYrbNp7pVwPn8rYsZOFE9QIt9jUe7XW/09RuxF1Nn6P18CJpa', 'michael@example.com'),
-('Emily Brown', 'emily_brown', '$2y$10$AYN.7.BDqOhQk.8HLPYcA.vk97UfLQd9wIIBrIA/6Zlh6LBoI9K9S', 'emily@example.com'),
-('William Martinez', 'william_martinez', '$2y$10$wjSPyXc3qVEGxRF39NmmPOxRfRuf1ZabVrT6Ch.MtdViUu6Er/nKa', 'william@example.com'),
-('Olivia Garcia', 'olivia_garcia', '$2y$10$z4uv/pwB27w.XdP6YhCx7.7b2yJlJmK93xB1q3ZImeKg/YVTohlKu', 'olivia@example.com'),
-('James Miller', 'james_miller', '$2y$10$ojJ11KYR0HphNX.Q9rX5MuLJlsr3PmOD87Y2V/KhHjwEeSPoQQQ22', 'james@example.com'),
-('Sophia Lopez', 'sophia_lopez', '$2y$10$ZKl3r4gfvF7upGp3CQPNb.qkPBSc6b/xOEWYrzUJxw/JTgH6ZWiLW', 'sophia@example.com'),
-('Alexander Hernandez', 'alexander_hernandez', '$2y$10$D6EU.fVAyFZ2KFRsA3bDWuOP4vadYZXm5dRkYw2SOfT61u1f/Pb/K', 'alexander@example.com'),
-('Mia Scott', 'mia_scott', '$2y$10$b/mJj7oeyGWJtK.QXe9qkuf8pttG7xkIyUEr1Aas7b2jqBe2rgQ9i', 'mia@example.com'),
-('Benjamin Torres', 'benjamin_torres', '$2y$10$ohEKnELq9RYQ7OWMaBXb1OBUTD31z/45Ym5OeYU3aLJm8o1/oY6U6', 'benjamin@example.com'),
-('Charlotte King', 'charlotte_king', '$2y$10$jnqm.LVNg8QCB0yGFFKnxOaMUh7H8XjHs8uCXESl6VPEcmZ2QZT9O', 'charlotte@example.com'),
-('Daniel Perez', 'daniel_perez', '$2y$10$iojVATz3Z2nxgLpE2VfvNeAtxv/YqblCM.qcUoJwSgKz8BZzE12ju', 'daniel@example.com'),
-('Amelia Young', 'amelia_young', '$2y$10$qvL8sAxnZolHxLTTNhcL/.S.dZ3fyv3j8PF/LmMs..YRldIdZ5ZYG', 'amelia@example.com'),
-('Liam Flores', 'liam_flores', '$2y$10$Fv4TwsFWvVQg5v9w1IlMf.3weOXPJ5pT9Wn3SYb4UIZ6QESWSTyiS', 'liam2@example.com'),
-('Ava Washington', 'ava_washington', '$2y$10$2GjBcLxfjx05sYwQsBp9gefXeA0u.NTVcQsVPUmjA5a6o3Rd/eZW.', 'ava@example.com'),
-('Lucas Clark', 'lucas_clark', '$2y$10$fOyYNW8rD4xiL8GgrbCim.7JQ0EBjZz2SEvSVKktjMvEcs8V9Za.K', 'lucas@example.com'),
-('Harper Adams', 'harper_adams', '$2y$10$F/00D/RNZMbmrWBrOCSmVewWVbDL1zlsKmGVsu79xTGrVKe9PS9yq', 'harper@example.com'),
-('Elijah Ramirez', 'elijah_ramirez', '$2y$10$96AnEZJCGYiXUjyRmTLazek2s6Jg6ltO01T47/zbUBT.gBwS6EnVu', 'elijah@example.com'),
-('Avery Hill', 'avery_hill', '$2y$10$QR.UhGKyB.KWKLX5kQsC6uR71G6sYIWYk3NHuLXK8T9dLe2JmFvam', 'avery@example.com'),
-('Logan Ward', 'logan_ward', '$2y$10$eAKrHNXoRfYBVFb2Ae9rxeR0sJTuU8UKjotkE9w5e.nvQdeKSuQUK', 'logan@example.com'),
-('Evelyn Baker', 'evelyn_baker', '$2y$10$Xa3PCWmbz/BEzG9LjOzgqeGyckifQtTxKDvQdeF.9gMxcjSOxQ7.2', 'evelyn@example.com'),
-('Jayden Cook', 'jayden_cook', '$2y$10$pm8bFupY9SDWsmVC4pT13OZuq9ltc/KxP7yDkAH5MLquKdAFR3p/S', 'jayden@example.com'),
-('Luna Gonzales', 'luna_gonzales', '$2y$10$gS2aH0hT4t.8Nu01dETJveJxt3aEY3NbJas9cQzRZFX/nxd2NSb.2', 'luna@example.com'),
-('Liam Murphy', 'liam_murphy', '$2y$10$JNXO2zCfKFxenFm1MEnkLe9eAuziM9z7/3f.SqE5tSKQztvy9BqJq', 'liam@example.com'),
-('Aria Hall', 'aria_hall', '$2y$10$fc2m8Q91iIX17AwhfRJz0.g88lYjE1JdKwYL/yA6ND1u2tPAnvW0C', 'aria@example.com'),
-('Carter Ward', 'carter_ward', '$2y$10$Q4JYqShVywabOhvl.yJX/.gdw67cwS1KydTpMWKZJN8q1X/J0AC/e', 'carter@example.com'),
-('Arianna Russell', 'arianna_russell', '$2y$10$QKYx1dPMZ2en9pVumqq09e/vTK0aInyJGup4B.izxDRhNTbbiqEZK', 'arianna@example.com'),
-('Lincoln Turner', 'lincoln_turner', '$2y$10$Q7V0vKcc7sBqSVIjQGt2kOdqw7bGqYfZq7X1KjwEm8NlQ8yM7vDR2', 'lincoln@example.com'),
-('Scarlett Ward', 'scarlett_ward', '$2y$10$owEI5.HMOuZ1vR62U6MlAeppxtWBfyLQl4/sqZJW2GrELO7F4qQJu', 'scarlett@example.com'),
-('Grayson Mitchell', 'grayson_mitchell', '$2y$10$02x/EyZhJzfdjNx54A8FvOVlBEq5XsYzNXbz/A8BgeAPTr6XwNLUm', 'grayson@example.com'),
-('Adeline Garcia', 'adeline_garcia', '$2y$10$wXYb/p4VYqQNZzE7i9HscePJY8v7DZz9m/.W/c5Mf60XEcq4FFIlK', 'adeline@example.com'),
-('Ezra Ward', 'ezra_ward', '$2y$10$IDMLaxK/XVRcnCq5Wc0Yi.nTsoQ1UfUVHb.ljqNf8ZTtBBv5B1Lg2', 'ezra@example.com'),
-('Nova Nelson', 'nova_nelson', '$2y$10$HWq0IqN9NlwHz9.CxUbgPey9HxZv2S0P5RtYkOYR6a/dGPE6tYrly', 'nov@example.com'),
-('Sebastian Thompson', 'sebastian_thompson', '$2y$10$6FsUom4C8zvzgU/jfA/9meRiv7HrQw0Lyfk8Z9EYJh.yq97gSxU5C', 'sebastian@example.com'),
-('Nova Rodriguez', 'nova_rodriguez', '$2y$10$FlgXSTY0wr1xflYJ49Tm8uH.0BZ0Pklx.vbfv.hYZ2I1bKQeVynMC', 'nova@example.com'),
-('Levi Powell', 'levi_powell', '$2y$10$jAtuOgjJdMx0s2ALD1SIs.GcIVUlkU1u.eE2u6fxx50Rj3uujqV5G', 'levi@example.com'),
- ('Anônimo', 'anonimo', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'anonimo@example.com');
-
-
-
-
-INSERT into isadmin(user_id) VALUES
-(3),
-(5),
-(7),
-(9),
-(11);
+INSERT INTO users (name,username, password, email)
+VALUES
+('david','davidsferreira02','$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W','david@lbaw.com'),
+('alice','alice02', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'alice@example.com'),
+('bob', 'bob02' ,'$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'bob@example.com'),
+('John Doe', 'john_doe', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'john@example.com'),
+('Alice Smith', 'alice_smith', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'alice2@example.com'),
+('Bob Johnson', 'bob_johnson', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'bob2@example.com'),
+('Emma Davis', 'emma_davis', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'emma@example.com'),
+('Michael Wilson', 'michael_wilson', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'michael@example.com'),
+('Emily Brown', 'emily_brown', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'emily@example.com'),
+('William Martinez', 'william_martinez', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'william@example.com'),
+('Olivia Garcia', 'olivia_garcia', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'olivia@example.com'),
+('James Miller', 'james_miller', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'james@example.com'),
+('Sophia Lopez', 'sophia_lopez', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'sophia@example.com'),
+('Alexander Hernandez', 'alexander_hernandez', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'alexander@example.com'),
+('Mia Scott', 'mia_scott', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'mia@example.com'),
+('Benjamin Torres', 'benjamin_torres', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'benjamin@example.com'),
+('Charlotte King', 'charlotte_king', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'charlotte@example.com'),
+('Daniel Perez', 'daniel_perez', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'daniel@example.com'),
+('Amelia Young', 'amelia_young', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'amelia@example.com'),
+('Liam Flores', 'liam_flores', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'liam2@example.com'),
+('Ava Washington', 'ava_washington', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'ava@example.com'),
+('Lucas Clark', 'lucas_clark', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'lucas@example.com'),
+('Harper Adams', 'harper_adams', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'harper@example.com'),
+('Elijah Ramirez', 'elijah_ramirez', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'elijah@example.com'),
+('Avery Hill', 'avery_hill', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'avery@example.com'),
+('Logan Ward', 'logan_ward', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'logan@example.com'),
+('Evelyn Baker', 'evelyn_baker', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'evelyn@example.com'),
+('Jayden Cook', 'jayden_cook', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'jayden@example.com'),
+('Luna Gonzales', 'luna_gonzales', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'luna@example.com'),
+('Liam Murphy', 'liam_murphy', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'liam@example.com'),
+('Aria Hall', 'aria_hall', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'aria@example.com'),
+('Carter Ward', 'carter_ward', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'carter@example.com'),
+('Arianna Russell', 'arianna_russell', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'arianna@example.com'),
+('Lincoln Turner', 'lincoln_turner', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'lincoln@example.com'),
+('Scarlett Ward', 'scarlett_ward', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'scarlett@example.com'),
+('Grayson Mitchell', 'grayson_mitchell', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'grayson@example.com'),
+('Adeline Garcia', 'adeline_garcia', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'adeline@example.com'),
+('Ezra Ward', 'ezra_ward', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'ezra@example.com'),
+('Nova Nelson', 'nova_nelson', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'nov@example.com'),
+('Sebastian Thompson', 'sebastian_thompson', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'sebastian@example.com'),
+('Nova Rodriguez', 'nova_rodriguez', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'nova@example.com'),
+('Levi Powell', 'levi_powell', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'levi@example.com'),
+('Eva Watson', 'eva_watson', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'eva@example.com'),
+('Noah Adams', 'noah_adams', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'noah@example.com'),
+('Isabella Wood', 'isabella_wood', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'isabella@example.com'),
+('James White', 'james_white', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'james2@example.com'),
+('Sophia Harris', 'sophia_harris', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'sophia2@example.com'),
+('Oliver Young', 'oliver_young', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'oliver@example.com'),
+('Amelia King', 'amelia_king', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'amelia2@example.com'),
+('Lucas Baker', 'lucas_baker', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'lucas2@example.com'),
+('Aria Evans', 'aria_evans', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'aria2@example.com'),
+('Logan Parker', 'logan_parker', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'logan2@example.com'),
+('Evelyn Coleman', 'evelyn_coleman', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'evelyn2@example.com'),
+('Carter Wright', 'carter_wright', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'carter2@example.com'),
+('Luna Ross', 'luna_ross', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'luna2@example.com'),
+('Mason Ward', 'mason_ward', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'mason2@example.com'),
+('Harper Peterson', 'harper_peterson', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'harper2@example.com'),
+('Elijah Sanchez', 'elijah_sanchez', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'elijah2@example.com'),
+('Avery Price', 'avery_price', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'avery2@example.com'),
+('Nova Martinez', 'nova_martinez', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'novamar@example.com'),
+('Anónimo', 'anonimo', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'anonimo2@example.com');
  
-
 INSERT INTO project (title, description, theme) VALUES
 ('Content Management System', 'Development of a CMS system to manage web content.', 'Technology'),
 ('E-commerce Platform', 'Building an online platform for sales.', 'E-commerce'),
@@ -266,80 +224,203 @@ INSERT INTO project (title, description, theme) VALUES
 ('Financial Management App', 'App to assist in personal finance management.', 'Finance'),
 ('Urban Art Project', 'Initiative to promote urban art in public spaces.', 'Culture'),
 ('Music Streaming Platform', 'Development of a music streaming platform.', 'Entertainment'),
-('Culinary Recipes App', 'App for sharing and discovering culinary recipes.', 'Culinary');
+('Culinary Recipes App', 'App for sharing and discovering culinary recipes.', 'Culinary'),
+('TechSavvy Connect', 'Revolutionizing tech networking for professionals worldwide.', 'Technology'),
+('EcoBiz Hub', 'A sustainable e-commerce platform promoting eco-friendly products.', 'E-commerce'),
+('VitaHealth Tracker', 'Next-gen health app for personalized wellness monitoring.', 'Health'),
+('GreenUtopia Initiative', 'Empowering local communities towards environmental sustainability.', 'Sustainability'),
+('ProLink Network', 'Connecting professionals globally across diverse industries.', 'Technology'),
+('EduSphere Platform', 'Innovative online learning hub offering diverse courses.', 'Education'),
+('FinancePal App', 'Your ultimate finance companion for smart money management.', 'Finance'),
+('ArtScape Project', 'Transforming urban spaces into vibrant hubs for artistic expression.', 'Culture'),
+('HarmonyBeats', 'Explore a world of music with our dynamic streaming platform.', 'Entertainment'),
+('TasteBuds App', 'Discover and share culinary delights from around the globe.', 'Culinary'),
+('InnoTech Hub', 'Fostering innovation and collaboration in the tech world.', 'Technology'),
+('ShopStream Pro', 'An immersive e-commerce experience redefining online shopping.', 'E-commerce'),
+('HealthWave App', 'Revolutionizing healthcare access through cutting-edge tech.', 'Health'),
+('EcoRevolution Project', 'Join us in creating a greener and more sustainable future.', 'Sustainability'),
+('ProfessionConnect', 'Where professionals meet, collaborate, and grow together.', 'Technology'),
+('Learnopia Network', 'Unlimited access to knowledge through our diverse course offerings.', 'Education'),
+('CashGenius App', 'Transform the way you manage your finances with ease.', 'Finance'),
+('ArtVibe Initiative', 'Bringing art to the heart of urban landscapes for all to enjoy.', 'Culture'),
+('SonicHarbor', 'Immerse yourself in an ocean of music through our streaming service.', 'Entertainment'),
+('CuisineCraze', 'Embark on a culinary journey exploring flavors from every corner.', 'Culinary');
 
-
-
-
-INSERT INTO is_member (id_user, id_project)
+INSERT INTO task (priority, content, title, id_project, deadLine)
 VALUES
--- Adicione membros para o projeto 1
-(1,1),
-(2, 1),
-(4, 1), 
-(6, 1),
-(8, 1), 
-(10, 1), 
+('High', 'Develop user authentication module', 'User Authentication', 1, '2023-12-31'),
+('Medium', 'Design database schema', 'Database Design', 1, '2023-12-25'),
+('High', 'Implement secure payment gateway', 'Payment Gateway Integration', 2, '2023-12-28'),
+('Low', 'Create homepage UI mockup', 'Homepage UI Design', 2, '2023-12-20'),
+('Medium', 'Develop activity tracking feature', 'Activity Tracking', 3, '2023-12-30'),
+('High', 'Organize community cleanup event', 'Community Cleanup', 4, '2023-12-31'),
+('Medium', 'Create awareness campaign materials', 'Awareness Campaign', 4, '2023-12-25'),
+('High', 'Implement user profile customization', 'Profile Customization', 5, '2023-12-28'),
+('Medium', 'Develop course recommendation algorithm', 'Recommendation Algorithm', 6, '2023-12-30'),
+('High', 'Integrate expense tracking feature', 'Expense Tracking', 7, '2023-12-31'),
+('Low', 'Design logo and branding', 'Logo Design', 7, '2023-12-20'),
+('Medium', 'Identify suitable locations for art installations', 'Location Scouting', 8, '2023-12-25'),
+('High', 'Implement music recommendation system', 'Recommendation System', 9, '2023-12-31'),
+('Low', 'Gather user feedback on current recipe list', 'User Feedback Collection', 10, '2023-12-20'),
+('High', 'Develop cooking timer feature', 'Cooking Timer', 10, '2023-12-31'),
+('Medium', 'Implement user messaging functionality', 'Messaging Feature', 11, '2023-12-30'),
+('High', 'Integrate carbon footprint calculator', 'Carbon Calculator', 12, '2023-12-31'),
+('Medium', 'Develop user health data visualization', 'Health Data Visualization', 13, '2023-12-25'),
+('High', 'Organize tree-planting drive', 'Tree-Planting Event', 14, '2023-12-31'),
+('Low', 'Conduct user survey for feature preferences', 'Feature Survey', 15, '2023-12-20'),
+('High', 'Develop certification system for courses', 'Certification System', 16, '2023-12-31'),
+('Medium', 'Implement budget planning tool', 'Budget Planning', 17, '2023-12-30'),
+('High', 'Coordinate artist workshops', 'Workshop Coordination', 18, '2023-12-31'),
+('Medium', 'Enhance music discovery algorithms', 'Discovery Algorithms', 19, '2023-12-25'),
+('Low', 'Curate list of popular regional cuisines', 'Cuisine Curation', 20, '2023-12-20'),
+('High', 'Implement ingredient substitution feature', 'Ingredient Substitution', 20, '2023-12-31');
 
-(2, 2), 
-(4, 2), 
-(6, 2), 
-(8, 2),  
-(10, 2),
-(6,3),
-(8,3),
-(10,3),
-(8,4),
-(10,4),
-(12,4),
-(10,5),
-(12,5),
-(14,5),
-(12,6),
-(14,6),
-(16,6),
-(14,7),
-(16,7),
-(18,7),
-(16,8),
-(18,8),
-(20,8),
-(18,9),
-(20,9),
-(2,9),
-(20,10),
-(2,10),
-(4,10);
+INSERT INTO comment (content, id_task, date)
+VALUES
+('Great progress on the user authentication module.', 1, '2023-12-15 09:30:00'),
+('The database schema looks well-structured.', 2, '2023-12-16 10:45:00'),
+('Payment gateway integration completed successfully.', 3, '2023-12-17 11:20:00'),
+('The homepage UI mockup is impressive!', 4, '2023-12-18 13:00:00'),
+('Activity tracking feature development is underway.', 5, '2023-12-19 14:25:00'),
+('Community cleanup event planning initiated.', 6, '2023-12-20 15:45:00'),
+('Materials for the awareness campaign are being prepared.', 7, '2023-12-21 16:55:00'),
+('User profile customization feature progressing smoothly.', 8, '2023-12-22 17:30:00'),
+('Course recommendation algorithm development in progress.', 9, '2023-12-23 18:10:00'),
+('Expense tracking feature integration almost done.', 10, '2023-12-24 19:00:00');
+
+INSERT into isadmin (user_id)
+VALUES
+(3),
+(5),
+(7),
+(9),
+(11);
 
 INSERT INTO is_leader (id_user, id_project)
 VALUES
+(1, 1),
+(2, 2),
+(4, 3),
+(6, 4),
+(8, 5),
+(10, 6),
+(12, 7),
+(13, 8),
+(14, 9),
+(15, 10),
+(16, 11),
+(17, 12),
+(18, 13),
+(19, 14),
+(20, 15),
+(21, 16),
+(22, 17),
+(23, 18),
+(24, 19),
+(25, 20);
 
-(2, 1), (8, 1),
+INSERT INTO is_member (id_user, id_project)
+VALUES
+(1, 1),
+(2, 1),
+(4, 2),
+(6, 2),
+(8, 3),
+(10, 3),
+(12, 4),
+(13, 4),
+(14, 5),
+(15, 5),
+(17, 6),
+(18, 7),
+(19, 8),
+(20, 8),
+(21, 9),
+(22, 9),
+(23, 10),
+(24, 10),
+(25, 11),
+(26, 11);
 
-(4, 2), (10, 2),
+INSERT INTO favorite (project_id, users_id)
+VALUES
+(1, 1),
+(1, 2),
+(2, 4),
+(2, 6),
+(3, 8),
+(3, 10),
+(4, 12),
+(4, 13),
+(5, 14),
+(5, 15),
+(6, 17),
+(7, 18),
+(8, 19),
+(8, 20),
+(9, 21);
 
-(6, 3), (8, 3),
+INSERT INTO likes (comment_id, user_id) VALUES
+(1, 1),
+(1, 2),
+(2, 3),
+(3, 4),
+(4, 5),
+(5, 6),
+(6, 7),
+(7, 8),
+(8, 9),
+(9, 10),
+(10, 11);
 
-(8, 4), (10, 4),
+INSERT INTO taskowner(id_user, id_task)
+VALUES
+(1, 1),
+(2, 2),
+(4, 3),
+(6, 4),
+(8, 5),
+(10, 6),
+(12, 7),
+(14, 8),
+(16, 9),
+(18, 10);
 
-(10, 5), (12, 5),
+INSERT INTO assigned(id_user, id_task)
+VALUES
+(1, 1),
+(2, 2),
+(4, 3),
+(6, 4),
+(8, 5),
+(10, 6),
+(12, 7),
+(14, 8),
+(16, 9),
+(18, 10);
 
-(12, 6), (14, 6),
+INSERT INTO commentowner(id_user, id_comment)
+VALUES
+(1, 1),
+(2, 2),
+(4, 3),
+(6, 4),
+(8, 5),
+(10, 6),
+(12, 7),
+(14, 8),
+(16, 9),
+(18, 10);
 
-(14, 7), (16, 7),
-
-(16, 8), (18, 8),
-
-(18, 9), (2, 9),
-
-(20, 10), (4, 10);
-
+INSERT INTO inviteproject (id_user, id_project)
+VALUES
+(1, 1),
+(2, 3),
+(4, 2),
+(4, 4);
 
 
- 
-
-  
-  DROP INDEX IF EXISTS searchGenericUserName;
+DROP INDEX IF EXISTS searchGenericUserName;
 DROP INDEX IF EXISTS searchProjectTitle;
 DROP INDEX IF EXISTS searchProjectTheme;
 DROP INDEX IF EXISTS searchTaskDeadline;
@@ -443,7 +524,7 @@ EXECUTE PROCEDURE project_search_update();
 
 
 -- TRIGGER02
-CREATE OR REPLACE FUNCTION add_new_member_notification() RETURNS TRIGGER AS
+/*CREATE OR REPLACE FUNCTION add_new_member_notification() RETURNS TRIGGER AS
 $BODY$
 BEGIN
 INSERT INTO project_notification (projectType, notification_id, user_id, project_id)
@@ -459,10 +540,10 @@ CREATE TRIGGER add_new_member_notification
     AFTER INSERT ON project_notification
     FOR EACH ROW
 EXECUTE PROCEDURE add_new_member_notification();
-
+*/
 
 -- TRIGGER03
-CREATE OR REPLACE FUNCTION add_deleted_notification() RETURNS TRIGGER AS
+/*CREATE OR REPLACE FUNCTION add_deleted_notification() RETURNS TRIGGER AS
 $BODY$
 BEGIN
 INSERT INTO project_notification (projectType, notification_id, user_id, project_id)
@@ -592,7 +673,7 @@ CREATE TRIGGER add_comment_like_notification
     AFTER INSERT ON comment_notification
     FOR EACH ROW
 EXECUTE PROCEDURE add_comment_like_notification();
-
+*/
 CREATE OR REPLACE FUNCTION anonymize_user_comments()
 RETURNS TRIGGER AS
 $BODY$
