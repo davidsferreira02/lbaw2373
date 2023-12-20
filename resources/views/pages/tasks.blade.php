@@ -2,9 +2,18 @@
 
 @section('content')
 
+
+@if(!Auth::user()->isAdmin())
 <a href="{{ route('project.home') }}" class="btn btn-primary">
     <i class="fas fa-arrow-left"></i>
 </a>
+@endif
+
+@if(Auth::user()->isAdmin())
+<a href="{{ route('admin.dashboard') }}" class="btn btn-primary">
+    <i class="fas fa-arrow-left"></i>
+</a>
+@endif
 
 <h2> Tasks from {{$project->title}} <h2>
     <div class="button-container">

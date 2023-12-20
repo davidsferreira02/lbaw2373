@@ -19,19 +19,6 @@
     height: auto;
 }
 
-.buttons {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: auto;
-    gap: 10px;
-}
-
-.buttons button {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    margin-bottom: 10px;
-}
 
 .project-card {
     width: calc(45.33% - 20px);
@@ -69,12 +56,17 @@
         @else
             Profile: {{ $user->name }}
         @endif
+        @if($user->isAdmin())
+        <i class="fa-solid fa-user-tie"></i>
+        @endif
     </h1>
     <p>Email: {{ $user->email }}</p>
     <p>Username: {{ $user->username }}</p>
 
+    @if(!$user->isAdmin())
     <h2>Profile Projects:</h2>
     <ul>
+   
         @if($project->count() === 0)
             <p>No projects found for this user.</p>
         @else
@@ -92,13 +84,12 @@
         @endif
 
     </ul>
+@endif
 
-    @if($project->count() === 0)
-        <p>Nenhum projeto encontrado para este usuário.</p>
-    @endif
 
     <div class="buttons">
         @if(Auth::check() && Auth::user()->isAdmin() && Auth::user()->id !== $user->id && !$user->isAdmin())
+        <div class="admin-block-button">
             @if($user->isblocked)
                 <form action="{{ route('admin.block', ['id' => $user->id]) }}" method="POST">
                     @csrf
@@ -113,11 +104,12 @@
                 </form>
             @endif
         @endif
+        </div>
 
         @if($user->id === Auth::user()->id)
-        <a id="editProfile"  class="btn btn-primary">
+        <button id="editProfile"  class="btn btn-primary">
             Edit Profile
-        </a>
+        </button>
         
 <dialog>
     <h1>Edit Profile</h1>
