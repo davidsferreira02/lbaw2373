@@ -416,28 +416,7 @@ ul{
   width: 100%;
   padding: 5px;
 }
-/*
-.project-square {
-  border: 1px solid #ccc;
-  padding: 20px;
-  margin: 5px;
-  width: calc(33.33% - 50px);
-  height: 150px;
-  display: inline-block;
-  text-align: center;
-}
 
-.project-details .button-container button {
-  margin: 5px;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-*/
 .project-square {
   border: 1px solid #ccc;
   padding: 20px;
@@ -463,6 +442,30 @@ ul{
   border: none;
   border-radius: 25px;
   cursor: pointer;
+}
+
+.task-squares {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.task-square {
+  width: calc(20% - 15px);
+  height: 200px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  margin: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.task-square a {
+  text-decoration: none;
+  color: #51A3A3;
 }
 
 
