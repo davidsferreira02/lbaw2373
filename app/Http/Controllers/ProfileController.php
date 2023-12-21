@@ -141,7 +141,7 @@ public function show($id)
                     $project->delete();
                 }
                 else if($project->members->count()>1 && $project->leaders()->count()==1 && !Auth::user()->isAdmin()){
-                    return redirect()->back()->with('error', 'Adicione um membro ao projeto ' . $project->title . ' para ter um líder.');
+                    return redirect()->back()->with('error', 'Add a member to the project ' . $project->title . ' to have a leader.');
                 }
                 else if($project->members->count()>1 && $project->leaders()->count()==1 && Auth::user()->isAdmin()){
                     $nonLeaders = $project->members()->whereNotIn('id', $project->leaders()->pluck('id'))->get();
