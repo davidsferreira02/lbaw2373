@@ -46,12 +46,16 @@
 .user-details {
     display: flex;
     align-items: center;
+    width: 310px;
 }
 
 .username {
     margin: 0;
+    margin-left: 10px;
 }
-
+.profile-image{
+  margin-right: 10px;
+}
 .comment-details {
     flex: 1;
     padding-left: 10px;
