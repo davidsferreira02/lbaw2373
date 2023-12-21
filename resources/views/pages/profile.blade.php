@@ -167,7 +167,8 @@
             <form action="{{ route('profile.delete', ['id' => $user->id]) }}" method="POST">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="btn btn-danger">Delete  Profile</button>
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this account?')">Delete Profile</button>
+
                 @if(session('error'))
                 <div class="alert alert-danger">
                     {{ session('error') }}

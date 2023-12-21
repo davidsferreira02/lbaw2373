@@ -20,7 +20,7 @@
                         <form action="{{ route('project.deleteMember', ['id' => $member->id, 'title' => $project->title]) }}" method="POST" style="display: inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="button" class="btn btn-danger deleteMemberButton" onclick="return confirm('Tem certeza que deseja excluir este membro?')" data-member-id={{ $member->id }}>Delete Member From This Project</button>
+                            <button type="button" class="btn btn-danger deleteMemberButton" onclick="return confirm('Are you sure you want to delete this member?')" data-member-id={{ $member->id }}>Delete Member From This Project</button>
                         </form>
 
 

@@ -193,7 +193,7 @@
                <form id = "deleteTask" action="{{ route('task.delete', ['taskTitle' => $task->title, 'title' => $project->title]) }}" method="POST" class="my-3">
                     @csrf
                     @method('DELETE')
-                    <button type="submitTask" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja apagar a task?')">Delete Task</button>
+                    <button type="submitTask" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete the task?')">Delete Task</button>
                 </form>
            
             

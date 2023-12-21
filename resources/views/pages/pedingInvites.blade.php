@@ -15,11 +15,11 @@
                         There is a pending invitation to the project: {{ $invite->project->title }}
                         <form action="{{ route('accept.invite', ['id_user' => $invite->id_user, 'id_project' => $invite->id_project]) }}" method="POST">
                             @csrf
-                            <button type="submit" class="invite-button accept" onclick="return confirm('Tem certeza que deseja aceitar este convite?')">Accept</button>
+                            <button type="submit" class="invite-button accept" onclick="return confirm('Are you sure you want to accept this invitation?')">Accept</button>
                         </form>
                         <form action="{{ route('decline.invite', ['id_user' => $invite->id_user, 'id_project' => $invite->id_project]) }}" method="POST">
                             @csrf
-                            <button type="submit" class="invite-button refuse" onclick="return confirm('Tem certeza que deseja recusar este convite?')">Refuse</button>
+                            <button type="submit" class="invite-button refuse" onclick="return confirm('Are you sure you want to reject this invitation?')">Refuse</button>
                         </form>
                     </div>
                 </li>

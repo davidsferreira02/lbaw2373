@@ -114,7 +114,7 @@
         <form action="{{ route('project.leave', ['title' => $project->title]) }}" method="POST" class="my-3 leave-btn">
             @csrf
             @method('DELETE')
-            <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja sair do projeto?')">Leave Project</button>
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to leave the project?')">Leave Project</button>
             <span class="error">
               {{ $errors->first() }}
           </span>

@@ -34,7 +34,7 @@
                 <p>{{ $user->username }}</p>
                 <form method="post" action="{{ route('project.Leaderstore', ['title'=>$project->title,'username' => $user->username]) }}">
                     @csrf
-                    <button type="submit" class="btn btn-success custom-button" onclick="return confirm('Tem certeza que deseja promover este membro a líder')">Add</button>
+                    <button type="submit" class="btn btn-success custom-button" onclick="return confirm('Are you sure you want to promote this member to leader?')">Add</button>
                 </form>
             </div>
         @endforeach

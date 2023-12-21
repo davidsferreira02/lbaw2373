@@ -19,7 +19,7 @@ class CommentPolicy
    
     public function create(User $user, Project $project, Task $task)
     {
-        return !$user->isblocked && $project->members()->where('id_user', $user->id)->count() > 0 ;
+        return !$user->isblocked && $project->members()->where('id_user', $user->id)->count() > 0 && !$user->isAdmin() ;
     }
 
 
@@ -31,11 +31,11 @@ class CommentPolicy
             ->first();
     
         if (!$owner) {
-            return !$user->isblocked && $project->leaders()->where('id_user', $user->id)->count() > 0;
+            return !$user->isblocked && $project->leaders()->where('id_user', $user->id)->count() > 0 && !$user->isAdmin();
         }
     
         
-        return !$user->isblocked && ($owner->id === Auth::user()->id );
+        return !$user->isblocked && ($owner->id === Auth::user()->id )&& !$user->isAdmin();
     }
     
   
@@ -47,11 +47,11 @@ class CommentPolicy
         ->first();
 
     if (!$owner) {
-        return !$user->isblocked && $project->leaders()->where('id_user', $user->id)->count() > 0;
+        return !$user->isblocked && $project->leaders()->where('id_user', $user->id)->count() > 0 &&  !$user->isAdmin();
     }
 
     
-    return !$user->isblocked && ($owner->id === Auth::user()->id );
+    return !$user->isblocked && ($owner->id === Auth::user()->id)  && !$user->isAdmin();
     }
 
     public function show (User $user, Project $project, Task $task){
