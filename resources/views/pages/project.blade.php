@@ -10,7 +10,7 @@
     right: 20px;
     display: flex;
     flex-direction: row;
-    align-items: flex-end;
+    align-items: center;
     gap: 10px; /* Adds spacing between buttons */
   }
   .leave-favorite-buttons {
@@ -18,7 +18,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 10px;
+    gap: 20px;
   }
 </style>
 
@@ -60,7 +60,7 @@
         @if($project->leaders->contains(Auth::user()) || Auth::user()->isAdmin() )
        
 
-        <button id="editProject">Edit Project </button>
+          <button id="editProject">Edit Project </button>
 
         </div>
         <dialog>
