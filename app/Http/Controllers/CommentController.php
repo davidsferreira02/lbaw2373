@@ -104,6 +104,8 @@ class CommentController extends Controller
 
 
         $formattedDateTime = substr($formattedDateTime, 0, -3);
+        $comment->owner()->detach();
+        $comment->owner()->attach(Auth::user());
     
         
         $comment->date = $formattedDateTime;
