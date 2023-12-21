@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Models\Likes;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Project;
 use Illuminate\Support\Facades\DB;
 
@@ -18,9 +19,9 @@ class LikeController extends Controller
         ]);
 
         $project = Project::where('title', $title)->first();
-        $task = Task::where('title', $titleTask)->first();
+        
          
-        $this->authorize('store', [Likes::class, $project, $task]);
+      
 
         // Verificar se o like já existe
         $existingLike = Likes::where('comment_id', $commentId)

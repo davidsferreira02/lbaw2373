@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use App\Models\Comment;
 use App\Models\IsAdmin;
+use App\Models\Likes;
 use App\Policies\CommentPolicy;
 use App\Models\Task;
 use App\Policies\LikePolicy;
@@ -31,7 +32,7 @@ class AuthServiceProvider extends ServiceProvider
         Comment::class=>CommentPolicy::class,
         User::class=>UserPolicy::class,
         IsAdmin::class=>AdminPolicy::class,
-        Like::class=>LikePolicy::class,
+       
         
 
 

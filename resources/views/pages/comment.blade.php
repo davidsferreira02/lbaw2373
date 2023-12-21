@@ -217,11 +217,11 @@
             <p><strong>Comment:</strong> {{ $comment->content }}</p>
             <!-- Likes -->
             <div class="like-section">
-                @if($comment->likedByCurrentUser())
+                @if($comment->likedByCurrentUser() && !Auth::user()->isAdmin())
                     <button type="button" onclick="handleLike('dislike', {{ $comment->id }}, '{{ $project->title }}', '{{ $task->id }}', '{{ $task->title }}', this)">
                         <i class="fa-solid fa-thumbs-up"></i>
                     </button>
-                @else
+                @elseif(!$comment->likedByCurrentUser() && !Auth::user()->isAdmin())
                     <button type="button" onclick="handleLike('like', {{ $comment->id }}, '{{ $project->title }}', '{{ $task->id }}', '{{ $task->title }}', this)">
                         <i class="far fa-thumbs-up"></i>
                     </button>
