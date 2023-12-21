@@ -212,7 +212,7 @@ VALUES
 ('Elijah Sanchez', 'elijah_sanchez', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'elijah2@example.com','img58.jpg'),
 ('Avery Price', 'avery_price', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'avery2@example.com','img59.jpg'),
 ('Nova Martinez', 'nova_martinez', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'novamar@example.com','img60.jpg'),
-('Anonimo', 'anonimo', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'anonimo2@example.com','default.jpg');
+('Anonimo', 'anonimo', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'anonimo@example.com','default.jpg');
  
 INSERT INTO project (title, description, theme) VALUES
 ('Content Management System', 'Development of a CMS system to manage web content.', 'Technology'),

@@ -114,15 +114,17 @@
             <div class="detail-column">
                 <p><strong>Is Completed:</strong> {{ $task->iscompleted == 1 ? 'True' : 'False' }}</p>
                 <p><strong>Owner:</strong>
-                    @foreach ($task->owners as $owner)
-                        {{ $owner->username }}
-                    @endforeach
-                </p>
-                <p><strong>Assigned:</strong>
-                    @foreach($task->assigned as $assigned)
-                        {{ $assigned->username }}
-                    @endforeach
-                </p>
+                  @foreach ($task->owners as $owner)
+                      <a href="{{ route('profile', ['id' => $owner->id]) }}">{{ $owner->username }}</a>
+                  @endforeach
+              </p>
+              
+              <p><strong>Assigned:</strong>
+                  @foreach($task->assigned as $assigned)
+                      <a href="{{ route('profile', ['id' => $assigned->id]) }}">{{ $assigned->username }}</a>
+                  @endforeach
+              </p>
+              
             </div>
         </div>
 
@@ -213,7 +215,10 @@
             @foreach($comment->owner as $user)
                 <div class="user-details">
                     <img src="{{ $user->getProfileImage() }}" class="profile-image">
-                    <p class="username">{{ $user->username }}</p>
+                    <a href="{{ route('profile', ['id' => $user->id]) }}">
+                      <p class="username">{{ $user->username }}</p>
+                  </a>
+                  
                 </div>
             @endforeach
             <div class="comment-details">

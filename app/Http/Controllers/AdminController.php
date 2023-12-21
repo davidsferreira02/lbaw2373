@@ -33,8 +33,8 @@ class AdminController extends Controller
         if ($user) {
             $user->isblocked = !$user->isblocked;
             $user->save();
-
+            return redirect()->route('profile', $user->id)->with('success', 'Projeto desfavoritado com sucesso!');
         }
-        return redirect()->route('profile', $user->id)->with('success', 'Projeto desfavoritado com sucesso!');
+        return redirect()->route('admin.dashboard');
     }
 }

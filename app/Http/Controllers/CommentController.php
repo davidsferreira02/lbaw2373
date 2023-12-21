@@ -37,6 +37,7 @@ class CommentController extends Controller
         $comment = new Comment();
         $comment->content = $request->input('content');
         $task=Task::find($taskId);
+        if($project && $task){
         $this->authorize('create', [Comment::class, $project, $task]);
         $comment->id_task=$task->id;
         $currentDateTime = Carbon::now();
@@ -57,6 +58,7 @@ class CommentController extends Controller
 
         
         return redirect()->back();
+        }
     }
 
 
@@ -72,7 +74,10 @@ class CommentController extends Controller
      
         return view('pages.editComment',['project'=>$project,'task'=>$task,'comment'=>$comment]);
     }
-    return redirect()->route('task.show', ['title' => $project->title]);
+    if($project){
+        return redirect()->route('task.show', ['title' => $project->title]);
+    }
+    return redirect()->route('project.home');
         
         
     }
@@ -86,6 +91,7 @@ class CommentController extends Controller
         ->where('id_task', $task->id) // Supondo que você tenha $taskid para a tarefa desejada
         ->firstOrFail();
 
+        if($project && $comment && $task){
         $this->authorize('edit', [Comment::class, $project, $task,$comment]);
 
 
@@ -125,12 +131,15 @@ class CommentController extends Controller
         return redirect()->route('task.comment',['title' => $project->title, 'taskId' => $task->id])
         ->withErrors($validatedData)
         ->withInput();
+    }
+    return redirect()->route('project.home');
 }
 
     public function delete($title,$titleTask,$idComment){
         $project = Project::where('title', $title)->first();
         $task = Task::where('title', $titleTask)->where('id_project', $project->id)->first();
         $comment=Comment::findorfail($idComment);
+        if($project && $task && $comment){
         $this->authorize('delete', [Comment::class, $project, $task,$comment]);
 
         if($comment){
@@ -139,15 +148,17 @@ class CommentController extends Controller
 
         return redirect()->back();
     }
+}
 
     public function addCommentOwner($username,$idcomment){
         $user = User::where('username', $username)->first();
         $comment = Comment::findOrFail($idcomment);
+        if($comment && $user){
         DB::table('commentowner')->insert([
             'id_comment' => $comment->id,
             'id_user' => $user->id,
         ]);
-       
+    }
 
 
 
