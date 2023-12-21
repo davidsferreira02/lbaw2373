@@ -15,9 +15,7 @@ class CommentController extends Controller
 {
     
 
-    function like(Request $request) { //notificaçoes 
-        event(new CommentLike($request->id));
-    }
+   
     public function show($title,$taskId){
         
         $project = Project::where('title', $title)->first();
