@@ -108,18 +108,18 @@
                 <p><strong>Is Completed:</strong> {{ $task->iscompleted == 1 ? 'True' : 'False' }}</p>
                 <p><strong>Owner:</strong>
                     @foreach ($task->owners as $owner)
-                        {{ $owner->username }},
+                        {{ $owner->username }}
                     @endforeach
                 </p>
                 <p><strong>Assigned:</strong>
                     @foreach($task->assigned as $assigned)
-                        {{ $assigned->username }},
+                        {{ $assigned->username }}
                     @endforeach
                 </p>
             </div>
         </div>
 
-        @if ($owner->id === Auth::id()) 
+        @if ($owner->id === Auth::id() || Auth::user()->projectLeader->contains($project)) 
     <button id="editTask">Edit Task</button> 
     <dialog>
         <h1>Edit Task</h1>
@@ -224,7 +224,7 @@
                     </button>
                 @endif
                 <p class="likes-count" id="likesCount_{{ $comment->id }}">Total of Likes: {{ $comment->likes()->count() }}</p>
-                @if($user->id === Auth::id())
+                @if($user->id === Auth::id()||Auth::user()->projectLeader->contains($project))
                 <div class="comment-actions">
                     <form id="deleteComment" method="POST" action="{{ route('comment.delete', ['title'=>$project->title,'titleTask'=>$task->title,'idComment' => $comment->id]) }}">
                         @csrf

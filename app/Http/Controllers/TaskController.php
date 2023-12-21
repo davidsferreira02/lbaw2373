@@ -184,6 +184,7 @@ public function update(Request $request, $title,$taskTitle)
 
     if($task !== null){
     $task->assigned()->detach();
+    $task->owners()->detach();
    
 
     // Validação dos dados recebidos do formulário
@@ -212,6 +213,7 @@ public function update(Request $request, $title,$taskTitle)
     $task->content = $validatedData['content'];
     $task->priority = $validatedData['priority'];
     $task->deadline = $validatedData['deadline'];
+    $this->taskOwner($task->id,Auth::user()->id);
     $currentDateTime=new DateTime();
     $task->datecreation = $currentDateTime->format('Y-m-d');
  

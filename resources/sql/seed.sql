@@ -323,6 +323,7 @@ INSERT INTO is_member (id_user, id_project)
 VALUES
 (1, 1),
 (2, 1),
+(2,2),
 (4, 2),
 (6, 2),
 (8, 3),

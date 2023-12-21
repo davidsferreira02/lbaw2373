@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Policies;
+use App\Models\Comment;
 use App\Models\User;
 use App\Models\Project;
 use App\Models\Task;
@@ -21,13 +22,36 @@ class CommentPolicy
         return !$user->isblocked && $project->members()->where('id_user', $user->id)->count() > 0 ;
     }
 
-    public function edit(User $user, Project $project, Task $task){
-        return !$user->isblocked && $project->members()->where('id_user', $user->id)->count() > 0;
 
+    public function edit(User $user, Project $project, Task $task, Comment $comment)
+    {
+        $owner = $comment->owner()
+            ->wherePivot('id_comment', $comment->id)
+            ->wherePivot('id_user', $user->id)
+            ->first();
+    
+        if (!$owner) {
+            return !$user->isblocked && $project->leaders()->where('id_user', $user->id)->count() > 0;
+        }
+    
+        
+        return !$user->isblocked && ($owner->id === Auth::user()->id );
     }
-    public function delete(User $user, Project $project, Task $task){
-        return !$user->isblocked && $project->members()->where('id_user', $user->id)->count() > 0;
+    
+  
+    public function delete(User $user, Project $project, Task $task,Comment $comment){
+      
+        $owner = $comment->owner()
+        ->wherePivot('id_comment', $comment->id)
+        ->wherePivot('id_user', $user->id)
+        ->first();
 
+    if (!$owner) {
+        return !$user->isblocked && $project->leaders()->where('id_user', $user->id)->count() > 0;
+    }
+
+    
+    return !$user->isblocked && ($owner->id === Auth::user()->id );
     }
 
     public function show (User $user, Project $project, Task $task){

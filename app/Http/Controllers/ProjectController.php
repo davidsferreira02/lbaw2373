@@ -110,7 +110,7 @@ public function showaddLeaderForm($title)
     {
         // Supondo que 'title' seja um campo único na tabela de projetos
         $project = Project::where('title', $title)->first();
-       if( $this->authorize('show',$project))
+       $this->authorize('show',$project);
 
 
      

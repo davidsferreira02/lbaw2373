@@ -8,6 +8,7 @@ use App\Models\Comment;
 use App\Models\IsAdmin;
 use App\Policies\CommentPolicy;
 use App\Models\Task;
+use App\Policies\LikePolicy;
 use App\Policies\TaskPolicy;
 use App\Models\Project;
 use App\Policies\ProjectPolicy;
@@ -30,6 +31,7 @@ class AuthServiceProvider extends ServiceProvider
         Comment::class=>CommentPolicy::class,
         User::class=>UserPolicy::class,
         IsAdmin::class=>AdminPolicy::class,
+        Like::class=>LikePolicy::class,
         
 
 

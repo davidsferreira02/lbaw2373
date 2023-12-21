@@ -64,7 +64,9 @@ class CommentController extends Controller
         $task = Task::where('title', $titleTask)->first();
         $comment=Comment::find($commentid);
         $project = Project::where('title', $title)->first();
-        $this->authorize('edit', [Comment::class, $project, $task]);
+        
+        $this->authorize('edit', [Comment::class, $project, $task,$comment]);
+     
         return view('pages.editComment',['project'=>$project,'task'=>$task,'comment'=>$comment]);
         
         
@@ -75,18 +77,18 @@ class CommentController extends Controller
 
 
         $task = Task::where('title', $titleTask)->first();
-        
+        $comment = Comment::where('id', $commentid)
+        ->where('id_task', $task->id) // Supondo que você tenha $taskid para a tarefa desejada
+        ->firstOrFail();
 
-        $this->authorize('edit', [Comment::class, $project, $task]);
+        $this->authorize('edit', [Comment::class, $project, $task,$comment]);
+
 
         $task = Task::where('id', $task->id)
         ->where('id_project', $project->id) // Supondo que você tenha $taskid para a tarefa desejada
         ->firstOrFail();
 
 
-        $comment = Comment::where('id', $commentid)
-        ->where('id_task', $task->id) // Supondo que você tenha $taskid para a tarefa desejada
-        ->firstOrFail();
 
      
         
@@ -122,6 +124,7 @@ class CommentController extends Controller
         $project = Project::where('title', $title)->first();
         $task = Task::where('title', $titleTask)->where('id_project', $project->id)->first();
         $comment=Comment::findorfail($idComment);
+        $this->authorize('delete', [Comment::class, $project, $task,$comment]);
 
         if($comment){
             $comment->delete();
