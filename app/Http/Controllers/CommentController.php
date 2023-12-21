@@ -21,9 +21,12 @@ class CommentController extends Controller
         $project = Project::where('title', $title)->first();
      
         $task=Task::find($taskId);
+        if($task && $project){
      $this->authorize('show', [Comment::class, $project, $task]);
         $comments = $task->comments()->get();
         return view('pages.comment', compact('task','project','comments'));
+        }
+        return redirect()->route('task.show', ['title' => $project->title]);
 
     }
 
@@ -63,9 +66,13 @@ class CommentController extends Controller
         $comment=Comment::find($commentid);
         $project = Project::where('title', $title)->first();
         
+        if($task && $comment && $project){
+
         $this->authorize('edit', [Comment::class, $project, $task,$comment]);
      
         return view('pages.editComment',['project'=>$project,'task'=>$task,'comment'=>$comment]);
+    }
+    return redirect()->route('task.show', ['title' => $project->title]);
         
         
     }
