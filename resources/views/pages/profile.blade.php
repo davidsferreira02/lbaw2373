@@ -32,6 +32,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 10px; /* Adjust spacing between project cards */
+    
 }
 </style>
 
@@ -64,7 +65,13 @@
     <p>Username: {{ $user->username }}</p>
 
     @if(!$user->isAdmin())
+    @if($user->id===Auth::user()->id || Auth::user()->isAdmin())
     <h2>Profile Projects:</h2>
+    @elseif($user->id!==Auth::user()->id && !$user->isAdmin() && !Auth::user()->isAdmin())
+    <h2>Common Projects:</h2>
+    @endif
+
+    
     <ul>
    
         @if($project->count() === 0)
