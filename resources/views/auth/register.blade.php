@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+
+
+<a href="{{ route('login') }}" class="btn btn-primary">
+  <i class="fas fa-arrow-left" style="color: black;"></i> 
+</a>
 <form method="POST" action="{{ route('register') }}">
     {{ csrf_field() }}
 
@@ -42,6 +47,6 @@
     <button type="submit">
       Register
     </button>
-    <a class="button button-outline" href="{{ route('login') }}">Login</a>
+   
 </form>
 @endsection
