@@ -79,8 +79,11 @@
     bottom: 0;
     right: 0;
     display: flex;
-    align-items: center;
     margin-top: 10px;
+}
+
+.comment-actions button {
+    margin-right: 5px;
 }
 
 </style>
