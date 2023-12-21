@@ -13,11 +13,12 @@
 
 .profile img {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 50px;
+    right: 50px;
     width: 100px;
-    height: auto;
+    height: 100px;
 }
+
 
 
 .project-card {

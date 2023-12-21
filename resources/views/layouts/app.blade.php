@@ -5,7 +5,8 @@
         <style>
             /* Custom CSS to enlarge the logo */
             header img {
-                width: 400px; /* Adjust the width as needed */
+                width: 400px;
+                height: 300px; /* Adjust the width as needed */
                 height: auto; /* Maintain aspect ratio */
                 border-radius: 0;
             }
