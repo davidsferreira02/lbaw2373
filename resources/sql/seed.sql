@@ -387,7 +387,7 @@ INSERT INTO likes (comment_id, user_id) VALUES
 (5, 6),
 (6, 7),
 (7, 8),
-(9, 10),
+(9, 10);
 
 
 INSERT INTO taskowner(id_user, id_task)
