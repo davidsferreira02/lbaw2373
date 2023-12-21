@@ -2,7 +2,7 @@
 
 @section('content')
     <a href="{{ route('task.comment', ['title'=>$project->title,'taskId'=>$task->id]) }}" class="btn btn-primary">
-        <i class="fas fa-arrow-left"></i> Back
+        <i class="fas fa-arrow-left"></i> 
     </a>
 
     <div class="profile">
