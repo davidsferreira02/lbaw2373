@@ -50,11 +50,15 @@
                 @endif
               
                 @if (Auth::check())
-                    <a class="button" href="{{ url('/logout') }}"> Logout </a> <a href="{{ route('profile', ['id' => Auth::user()->id]) }}" class="btn btn-primary">
-                        <img src="{{ Auth::user()->getProfileImage() }}" alt="Profile Image" style="width: 50px; height: 50px;">
-                       {{ Auth::user()->username }}
-                    </a>
-                    </a>
+                    <a class="button" href="{{ url('/logout') }}"> Logout </a>
+                    <div class="user-profile">
+                        <a href="{{ route('profile', ['id' => Auth::user()->id]) }}">
+                            <div class = "profile-wrapper">
+                                <img src="{{ Auth::user()->getProfileImage() }}" alt="Profile Image">
+                                <span>{{ Auth::user()->username }}</span>
+                            </div>
+                        </a>
+                    </div>
                     
                     
                     <form class="form-inline my-2 my-lg-0 ml-auto" id="search" action="{{ route('search.users') }}" method="GET">
